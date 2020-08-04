@@ -557,3 +557,32 @@ gMetatiles_UnionRoom:: @ 83DF392
 	.align 1
 gMetatileAttributes_UnionRoom:: @ 83DF6A2
 	.incbin "data/tilesets/secondary/union_room/metatile_attributes.bin"
+
+	.align 1
+gMetatiles_glazed_general::
+	.incbin "data/tilesets/primary/glazed_general/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_glazed_general::
+	.incbin "data/tilesets/primary/glazed_general/metatile_attributes.bin"
+	.align 1
+gMetatiles_glazed_cave::
+	.incbin "data/tilesets/primary/glazed_cave/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_glazed_cave::
+	.incbin "data/tilesets/primary/glazed_cave/metatile_attributes.bin"
+	.align 1
+gMetatiles_glazed_building::
+	.incbin "data/tilesets/primary/glazed_building/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_glazed_building::
+	.incbin "data/tilesets/primary/glazed_building/metatile_attributes.bin"
+	.align 1
+gMetatiles_glenwood::
+	.incbin "data/tilesets/secondary/glenwood/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_glenwood::
+	.incbin "data/tilesets/secondary/glenwood/metatile_attributes.bin"

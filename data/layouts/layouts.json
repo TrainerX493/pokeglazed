@@ -4410,6 +4410,16 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_GLENWOOD_TOWN",
+      "name": "GlenwoodTown_Layout",
+      "width": 38,
+      "height": 28,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_glenwood",
+      "border_filepath": "data/layouts/GlenwoodTown/border.bin",
+      "blockdata_filepath": "data/layouts/GlenwoodTown/map.bin"
     }
   ]
 }

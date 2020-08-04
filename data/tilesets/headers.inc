@@ -830,3 +830,47 @@ gTileset_UnionRoom:: @ 83DFDFC
 	.4byte gMetatiles_UnionRoom
 	.4byte gMetatileAttributes_UnionRoom
 	.4byte NULL @ animation callback
+
+	.align 2
+gTileset_glazed_general::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_general
+	.4byte gTilesetPalettes_glazed_general
+	.4byte gMetatiles_glazed_general
+	.4byte gMetatileAttributes_glazed_general
+	.4byte InitTilesetAnim_General
+
+	.align 2
+gTileset_glazed_cave::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_cave
+	.4byte gTilesetPalettes_glazed_cave
+	.4byte gMetatiles_glazed_cave
+	.4byte gMetatileAttributes_glazed_cave
+	.4byte NULL @ animation callback
+
+	.align 2
+gTileset_glazed_building::
+	.byte TRUE @ is compressed
+	.byte FALSE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_building
+	.4byte gTilesetPalettes_glazed_building
+	.4byte gMetatiles_glazed_building
+	.4byte gMetatileAttributes_glazed_building
+	.4byte InitTilesetAnim_Building
+
+	.align 2
+gTileset_glenwood::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glenwood
+	.4byte gTilesetPalettes_glenwood
+	.4byte gMetatiles_glenwood
+	.4byte gMetatileAttributes_glenwood
+	.4byte NULL @ animation callback

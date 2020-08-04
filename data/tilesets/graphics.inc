@@ -1729,3 +1729,83 @@ gTilesetPalettes_UnionRoom:: @ 8395678
 	.align 2
 gTilesetTiles_UnionRoom:: @ 8395878
 	.incbin "data/tilesets/secondary/union_room/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_general::
+	.incbin "data/tilesets/primary/glazed_general/palettes/00.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/01.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/02.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/03.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/04.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/05.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/06.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/07.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/08.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/09.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/10.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/11.gbapal"
+	.incbin "data/tilesets/primary/glazed_general/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_general::
+	.incbin "data/tilesets/primary/glazed_general/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_cave::
+	.incbin "data/tilesets/primary/glazed_cave/palettes/00.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/01.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/02.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/03.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/04.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/05.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/06.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/07.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/08.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/09.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/10.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/11.gbapal"
+	.incbin "data/tilesets/primary/glazed_cave/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_cave::
+	.incbin "data/tilesets/primary/glazed_cave/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_building::
+	.incbin "data/tilesets/primary/glazed_building/palettes/00.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/01.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/02.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/03.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/04.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/05.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/06.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/07.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/08.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/09.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/10.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/11.gbapal"
+	.incbin "data/tilesets/primary/glazed_building/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_building::
+	.incbin "data/tilesets/primary/glazed_building/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glenwood::
+	.incbin "data/tilesets/secondary/glenwood/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/glenwood/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glenwood::
+	.incbin "data/tilesets/secondary/glenwood/tiles.4bpp.lz"

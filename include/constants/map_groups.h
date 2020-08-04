@@ -66,6 +66,7 @@
 #define MAP_LITTLEROOT_TOWN_MAYS_HOUSE_1F        (2 | (1 << 8))
 #define MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F        (3 | (1 << 8))
 #define MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB (4 | (1 << 8))
+#define MAP_GLENWOOD_TOWN                        (5 | (1 << 8))
 
 // Map Group 2
 #define MAP_OLDALE_TOWN_HOUSE1            (0 | (2 << 8))
