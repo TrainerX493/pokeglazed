@@ -1809,3 +1809,1043 @@ gTilesetPalettes_glenwood::
 	.align 2
 gTilesetTiles_glenwood::
 	.incbin "data/tilesets/secondary/glenwood/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_oceanview::
+	.incbin "data/tilesets/secondary/oceanview/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/oceanview/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_oceanview::
+	.incbin "data/tilesets/secondary/oceanview/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_serenity::
+	.incbin "data/tilesets/secondary/serenity/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/serenity/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_serenity::
+	.incbin "data/tilesets/secondary/serenity/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_seaspray::
+	.incbin "data/tilesets/secondary/seaspray/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/seaspray/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_seaspray::
+	.incbin "data/tilesets/secondary/seaspray/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_mahogany::
+	.incbin "data/tilesets/secondary/mahogany/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/mahogany/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_mahogany::
+	.incbin "data/tilesets/secondary/mahogany/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_northcoast::
+	.incbin "data/tilesets/secondary/northcoast/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/northcoast/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_northcoast::
+	.incbin "data/tilesets/secondary/northcoast/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_cape_azure::
+	.incbin "data/tilesets/secondary/cape_azure/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/cape_azure/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_cape_azure::
+	.incbin "data/tilesets/secondary/cape_azure/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_palmtree::
+	.incbin "data/tilesets/secondary/palmtree/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/palmtree/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_palmtree::
+	.incbin "data/tilesets/secondary/palmtree/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_stormy::
+	.incbin "data/tilesets/secondary/stormy/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/stormy/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_stormy::
+	.incbin "data/tilesets/secondary/stormy/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_league_outside::
+	.incbin "data/tilesets/secondary/league_outside/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/league_outside/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_league_outside::
+	.incbin "data/tilesets/secondary/league_outside/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_new_bark::
+	.incbin "data/tilesets/secondary/new_bark/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/new_bark/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_new_bark::
+	.incbin "data/tilesets/secondary/new_bark/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_darkwood::
+	.incbin "data/tilesets/secondary/darkwood/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/darkwood/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_darkwood::
+	.incbin "data/tilesets/secondary/darkwood/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_goldenrod::
+	.incbin "data/tilesets/secondary/goldenrod/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/goldenrod/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_goldenrod::
+	.incbin "data/tilesets/secondary/goldenrod/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_azalea::
+	.incbin "data/tilesets/secondary/azalea/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/azalea/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_azalea::
+	.incbin "data/tilesets/secondary/azalea/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_mart::
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/glazed_mart/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_mart::
+	.incbin "data/tilesets/secondary/glazed_mart/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_pokemoncenter::
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_pokemoncenter::
+	.incbin "data/tilesets/secondary/glazed_pokemoncenter/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_cave1::
+	.incbin "data/tilesets/secondary/cave1/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/cave1/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_cave1::
+	.incbin "data/tilesets/secondary/cave1/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_olivine::
+	.incbin "data/tilesets/secondary/olivine/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/olivine/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_olivine::
+	.incbin "data/tilesets/secondary/olivine/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_stratus_lab::
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/stratus_lab/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_stratus_lab::
+	.incbin "data/tilesets/secondary/stratus_lab/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_church::
+	.incbin "data/tilesets/secondary/church/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/church/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_church::
+	.incbin "data/tilesets/secondary/church/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_whitewood::
+	.incbin "data/tilesets/secondary/whitewood/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/whitewood/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_whitewood::
+	.incbin "data/tilesets/secondary/whitewood/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_violet::
+	.incbin "data/tilesets/secondary/violet/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/violet/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_violet::
+	.incbin "data/tilesets/secondary/violet/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_cianvine_bridge::
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/cianvine_bridge/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_cianvine_bridge::
+	.incbin "data/tilesets/secondary/cianvine_bridge/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_plant::
+	.incbin "data/tilesets/secondary/plant/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/plant/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_plant::
+	.incbin "data/tilesets/secondary/plant/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_forest::
+	.incbin "data/tilesets/secondary/forest/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/forest/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_forest::
+	.incbin "data/tilesets/secondary/forest/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym1::
+	.incbin "data/tilesets/secondary/gym1/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym1/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym1::
+	.incbin "data/tilesets/secondary/gym1/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym2::
+	.incbin "data/tilesets/secondary/gym2/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym2/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym2::
+	.incbin "data/tilesets/secondary/gym2/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym3::
+	.incbin "data/tilesets/secondary/gym3/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym3/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym3::
+	.incbin "data/tilesets/secondary/gym3/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym4::
+	.incbin "data/tilesets/secondary/gym4/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym4/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym4::
+	.incbin "data/tilesets/secondary/gym4/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym5::
+	.incbin "data/tilesets/secondary/gym5/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym5/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym5::
+	.incbin "data/tilesets/secondary/gym5/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym6::
+	.incbin "data/tilesets/secondary/gym6/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym6/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym6::
+	.incbin "data/tilesets/secondary/gym6/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym7::
+	.incbin "data/tilesets/secondary/gym7/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym7/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym7::
+	.incbin "data/tilesets/secondary/gym7/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym8::
+	.incbin "data/tilesets/secondary/gym8/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym8/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym8::
+	.incbin "data/tilesets/secondary/gym8/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_gym9::
+	.incbin "data/tilesets/secondary/gym9/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/gym9/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_gym9::
+	.incbin "data/tilesets/secondary/gym9/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_swamp::
+	.incbin "data/tilesets/secondary/swamp/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/swamp/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_swamp::
+	.incbin "data/tilesets/secondary/swamp/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_villa::
+	.incbin "data/tilesets/secondary/villa/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/villa/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_villa::
+	.incbin "data/tilesets/secondary/villa/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_stratus_peak::
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/stratus_peak/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_stratus_peak::
+	.incbin "data/tilesets/secondary/stratus_peak/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_rankor_cave::
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/rankor_cave/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_rankor_cave::
+	.incbin "data/tilesets/secondary/rankor_cave/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_contest::
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/glazed_contest/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_contest::
+	.incbin "data/tilesets/secondary/glazed_contest/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_cainwood::
+	.incbin "data/tilesets/secondary/cainwood/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/cainwood/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_cainwood::
+	.incbin "data/tilesets/secondary/cainwood/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_town1::
+	.incbin "data/tilesets/secondary/town1/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/town1/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_town1::
+	.incbin "data/tilesets/secondary/town1/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_lab::
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/glazed_lab/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_lab::
+	.incbin "data/tilesets/secondary/glazed_lab/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_seafloor::
+	.incbin "data/tilesets/secondary/seafloor/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/seafloor/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_seafloor::
+	.incbin "data/tilesets/secondary/seafloor/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_reefen::
+	.incbin "data/tilesets/secondary/reefen/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/reefen/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_reefen::
+	.incbin "data/tilesets/secondary/reefen/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_town2::
+	.incbin "data/tilesets/secondary/town2/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/town2/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_town2::
+	.incbin "data/tilesets/secondary/town2/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_kolo::
+	.incbin "data/tilesets/secondary/kolo/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/kolo/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_kolo::
+	.incbin "data/tilesets/secondary/kolo/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_alpha::
+	.incbin "data/tilesets/secondary/alpha/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/alpha/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_alpha::
+	.incbin "data/tilesets/secondary/alpha/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_reign::
+	.incbin "data/tilesets/secondary/reign/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/reign/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_reign::
+	.incbin "data/tilesets/secondary/reign/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_league_building::
+	.incbin "data/tilesets/secondary/league_building/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/league_building/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_league_building::
+	.incbin "data/tilesets/secondary/league_building/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_trainer_isle::
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/trainer_isle/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_trainer_isle::
+	.incbin "data/tilesets/secondary/trainer_isle/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_ruins_of_alph::
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/ruins_of_alph/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_ruins_of_alph::
+	.incbin "data/tilesets/secondary/ruins_of_alph/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_glazed_dock::
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/glazed_dock/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_glazed_dock::
+	.incbin "data/tilesets/secondary/glazed_dock/tiles.4bpp.lz"
+
+	.align 2
+gTilesetPalettes_undersea_grotto::
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/00.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/01.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/02.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/03.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/04.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/05.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/06.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/07.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/08.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/09.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/10.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/11.gbapal"
+	.incbin "data/tilesets/secondary/undersea_grotto/palettes/12.gbapal"
+
+	.align 2
+gTilesetTiles_undersea_grotto::
+	.incbin "data/tilesets/secondary/undersea_grotto/tiles.4bpp.lz"

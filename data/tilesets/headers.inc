@@ -874,3 +874,575 @@ gTileset_glenwood::
 	.4byte gMetatiles_glenwood
 	.4byte gMetatileAttributes_glenwood
 	.4byte NULL @ animation callback
+
+	.align 2
+gTileset_oceanview::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_oceanview
+	.4byte gTilesetPalettes_oceanview
+	.4byte gMetatiles_oceanview
+	.4byte gMetatileAttributes_oceanview
+	.4byte NULL
+
+	.align 2
+gTileset_serenity::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_serenity
+	.4byte gTilesetPalettes_serenity
+	.4byte gMetatiles_serenity
+	.4byte gMetatileAttributes_serenity
+	.4byte NULL
+
+	.align 2
+gTileset_seaspray::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_seaspray
+	.4byte gTilesetPalettes_seaspray
+	.4byte gMetatiles_seaspray
+	.4byte gMetatileAttributes_seaspray
+	.4byte NULL
+
+	.align 2
+gTileset_mahogany::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_mahogany
+	.4byte gTilesetPalettes_mahogany
+	.4byte gMetatiles_mahogany
+	.4byte gMetatileAttributes_mahogany
+	.4byte NULL
+
+	.align 2
+gTileset_northcoast::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_northcoast
+	.4byte gTilesetPalettes_northcoast
+	.4byte gMetatiles_northcoast
+	.4byte gMetatileAttributes_northcoast
+	.4byte NULL
+
+	.align 2
+gTileset_cape_azure::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_cape_azure
+	.4byte gTilesetPalettes_cape_azure
+	.4byte gMetatiles_cape_azure
+	.4byte gMetatileAttributes_cape_azure
+	.4byte NULL
+
+	.align 2
+gTileset_palmtree::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_palmtree
+	.4byte gTilesetPalettes_palmtree
+	.4byte gMetatiles_palmtree
+	.4byte gMetatileAttributes_palmtree
+	.4byte NULL
+
+	.align 2
+gTileset_stormy::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_stormy
+	.4byte gTilesetPalettes_stormy
+	.4byte gMetatiles_stormy
+	.4byte gMetatileAttributes_stormy
+	.4byte NULL
+
+	.align 2
+gTileset_league_outside::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_league_outside
+	.4byte gTilesetPalettes_league_outside
+	.4byte gMetatiles_league_outside
+	.4byte gMetatileAttributes_league_outside
+	.4byte NULL
+
+	.align 2
+gTileset_new_bark::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_new_bark
+	.4byte gTilesetPalettes_new_bark
+	.4byte gMetatiles_new_bark
+	.4byte gMetatileAttributes_new_bark
+	.4byte NULL
+
+	.align 2
+gTileset_darkwood::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_darkwood
+	.4byte gTilesetPalettes_darkwood
+	.4byte gMetatiles_darkwood
+	.4byte gMetatileAttributes_darkwood
+	.4byte NULL
+
+	.align 2
+gTileset_goldenrod::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_goldenrod
+	.4byte gTilesetPalettes_goldenrod
+	.4byte gMetatiles_goldenrod
+	.4byte gMetatileAttributes_goldenrod
+	.4byte NULL
+
+	.align 2
+gTileset_azalea::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_azalea
+	.4byte gTilesetPalettes_azalea
+	.4byte gMetatiles_azalea
+	.4byte gMetatileAttributes_azalea
+	.4byte NULL
+
+	.align 2
+gTileset_glazed_mart::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_mart
+	.4byte gTilesetPalettes_glazed_mart
+	.4byte gMetatiles_glazed_mart
+	.4byte gMetatileAttributes_glazed_mart
+	.4byte NULL
+
+	.align 2
+gTileset_glazed_pokemoncenter::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_pokemoncenter
+	.4byte gTilesetPalettes_glazed_pokemoncenter
+	.4byte gMetatiles_glazed_pokemoncenter
+	.4byte gMetatileAttributes_glazed_pokemoncenter
+	.4byte NULL
+
+	.align 2
+gTileset_cave1::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_cave1
+	.4byte gTilesetPalettes_cave1
+	.4byte gMetatiles_cave1
+	.4byte gMetatileAttributes_cave1
+	.4byte NULL
+
+	.align 2
+gTileset_olivine::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_olivine
+	.4byte gTilesetPalettes_olivine
+	.4byte gMetatiles_olivine
+	.4byte gMetatileAttributes_olivine
+	.4byte NULL
+
+	.align 2
+gTileset_stratus_lab::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_stratus_lab
+	.4byte gTilesetPalettes_stratus_lab
+	.4byte gMetatiles_stratus_lab
+	.4byte gMetatileAttributes_stratus_lab
+	.4byte NULL
+
+	.align 2
+gTileset_church::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_church
+	.4byte gTilesetPalettes_church
+	.4byte gMetatiles_church
+	.4byte gMetatileAttributes_church
+	.4byte NULL
+
+	.align 2
+gTileset_whitewood::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_whitewood
+	.4byte gTilesetPalettes_whitewood
+	.4byte gMetatiles_whitewood
+	.4byte gMetatileAttributes_whitewood
+	.4byte NULL
+
+	.align 2
+gTileset_violet::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_violet
+	.4byte gTilesetPalettes_violet
+	.4byte gMetatiles_violet
+	.4byte gMetatileAttributes_violet
+	.4byte NULL
+
+	.align 2
+gTileset_cianvine_bridge::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_cianvine_bridge
+	.4byte gTilesetPalettes_cianvine_bridge
+	.4byte gMetatiles_cianvine_bridge
+	.4byte gMetatileAttributes_cianvine_bridge
+	.4byte NULL
+
+	.align 2
+gTileset_plant::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_plant
+	.4byte gTilesetPalettes_plant
+	.4byte gMetatiles_plant
+	.4byte gMetatileAttributes_plant
+	.4byte NULL
+
+	.align 2
+gTileset_forest::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_forest
+	.4byte gTilesetPalettes_forest
+	.4byte gMetatiles_forest
+	.4byte gMetatileAttributes_forest
+	.4byte NULL
+
+	.align 2
+gTileset_gym1::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym1
+	.4byte gTilesetPalettes_gym1
+	.4byte gMetatiles_gym1
+	.4byte gMetatileAttributes_gym1
+	.4byte NULL
+
+	.align 2
+gTileset_gym2::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym2
+	.4byte gTilesetPalettes_gym2
+	.4byte gMetatiles_gym2
+	.4byte gMetatileAttributes_gym2
+	.4byte NULL
+
+	.align 2
+gTileset_gym3::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym3
+	.4byte gTilesetPalettes_gym3
+	.4byte gMetatiles_gym3
+	.4byte gMetatileAttributes_gym3
+	.4byte NULL
+
+	.align 2
+gTileset_gym4::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym4
+	.4byte gTilesetPalettes_gym4
+	.4byte gMetatiles_gym4
+	.4byte gMetatileAttributes_gym4
+	.4byte NULL
+
+	.align 2
+gTileset_gym5::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym5
+	.4byte gTilesetPalettes_gym5
+	.4byte gMetatiles_gym5
+	.4byte gMetatileAttributes_gym5
+	.4byte NULL
+
+	.align 2
+gTileset_gym6::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym6
+	.4byte gTilesetPalettes_gym6
+	.4byte gMetatiles_gym6
+	.4byte gMetatileAttributes_gym6
+	.4byte NULL
+
+	.align 2
+gTileset_gym7::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym7
+	.4byte gTilesetPalettes_gym7
+	.4byte gMetatiles_gym7
+	.4byte gMetatileAttributes_gym7
+	.4byte NULL
+
+	.align 2
+gTileset_gym8::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym8
+	.4byte gTilesetPalettes_gym8
+	.4byte gMetatiles_gym8
+	.4byte gMetatileAttributes_gym8
+	.4byte NULL
+
+	.align 2
+gTileset_gym9::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_gym9
+	.4byte gTilesetPalettes_gym9
+	.4byte gMetatiles_gym9
+	.4byte gMetatileAttributes_gym9
+	.4byte NULL
+
+	.align 2
+gTileset_swamp::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_swamp
+	.4byte gTilesetPalettes_swamp
+	.4byte gMetatiles_swamp
+	.4byte gMetatileAttributes_swamp
+	.4byte NULL
+
+	.align 2
+gTileset_villa::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_villa
+	.4byte gTilesetPalettes_villa
+	.4byte gMetatiles_villa
+	.4byte gMetatileAttributes_villa
+	.4byte NULL
+
+	.align 2
+gTileset_stratus_peak::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_stratus_peak
+	.4byte gTilesetPalettes_stratus_peak
+	.4byte gMetatiles_stratus_peak
+	.4byte gMetatileAttributes_stratus_peak
+	.4byte NULL
+
+	.align 2
+gTileset_rankor_cave::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_rankor_cave
+	.4byte gTilesetPalettes_rankor_cave
+	.4byte gMetatiles_rankor_cave
+	.4byte gMetatileAttributes_rankor_cave
+	.4byte NULL
+
+	.align 2
+gTileset_glazed_contest::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_contest
+	.4byte gTilesetPalettes_glazed_contest
+	.4byte gMetatiles_glazed_contest
+	.4byte gMetatileAttributes_glazed_contest
+	.4byte NULL
+
+	.align 2
+gTileset_cainwood::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_cainwood
+	.4byte gTilesetPalettes_cainwood
+	.4byte gMetatiles_cainwood
+	.4byte gMetatileAttributes_cainwood
+	.4byte NULL
+
+	.align 2
+gTileset_town1::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_town1
+	.4byte gTilesetPalettes_town1
+	.4byte gMetatiles_town1
+	.4byte gMetatileAttributes_town1
+	.4byte NULL
+
+	.align 2
+gTileset_glazed_lab::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_lab
+	.4byte gTilesetPalettes_glazed_lab
+	.4byte gMetatiles_glazed_lab
+	.4byte gMetatileAttributes_glazed_lab
+	.4byte NULL
+
+	.align 2
+gTileset_seafloor::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_seafloor
+	.4byte gTilesetPalettes_seafloor
+	.4byte gMetatiles_seafloor
+	.4byte gMetatileAttributes_seafloor
+	.4byte NULL
+
+	.align 2
+gTileset_reefen::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_reefen
+	.4byte gTilesetPalettes_reefen
+	.4byte gMetatiles_reefen
+	.4byte gMetatileAttributes_reefen
+	.4byte NULL
+
+	.align 2
+gTileset_town2::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_town2
+	.4byte gTilesetPalettes_town2
+	.4byte gMetatiles_town2
+	.4byte gMetatileAttributes_town2
+	.4byte NULL
+
+	.align 2
+gTileset_kolo::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_kolo
+	.4byte gTilesetPalettes_kolo
+	.4byte gMetatiles_kolo
+	.4byte gMetatileAttributes_kolo
+	.4byte NULL
+
+	.align 2
+gTileset_alpha::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_alpha
+	.4byte gTilesetPalettes_alpha
+	.4byte gMetatiles_alpha
+	.4byte gMetatileAttributes_alpha
+	.4byte NULL
+
+	.align 2
+gTileset_reign::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_reign
+	.4byte gTilesetPalettes_reign
+	.4byte gMetatiles_reign
+	.4byte gMetatileAttributes_reign
+	.4byte NULL
+
+	.align 2
+gTileset_league_building::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_league_building
+	.4byte gTilesetPalettes_league_building
+	.4byte gMetatiles_league_building
+	.4byte gMetatileAttributes_league_building
+	.4byte NULL
+
+	.align 2
+gTileset_trainer_isle::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_trainer_isle
+	.4byte gTilesetPalettes_trainer_isle
+	.4byte gMetatiles_trainer_isle
+	.4byte gMetatileAttributes_trainer_isle
+	.4byte NULL
+
+	.align 2
+gTileset_ruins_of_alph::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_ruins_of_alph
+	.4byte gTilesetPalettes_ruins_of_alph
+	.4byte gMetatiles_ruins_of_alph
+	.4byte gMetatileAttributes_ruins_of_alph
+	.4byte NULL
+
+	.align 2
+gTileset_glazed_dock::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glazed_dock
+	.4byte gTilesetPalettes_glazed_dock
+	.4byte gMetatiles_glazed_dock
+	.4byte gMetatileAttributes_glazed_dock
+	.4byte NULL
+
+	.align 2
+gTileset_undersea_grotto::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_undersea_grotto
+	.4byte gTilesetPalettes_undersea_grotto
+	.4byte gMetatiles_undersea_grotto
+	.4byte gMetatileAttributes_undersea_grotto
+	.4byte NULL
