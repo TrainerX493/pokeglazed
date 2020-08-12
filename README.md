@@ -1,5 +1,7 @@
 # Pokémon Emerald
 
+This is a port of Glazed
+
 [![Build Status][travis-badge]][travis]
 
 [travis]: https://travis-ci.org/pret/pokeemerald
