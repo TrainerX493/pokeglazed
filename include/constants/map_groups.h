@@ -67,6 +67,8 @@
 #define MAP_LITTLEROOT_TOWN_MAYS_HOUSE_2F        (3 | (1 << 8))
 #define MAP_LITTLEROOT_TOWN_PROFESSOR_BIRCHS_LAB (4 | (1 << 8))
 #define MAP_GLENWOOD_TOWN                        (5 | (1 << 8))
+#define MAP_FOREST_PASS                          (6 | (1 << 8))
+#define MAP_CHOCCO_TOWN                          (7 | (1 << 8))
 
 // Map Group 2
 #define MAP_OLDALE_TOWN_HOUSE1            (0 | (2 << 8))
@@ -74,6 +76,14 @@
 #define MAP_OLDALE_TOWN_POKEMON_CENTER_1F (2 | (2 << 8))
 #define MAP_OLDALE_TOWN_POKEMON_CENTER_2F (3 | (2 << 8))
 #define MAP_OLDALE_TOWN_MART              (4 | (2 << 8))
+#define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE   (5 | (2 << 8))
+#define MAP_GLENWOOD_TOWN_HOUSE1          (6 | (2 << 8))
+#define MAP_GLENWOOD_TOWN_HOUSE2          (7 | (2 << 8))
+#define MAP_GLENWOOD_TOWN_LAB             (8 | (2 << 8))
+#define MAP_CHOCCO_TOWN_HOUSE1            (9 | (2 << 8))
+#define MAP_CHOCCO_TOWN_HOUSE2            (10 | (2 << 8))
+#define MAP_CHOCCO_TOWN_HOUSE3            (11 | (2 << 8))
+#define MAP_CHOCCO_TOWN_LAB               (12 | (2 << 8))
 
 // Map Group 3
 #define MAP_DEWFORD_TOWN_HOUSE1            (0 | (3 << 8))
@@ -91,6 +101,7 @@
 #define MAP_LAVARIDGE_TOWN_MART              (4 | (4 << 8))
 #define MAP_LAVARIDGE_TOWN_POKEMON_CENTER_1F (5 | (4 << 8))
 #define MAP_LAVARIDGE_TOWN_POKEMON_CENTER_2F (6 | (4 << 8))
+#define MAP_CHOCCO_TOWN_POKEMON_CENTER       (7 | (4 << 8))
 
 // Map Group 5
 #define MAP_FALLARBOR_TOWN_MART                    (0 | (5 << 8))
@@ -101,6 +112,7 @@
 #define MAP_FALLARBOR_TOWN_POKEMON_CENTER_2F       (5 | (5 << 8))
 #define MAP_FALLARBOR_TOWN_COZMOS_HOUSE            (6 | (5 << 8))
 #define MAP_FALLARBOR_TOWN_MOVE_RELEARNERS_HOUSE   (7 | (5 << 8))
+#define MAP_CHOCCO_TOWN_MART                       (8 | (5 << 8))
 
 // Map Group 6
 #define MAP_VERDANTURF_TOWN_BATTLE_TENT_LOBBY       (0 | (6 << 8))

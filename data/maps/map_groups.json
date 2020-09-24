@@ -101,14 +101,24 @@
     "LittlerootTown_MaysHouse_1F",
     "LittlerootTown_MaysHouse_2F",
     "LittlerootTown_ProfessorBirchsLab",
-    "GlenwoodTown"
+    "GlenwoodTown",
+    "ForestPass",
+    "ChoccoTown"
   ],
   "gMapGroup2": [
     "OldaleTown_House1",
     "OldaleTown_House2",
     "OldaleTown_PokemonCenter_1F",
     "OldaleTown_PokemonCenter_2F",
-    "OldaleTown_Mart"
+    "OldaleTown_Mart",
+    "GlenwoodTown_PlayersHouse",
+    "GlenwoodTown_House1",
+    "GlenwoodTown_House2",
+    "GlenwoodTown_Lab",
+    "ChoccoTown_House1",
+    "ChoccoTown_House2",
+    "ChoccoTown_House3",
+    "ChoccoTown_Lab"
   ],
   "gMapGroup3": [
     "DewfordTown_House1",
@@ -125,7 +135,8 @@
     "LavaridgeTown_House",
     "LavaridgeTown_Mart",
     "LavaridgeTown_PokemonCenter_1F",
-    "LavaridgeTown_PokemonCenter_2F"
+    "LavaridgeTown_PokemonCenter_2F",
+    "ChoccoTown_PokemonCenter"
   ],
   "gMapGroup5": [
     "FallarborTown_Mart",
@@ -135,7 +146,8 @@
     "FallarborTown_PokemonCenter_1F",
     "FallarborTown_PokemonCenter_2F",
     "FallarborTown_CozmosHouse",
-    "FallarborTown_MoveRelearnersHouse"
+    "FallarborTown_MoveRelearnersHouse",
+    "ChoccoTown_Mart"
   ],
   "gMapGroup6": [
     "VerdanturfTown_BattleTentLobby",

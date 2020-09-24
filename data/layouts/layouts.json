@@ -4420,6 +4420,126 @@
       "secondary_tileset": "gTileset_glenwood",
       "border_filepath": "data/layouts/GlenwoodTown/border.bin",
       "blockdata_filepath": "data/layouts/GlenwoodTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_GLENWOOD_TOWN_PLAYERS_HOUSE",
+      "name": "GlenwoodTown_PlayersHouse_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/GlenwoodTown_PlayersHouse/border.bin",
+      "blockdata_filepath": "data/layouts/GlenwoodTown_PlayersHouse/map.bin"
+    },
+    {
+      "id": "LAYOUT_GLENWOOD_TOWN_HOUSE1",
+      "name": "GlenwoodTown_House1_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/GlenwoodTown_House1/border.bin",
+      "blockdata_filepath": "data/layouts/GlenwoodTown_House1/map.bin"
+    },
+    {
+      "id": "LAYOUT_GLENWOOD_TOWN_HOUSE2",
+      "name": "GlenwoodTown_House2_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/GlenwoodTown_House2/border.bin",
+      "blockdata_filepath": "data/layouts/GlenwoodTown_House2/map.bin"
+    },
+    {
+      "id": "LAYOUT_GLENWOOD_TOWN_LAB",
+      "name": "GlenwoodTown_Lab_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_glazed_lab",
+      "border_filepath": "data/layouts/GlenwoodTown_Lab/border.bin",
+      "blockdata_filepath": "data/layouts/GlenwoodTown_Lab/map.bin"
+    },
+    {
+      "id": "LAYOUT_FOREST_PASS",
+      "name": "ForestPass_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_glenwood",
+      "border_filepath": "data/layouts/ForestPass/border.bin",
+      "blockdata_filepath": "data/layouts/ForestPass/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN",
+      "name": "ChoccoTown_Layout",
+      "width": 30,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_glenwood",
+      "border_filepath": "data/layouts/ChoccoTown/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN_POKEMON_CENTER",
+      "name": "ChoccoTown_PokemonCenter_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_glazed_pokemoncenter",
+      "border_filepath": "data/layouts/ChoccoTown_PokemonCenter/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown_PokemonCenter/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN_MART",
+      "name": "ChoccoTown_Mart_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_glazed_mart",
+      "border_filepath": "data/layouts/ChoccoTown_Mart/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown_Mart/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN_HOUSE1",
+      "name": "ChoccoTown_House1_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/ChoccoTown_House1/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown_House1/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN_HOUSE2",
+      "name": "ChoccoTown_House2_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/ChoccoTown_House2/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown_House2/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN_HOUSE3",
+      "name": "ChoccoTown_House3_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/ChoccoTown_House3/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown_House3/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHOCCO_TOWN_LAB",
+      "name": "ChoccoTown_Lab_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_glazed_lab",
+      "border_filepath": "data/layouts/ChoccoTown_Lab/border.bin",
+      "blockdata_filepath": "data/layouts/ChoccoTown_Lab/map.bin"
     }
   ]
 }

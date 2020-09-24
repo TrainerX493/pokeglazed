@@ -1061,3 +1061,27 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/text/birch_speech.inc"
 
 	.include "data/maps/GlenwoodTown/scripts.inc"
+
+	.include "data/maps/GlenwoodTown_PlayersHouse/scripts.inc"
+
+	.include "data/maps/GlenwoodTown_House1/scripts.inc"
+
+	.include "data/maps/GlenwoodTown_House2/scripts.inc"
+
+	.include "data/maps/GlenwoodTown_Lab/scripts.inc"
+
+	.include "data/maps/ForestPass/scripts.inc"
+
+	.include "data/maps/ChoccoTown/scripts.inc"
+
+	.include "data/maps/ChoccoTown_PokemonCenter/scripts.inc"
+
+	.include "data/maps/ChoccoTown_Mart/scripts.inc"
+
+	.include "data/maps/ChoccoTown_House1/scripts.inc"
+
+	.include "data/maps/ChoccoTown_House2/scripts.inc"
+
+	.include "data/maps/ChoccoTown_House3/scripts.inc"
+
+	.include "data/maps/ChoccoTown_Lab/scripts.inc"
