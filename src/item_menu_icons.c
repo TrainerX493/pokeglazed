@@ -605,10 +605,10 @@ static void LoadBerryGfx(u8 berryId)
         // unknown empty if statement
     }
 
-    pal.data = gBerryPicTable[berryId].pal;
+    pal.data = sBerryPicTable[berryId].pal;
     pal.tag = TAG_BERRY_PIC_PAL;
     LoadCompressedSpritePalette(&pal);
-    LZDecompressWram(gBerryPicTable[berryId].tiles, &gDecompressionBuffer[0x1000]);
+    LZDecompressWram(sBerryPicTable[berryId].tiles, &gDecompressionBuffer[0x1000]);
     sub_80D5018(&gDecompressionBuffer[0x1000], &gDecompressionBuffer[0]);
 }
 
@@ -623,7 +623,8 @@ void FreeBerryTagSpritePalette(void)
     FreeSpritePaletteByTag(TAG_BERRY_PIC_PAL);
 }
 
-u8 LoadSpinningBerryPicGfx(u8 berryId, u8 x, u8 y, bool8 startAffine)
+// For throwing berries into the Berry Blender
+u8 CreateSpinningBerrySprite(u8 berryId, u8 x, u8 y, bool8 startAffine)
 {
     u8 spriteId;
 
