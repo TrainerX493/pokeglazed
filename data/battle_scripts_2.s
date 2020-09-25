@@ -46,11 +46,11 @@ gBattlescriptsForBallThrow:: @ 82DBD08
 	.align 2
 gBattlescriptsForUsingItem:: @ 82DBD3C
 	.4byte BattleScript_PlayerUsesItem
-	.4byte BattleScript_OpponentUsesHealItem
-	.4byte BattleScript_OpponentUsesHealItem
-	.4byte BattleScript_OpponentUsesStatusCureItem
-	.4byte BattleScript_OpponentUsesXItem
-	.4byte BattleScript_OpponentUsesGuardSpecs
+	.4byte BattleScript_OpponentUsesHealItem        @ AI_ITEM_FULL_RESTORE
+	.4byte BattleScript_OpponentUsesHealItem        @ AI_ITEM_HEAL_HP
+	.4byte BattleScript_OpponentUsesStatusCureItem  @ AI_ITEM_CURE_CONDITION
+	.4byte BattleScript_OpponentUsesXItem           @ AI_ITEM_X_STAT
+	.4byte BattleScript_OpponentUsesGuardSpecs      @ AI_ITEM_GUARD_SPECS
 
 	.align 2
 gBattlescriptsForRunningByItem:: @ 82DBD54
@@ -140,7 +140,7 @@ BattleScript_PlayerUsesItem::
 BattleScript_OpponentUsesHealItem::
 	printstring STRINGID_EMPTYSTRING3
 	pause 0x30
-	playse SE_KAIFUKU
+	playse SE_USE_ITEM
 	printstring STRINGID_TRAINER1USEDITEM
 	waitmessage 0x40
 	bichalfword gMoveResultFlags, MOVE_RESULT_NO_EFFECT
@@ -158,7 +158,7 @@ BattleScript_OpponentUsesHealItem::
 BattleScript_OpponentUsesStatusCureItem::
 	printstring STRINGID_EMPTYSTRING3
 	pause 0x30
-	playse SE_KAIFUKU
+	playse SE_USE_ITEM
 	printstring STRINGID_TRAINER1USEDITEM
 	waitmessage 0x40
 	useitemonopponent
@@ -172,7 +172,7 @@ BattleScript_OpponentUsesStatusCureItem::
 BattleScript_OpponentUsesXItem::
 	printstring STRINGID_EMPTYSTRING3
 	pause 0x30
-	playse SE_KAIFUKU
+	playse SE_USE_ITEM
 	printstring STRINGID_TRAINER1USEDITEM
 	waitmessage 0x40
 	useitemonopponent
@@ -185,7 +185,7 @@ BattleScript_OpponentUsesXItem::
 BattleScript_OpponentUsesGuardSpecs::
 	printstring STRINGID_EMPTYSTRING3
 	pause 0x30
-	playse SE_KAIFUKU
+	playse SE_USE_ITEM
 	printstring STRINGID_TRAINER1USEDITEM
 	waitmessage 0x40
 	useitemonopponent
@@ -196,7 +196,7 @@ BattleScript_OpponentUsesGuardSpecs::
 	finishaction
 
 BattleScript_RunByUsingItem::
-	playse SE_NIGERU
+	playse SE_FLEE
 	setbyte gBattleOutcome, B_OUTCOME_RAN
 	finishturn
 
