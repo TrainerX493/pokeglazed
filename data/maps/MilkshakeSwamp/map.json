@@ -1,0 +1,55 @@
+{
+  "id": "MAP_MILKSHAKE_SWAMP",
+  "name": "MilkshakeSwamp",
+  "layout": "LAYOUT_MILKSHAKE_SWAMP",
+  "music": "MUS_ABANDONED_SHIP",
+  "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": 0,
+  "object_events": [
+
+  ],
+  "warp_events": [
+    {
+      "x": 22,
+      "y": 42,
+      "elevation": 0,
+      "dest_map": "MAP_CHOCCO_TOWN",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 23,
+      "y": 42,
+      "elevation": 0,
+      "dest_map": "MAP_CHOCCO_TOWN",
+      "dest_warp_id": 1
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_OCEANVIEW_PARK",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_OCEANVIEW_PARK",
+      "dest_warp_id": 1
+    }
+  ],
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
+}

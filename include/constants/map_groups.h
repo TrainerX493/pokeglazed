@@ -1,10 +1,6 @@
 #ifndef GUARD_CONSTANTS_MAP_GROUPS_H
 #define GUARD_CONSTANTS_MAP_GROUPS_H
 
-//
-// DO NOT MODIFY THIS FILE! It is auto-generated from data/maps/map_groups.json
-//
-
 // Map Group 0
 #define MAP_PETALBURG_CITY      (0 | (0 << 8))
 #define MAP_SLATEPORT_CITY      (1 | (0 << 8))
@@ -73,6 +69,10 @@
 #define MAP_GLENWOOD_TOWN                        (5 | (1 << 8))
 #define MAP_FOREST_PASS                          (6 | (1 << 8))
 #define MAP_CHOCCO_TOWN                          (7 | (1 << 8))
+#define MAP_MILKSHAKE_SWAMP                      (8 | (1 << 8))
+#define MAP_GREEN_SWAMP                          (9 | (1 << 8))
+#define MAP_OCEANVIEW_PARK                       (10 | (1 << 8))
+#define MAP_OCEANVIEW_CITY                       (11 | (1 << 8))
 
 // Map Group 2
 #define MAP_OLDALE_TOWN_HOUSE1            (0 | (2 << 8))

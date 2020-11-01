@@ -1086,3 +1086,11 @@ Common_EventScript_LegendaryFlewAway:: @ 8273776
 	.include "data/maps/ChoccoTown_House3/scripts.inc"
 
 	.include "data/maps/ChoccoTown_Lab/scripts.inc"
+
+	.include "data/maps/MilkshakeSwamp/scripts.inc"
+
+	.include "data/maps/GreenSwamp/scripts.inc"
+
+	.include "data/maps/OceanviewPark/scripts.inc"
+
+	.include "data/maps/OceanviewCity/scripts.inc"

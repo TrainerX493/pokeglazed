@@ -4464,10 +4464,10 @@
     {
       "id": "LAYOUT_FOREST_PASS",
       "name": "ForestPass_Layout",
-      "width": 20,
-      "height": 20,
+      "width": 50,
+      "height": 28,
       "primary_tileset": "gTileset_glazed_general",
-      "secondary_tileset": "gTileset_glenwood",
+      "secondary_tileset": "gTileset_olivine",
       "border_filepath": "data/layouts/ForestPass/border.bin",
       "blockdata_filepath": "data/layouts/ForestPass/map.bin"
     },
@@ -4540,6 +4540,46 @@
       "secondary_tileset": "gTileset_glazed_lab",
       "border_filepath": "data/layouts/ChoccoTown_Lab/border.bin",
       "blockdata_filepath": "data/layouts/ChoccoTown_Lab/map.bin"
+    },
+    {
+      "id": "LAYOUT_MILKSHAKE_SWAMP",
+      "name": "MilkshakeSwamp_Layout",
+      "width": 48,
+      "height": 44,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_swamp",
+      "border_filepath": "data/layouts/MilkshakeSwamp/border.bin",
+      "blockdata_filepath": "data/layouts/MilkshakeSwamp/map.bin"
+    },
+    {
+      "id": "LAYOUT_GREEN_SWAMP",
+      "name": "GreenSwamp_Layout",
+      "width": 36,
+      "height": 24,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_swamp",
+      "border_filepath": "data/layouts/GreenSwamp/border.bin",
+      "blockdata_filepath": "data/layouts/GreenSwamp/map.bin"
+    },
+    {
+      "id": "LAYOUT_OCEANVIEW_PARK",
+      "name": "OceanviewPark_Layout",
+      "width": 30,
+      "height": 20,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_oceanview",
+      "border_filepath": "data/layouts/OceanviewPark/border.bin",
+      "blockdata_filepath": "data/layouts/OceanviewPark/map.bin"
+    },
+    {
+      "id": "LAYOUT_OCEANVIEW_CITY",
+      "name": "OceanviewCity_Layout",
+      "width": 40,
+      "height": 60,
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_oceanview",
+      "border_filepath": "data/layouts/OceanviewCity/border.bin",
+      "blockdata_filepath": "data/layouts/OceanviewCity/map.bin"
     }
   ]
 }
