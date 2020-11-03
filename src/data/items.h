@@ -1281,9 +1281,16 @@ const struct Item gItems[] =
     {
         .name = _("Escape Rope"),
         .itemId = ITEM_ESCAPE_ROPE,
-        .price = 550,
         .description = sEscapeRopeDesc,
+        #if I_KEY_ESCAPE_ROPE >= GEN_8
+        .price = 0,
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        #else
+        .price = 550,
+        .importance = 0,
         .pocket = POCKET_ITEMS,
+        #endif
         .type = 2,
         .fieldUseFunc = ItemUseOutOfBattle_EscapeRope,
         .secondaryId = 0,
@@ -2658,6 +2665,76 @@ const struct Item gItems[] =
         .secondaryId = 0,
     },
 
+    [ITEM_CUSTAP_BERRY] =
+    {
+        .name = _("Custap Berry"),
+        .itemId = ITEM_CUSTAP_BERRY,
+        .price = 20,
+        .holdEffect = HOLD_EFFECT_NONE, // To Do
+        .holdEffectParam = TYPE_FAIRY,
+        .description = sCustapBerryDesc,
+        .pocket = POCKET_BERRIES,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+
+    [ITEM_JABOCA_BERRY] =
+    {
+        .name = _("Jaboca Berry"),
+        .itemId = ITEM_JABOCA_BERRY,
+        .price = 20,
+        .holdEffect = HOLD_EFFECT_NONE, // To Do
+        .holdEffectParam = TYPE_FAIRY,
+        .description = sJabocaBerryDesc,
+        .pocket = POCKET_BERRIES,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+
+    [ITEM_ROWAP_BERRY] =
+    {
+        .name = _("Rowap Berry"),
+        .itemId = ITEM_ROWAP_BERRY,
+        .price = 20,
+        .holdEffect = HOLD_EFFECT_NONE, // To Do
+        .holdEffectParam = TYPE_FAIRY,
+        .description = sRowapBerryDesc,
+        .pocket = POCKET_BERRIES,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+
+    [ITEM_KEE_BERRY] =
+    {
+        .name = _("Kee Berry"),
+        .itemId = ITEM_KEE_BERRY,
+        .price = 20,
+        .holdEffect = HOLD_EFFECT_NONE, // To Do
+        .holdEffectParam = TYPE_FAIRY,
+        .description = sKeeBerryDesc,
+        .pocket = POCKET_BERRIES,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+
+    [ITEM_MARANGA_BERRY] =
+    {
+        .name = _("Maranga Berry"),
+        .itemId = ITEM_MARANGA_BERRY,
+        .price = 20,
+        .holdEffect = HOLD_EFFECT_NONE, // To Do
+        .holdEffectParam = TYPE_FAIRY,
+        .description = sMarangaBerryDesc,
+        .pocket = POCKET_BERRIES,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+
 // Hold items
 
     [ITEM_BRIGHT_POWDER] =
@@ -3358,7 +3435,7 @@ const struct Item gItems[] =
         .name = _("Power Bracer"),
         .itemId = ITEM_POWER_BRACER,
         .price = 3000,
-        .holdEffect = HOLD_EFFECT_EV_BOOST,
+        .holdEffect = HOLD_EFFECT_POWER_ITEM,
         .holdEffectParam = 4,
         .description = sPowerBracerDesc,
         .pocket = POCKET_ITEMS,
@@ -3372,7 +3449,7 @@ const struct Item gItems[] =
         .name = _("Power Belt"),
         .itemId = ITEM_POWER_BELT,
         .price = 3000,
-        .holdEffect = HOLD_EFFECT_EV_BOOST,
+        .holdEffect = HOLD_EFFECT_POWER_ITEM,
         .holdEffectParam = 4,
         .description = sPowerBeltDesc,
         .pocket = POCKET_ITEMS,
@@ -3386,7 +3463,7 @@ const struct Item gItems[] =
         .name = _("Power Lens"),
         .itemId = ITEM_POWER_LENS,
         .price = 3000,
-        .holdEffect = HOLD_EFFECT_EV_BOOST,
+        .holdEffect = HOLD_EFFECT_POWER_ITEM,
         .holdEffectParam = 4,
         .description = sPowerLensDesc,
         .pocket = POCKET_ITEMS,
@@ -3400,7 +3477,7 @@ const struct Item gItems[] =
         .name = _("Power Band"),
         .itemId = ITEM_POWER_BAND,
         .price = 3000,
-        .holdEffect = HOLD_EFFECT_EV_BOOST,
+        .holdEffect = HOLD_EFFECT_POWER_ITEM,
         .holdEffectParam = 4,
         .description = sPowerBandDesc,
         .pocket = POCKET_ITEMS,
@@ -3414,7 +3491,7 @@ const struct Item gItems[] =
         .name = _("Power Anklet"),
         .itemId = ITEM_POWER_ANKLET,
         .price = 3000,
-        .holdEffect = HOLD_EFFECT_EV_BOOST,
+        .holdEffect = HOLD_EFFECT_POWER_ITEM,
         .holdEffectParam = 4,
         .description = sPowerAnkletDesc,
         .pocket = POCKET_ITEMS,
@@ -3428,7 +3505,7 @@ const struct Item gItems[] =
         .name = _("Power Weight"),
         .itemId = ITEM_POWER_WEIGHT,
         .price = 3000,
-        .holdEffect = HOLD_EFFECT_EV_BOOST,
+        .holdEffect = HOLD_EFFECT_POWER_ITEM,
         .holdEffectParam = 4,
         .description = sPowerWeightDesc,
         .pocket = POCKET_ITEMS,
@@ -4813,8 +4890,13 @@ const struct Item gItems[] =
         .itemId = ITEM_OLD_AMBER,
         .price = 0,
         .description = sOldAmberDesc,
+        #if I_KEY_FOSSILS >= GEN_4
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
+        #else
+        .importance = 0,
+        .pocket = POCKET_ITEMS,
+        #endif
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
@@ -4878,8 +4960,13 @@ const struct Item gItems[] =
         .itemId = ITEM_HELIX_FOSSIL,
         .price = 0,
         .description = sHelixFossilDesc,
+        #if I_KEY_FOSSILS >= GEN_4
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        #else
         .importance = 0,
         .pocket = POCKET_ITEMS,
+        #endif
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
@@ -4891,8 +4978,13 @@ const struct Item gItems[] =
         .itemId = ITEM_DOME_FOSSIL,
         .price = 0,
         .description = sDomeFossilDesc,
+        #if I_KEY_FOSSILS >= GEN_4
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        #else
         .importance = 0,
         .pocket = POCKET_ITEMS,
+        #endif
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
@@ -4904,8 +4996,13 @@ const struct Item gItems[] =
         .itemId = ITEM_ROOT_FOSSIL,
         .price = 0,
         .description = sRootFossilDesc,
+        #if I_KEY_FOSSILS >= GEN_4
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        #else
         .importance = 0,
         .pocket = POCKET_ITEMS,
+        #endif
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
@@ -4917,8 +5014,13 @@ const struct Item gItems[] =
         .itemId = ITEM_CLAW_FOSSIL,
         .price = 0,
         .description = sClawFossilDesc,
+        #if I_KEY_FOSSILS >= GEN_4
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        #else
         .importance = 0,
         .pocket = POCKET_ITEMS,
+        #endif
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
         .secondaryId = 0,
@@ -5583,6 +5685,18 @@ const struct Item gItems[] =
         .price = 200,
         .holdEffect = HOLD_EFFECT_CHOICE_SPECS,
         .description = sChoiceSpecsDesc,
+        .pocket = POCKET_ITEMS,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+
+    [ITEM_ODD_KEYSTONE] =
+    {
+        .name = _("Odd Keystone"),
+        .itemId = ITEM_ODD_KEYSTONE,
+        .price = 2100,
+        .description = sOddKeystoneDesc,
         .pocket = POCKET_ITEMS,
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
@@ -7456,6 +7570,19 @@ const struct Item gItems[] =
         .itemId = ITEM_SHINY_CHARM,
         .price = 0,
         .description = sShinyCharmDesc,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = 4,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .secondaryId = 0,
+    },
+    
+    [ITEM_OVAL_CHARM] =
+    {
+        .name = _("Oval Charm"),
+        .itemId = ITEM_OVAL_CHARM,
+        .price = 0,
+        .importance = 1,
+        .description = sOvalCharmDesc,
         .pocket = POCKET_KEY_ITEMS,
         .type = 4,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
