@@ -71,7 +71,7 @@ EWRAM_DATA u8 gEnemyPartyCount = 0;
 EWRAM_DATA struct Pokemon gPlayerParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct Pokemon gEnemyParty[PARTY_SIZE] = {0};
 EWRAM_DATA struct SpriteTemplate gMultiuseSpriteTemplate = {0};
-EWRAM_DATA struct Unknown_806F160_Struct *gUnknown_020249B4[2] = {NULL, NULL};
+EWRAM_DATA struct Unknown_806F160_Struct *gUnknown_020249B4[2] = {NULL};
 
 // const rom data
 #include "data/battle_moves.h"
@@ -4460,7 +4460,7 @@ u8 GetMonsStateToDoubles_2(void)
     return (aliveCount > 1) ? PLAYER_HAS_TWO_USABLE_MONS : PLAYER_HAS_ONE_USABLE_MON;
 }
 
-u8 GetAbilityBySpecies(u16 species, u8 abilityNum)
+u16 GetAbilityBySpecies(u16 species, u8 abilityNum)
 {
     if (abilityNum == 2)
         gLastUsedAbility = gBaseStats[species].abilityHidden;
@@ -4472,7 +4472,7 @@ u8 GetAbilityBySpecies(u16 species, u8 abilityNum)
     return gLastUsedAbility;
 }
 
-u8 GetMonAbility(struct Pokemon *mon)
+u16 GetMonAbility(struct Pokemon *mon)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM, NULL);
@@ -5860,7 +5860,7 @@ u8 GetTrainerEncounterMusicId(u16 trainerOpponentId)
 u16 ModifyStatByNature(u8 nature, u16 n, u8 statIndex)
 {
     u16 retVal;
-    // Dont modify HP, Accuracy, or Evasion by nature
+    // Don't modify HP, Accuracy, or Evasion by nature
     if (statIndex <= STAT_HP || statIndex > NUM_NATURE_STATS)
     {
         return n;
@@ -6955,8 +6955,6 @@ static bool8 ShouldSkipFriendshipChange(void)
     return FALSE;
 }
 
-#define MAGIC_NUMBER 0xA3
-
 static void sub_806F160(struct Unknown_806F160_Struct* structPtr)
 {
     u16 i, j;
@@ -7005,7 +7003,7 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
         structPtr->field_0_0 = 7;
         structPtr->field_0_1 = 7;
         structPtr->field_1 = 4;
-        structPtr->size = 1;
+        structPtr->field_3_0 = 1;
         structPtr->field_3_1 = 2;
         break;
     case 0:
@@ -7013,12 +7011,12 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
         structPtr->field_0_0 = 4;
         structPtr->field_0_1 = 4;
         structPtr->field_1 = 4;
-        structPtr->size = 1;
+        structPtr->field_3_0 = 1;
         structPtr->field_3_1 = 0;
         break;
     }
 
-    structPtr->bytes = AllocZeroed(structPtr->size * 0x800 * 4 * structPtr->field_0_0);
+    structPtr->bytes = AllocZeroed(structPtr->field_3_0 * 0x800 * 4 * structPtr->field_0_0);
     structPtr->byteArrays = AllocZeroed(structPtr->field_0_0 * 32);
     if (structPtr->bytes == NULL || structPtr->byteArrays == NULL)
     {
@@ -7027,7 +7025,7 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
     else
     {
         for (i = 0; i < structPtr->field_0_0; i++)
-            structPtr->byteArrays[i] = structPtr->bytes + (structPtr->size * (i << 0xD));
+            structPtr->byteArrays[i] = structPtr->bytes + (structPtr->field_3_0 * (i << 0xD));
     }
 
     structPtr->templates = AllocZeroed(sizeof(struct SpriteTemplate) * structPtr->field_0_0);
@@ -7046,8 +7044,8 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
         case 2:
             sub_806F1FC(structPtr);
             break;
-        case 1:
         case 0:
+        case 1:
         default:
             sub_806F160(structPtr);
             break;
@@ -7076,7 +7074,7 @@ struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1)
     }
     else
     {
-        structPtr->magic = MAGIC_NUMBER;
+        structPtr->magic = 0xA3;
         gUnknown_020249B4[id] = structPtr;
     }
 
@@ -7087,12 +7085,12 @@ void sub_806F47C(u8 id)
 {
     struct Unknown_806F160_Struct *structPtr;
 
-    id &= 1;
+    id %= 2;
     structPtr = gUnknown_020249B4[id];
     if (structPtr == NULL)
         return;
 
-    if (structPtr->magic != MAGIC_NUMBER)
+    if (structPtr->magic != 0xA3)
     {
         memset(structPtr, 0, sizeof(struct Unknown_806F160_Struct));
     }
@@ -7116,13 +7114,15 @@ void sub_806F47C(u8 id)
 u8 *sub_806F4F8(u8 id, u8 arg1)
 {
     struct Unknown_806F160_Struct *structPtr = gUnknown_020249B4[id % 2];
-    if (structPtr->magic != MAGIC_NUMBER)
+    if (structPtr->magic != 0xA3)
     {
         return NULL;
     }
-    
-    if (arg1 >= structPtr->field_0_0)
-        arg1 = 0;
+    else
+    {
+        if (arg1 >= structPtr->field_0_0)
+            arg1 = 0;
 
-    return structPtr->byteArrays[arg1];
+        return structPtr->byteArrays[arg1];
+    }
 }

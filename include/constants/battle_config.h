@@ -1,30 +1,40 @@
 #ifndef GUARD_CONSTANTS_BATTLE_CONFIG_H
 #define GUARD_CONSTANTS_BATTLE_CONFIG_H
 
-#define BATTLE_ENGINE
-
 // Species with peculiar battle effects.
 #ifndef POKEMON_EXPANSION
-    #define SPECIES_DIALGA            0
-    #define SPECIES_PALKIA            0
-    #define SPECIES_GIRATINA          0
-    #define SPECIES_CHERRIM           0
-    #define SPECIES_ARCEUS            0
-    #define SPECIES_SILVALLY          0
-    #define SPECIES_GENESECT          0
-    #define SPECIES_AEGISLASH         0
-    #define SPECIES_AEGISLASH_BLADE   10000
-    #define SPECIES_MIMIKYU           0
-    #define SPECIES_MIMIKYU_BUSTED    10001
-    #define SPECIES_DARMANITAN        0
-    #define SPECIES_DARMANITAN_ZEN    10002
-    #define SPECIES_MINIOR_CORE       0
-    #define SPECIES_MINIOR            10003
-    #define SPECIES_WISHIWASHI        0
-    #define SPECIES_WISHIWASHI_SCHOOL 10004
-    #define SPECIES_ZYGARDE           0     // 50%
-    #define SPECIES_ZYGARDE_10        10005 // 10 %
-    #define SPECIES_ZYGARDE_COMPLETE  10006 // 100 %
+    #define SPECIES_DIALGA                  0
+    #define SPECIES_PALKIA                  0
+    #define SPECIES_GIRATINA                0
+    #define SPECIES_CHERRIM                 0
+    #define SPECIES_ARCEUS                  0
+    #define SPECIES_SILVALLY                0
+    #define SPECIES_GENESECT                0
+    #define SPECIES_AEGISLASH               0
+    #define SPECIES_AEGISLASH_BLADE         10000
+    #define SPECIES_MIMIKYU                 0
+    #define SPECIES_MIMIKYU_BUSTED          10001
+    #define SPECIES_DARMANITAN              0
+    #define SPECIES_DARMANITAN_ZEN_MODE     10002
+    #define SPECIES_MINIOR_CORE_RED         0
+    #define SPECIES_MINIOR                  10003
+    #define SPECIES_MINIOR_CORE_BLUE        0
+    #define SPECIES_MINIOR_METEOR_BLUE      10004
+    #define SPECIES_MINIOR_CORE_GREEN       0
+    #define SPECIES_MINIOR_METEOR_GREEN     10005
+    #define SPECIES_MINIOR_CORE_INDIGO      0
+    #define SPECIES_MINIOR_METEOR_INDIGO    10006
+    #define SPECIES_MINIOR_CORE_ORANGE      0
+    #define SPECIES_MINIOR_METEOR_ORANGE    10007
+    #define SPECIES_MINIOR_CORE_VIOLET      0
+    #define SPECIES_MINIOR_METEOR_VIOLET    10008
+    #define SPECIES_MINIOR_CORE_YELLOW      0
+    #define SPECIES_MINIOR_METEOR_YELLOW    10009
+    #define SPECIES_WISHIWASHI              0
+    #define SPECIES_WISHIWASHI_SCHOOL       10010
+    #define SPECIES_ZYGARDE                 0     // 50%
+    #define SPECIES_ZYGARDE_10              10011 // 10 %
+    #define SPECIES_ZYGARDE_COMPLETE        10012 // 100 %
 #endif
 
 // Items with peculiar battle effects.
@@ -99,15 +109,18 @@
 #define B_DISABLE_TURNS             GEN_6 // Disable's turns. See Cmd_disablelastusedattack.
 #define B_INCINERATE_GEMS           GEN_6 // In Gen6+, Incinerate can destroy Gems.
 #define B_MINIMIZE_DMG_ACC          GEN_6 // In Gen6+, moves that causes double damage to minimized Pokémon will also skip accuracy checks.
+#define B_PP_REDUCED_BY_SPITE       GEN_6 // In Gen4+, Spite reduces the foe's last move's PP by 4, instead of 2 to 5.
+#define B_CAN_SPITE_FAIL            GEN_6 // In Gen4+, Spite can no longer fail if the foe's last move only has 1 remaining PP.
 
 // Ability settings
 #define B_ABILITY_WEATHER           GEN_6 // In Gen5+, weather caused by abilities lasts the same amount of turns as induced from a move. Before, they lasted till the battle's end or weather change by a move.
 #define B_GALE_WINGS                GEN_6 // In Gen7+ requires full HP to trigger.
-#define B_STANCE_CHANGE_FAIL        GEN_7 // In Gen7+, Aegislash's form change does not happen, if the Pokémon cannot use a move, because of confusion, paralysis, etc. In gen6, the form change occurs despite not being able to move.
+#define B_STANCE_CHANGE_FAIL        GEN_7 // In Gen7+, Stance Change fails if the Pokémon is unable to use a move because of confusion, paralysis, etc. In Gen6, it doesn't.
 #define B_GHOSTS_ESCAPE             GEN_6 // In Gen6+, ghosts can escape even when blocked by abilities such as Shadow Tag.
 #define B_MOODY_ACC_EVASION         GEN_6 // In Gen8+, Moody CANNOT raise Accuray and Evasion any more.
 #define B_FLASH_FIRE_FROZEN         GEN_6 // In Gen5+, Flash Fire can trigger even when frozen, when it couldn't before.
 #define B_SYNCHRONIZE_NATURE        GEN_6 // In Gen8+, if the Pokémon with Synchronize is leading the party, it's 100% guaranteed that wild Pokémon will have the same ability, as opposed to 50% previously.
+#define B_UPDATED_INTIMIDATE        GEN_8 // In Gen8, Intimidate doesn't work on opponents with the Inner Focus, Scrappy, Own Tempo or Oblivious abilities.
 
 // Item settings
 #define B_HP_BERRIES                GEN_6 // In Gen4+, berries which restore hp activate immediately after hp drops to half. In gen3, the effect occurs at the end of the turn.
@@ -124,11 +137,16 @@
 #define B_SHOW_TARGETS              TRUE  // If set to TRUE, all available targets, for moves hitting 2 or 3 Pokémon, will be shown before selecting a move.
 #define B_SHOW_SPLIT_ICON           TRUE  // If set to TRUE, it will show an icon in the summary showing the move's category split.
 
+// Critical Capture
+#define B_CRITICAL_CAPTURE          TRUE  // If set to TRUE, Critical Capture will be enabled.
+#define B_CATCHING_CHARM_BOOST      20    // % boost in Critical Capture odds if player has the Catching Charm.
+
 // Other
 #define B_DOUBLE_WILD_CHANCE        0     // % chance of encountering two Pokémon in a Wild Encounter.
 #define B_SLEEP_TURNS               GEN_6 // In Gen5+, sleep lasts for 1-3 turns instead of 2-5 turns.
-#define B_PARALYZE_ELECTRIC         GEN_6 // In Gen6+, Electric type Pokémon can't be paralyzed.
-#define B_POWDER_GRASS              GEN_6 // In Gen6+, Grass type Pokémon are immune to powder and spore moves.
+#define B_PARALYZE_ELECTRIC         GEN_6 // In Gen6+, Electric-type Pokémon can't be paralyzed.
+#define B_POWDER_GRASS              GEN_6 // In Gen6+, Grass-type Pokémon are immune to powder and spore moves.
+#define B_STEEL_RESISTANCES         GEN_6 // In Gen6+, Steel-type Pokémon are no longer resistant to Dark and Ghost moves.
 
 // Animation Settings
 #define B_NEW_SWORD_PARTICLE            TRUE    // If set to TRUE, it updates Swords Dance's particle.
@@ -148,5 +166,6 @@
 #define B_NEW_SURF_PARTICLE_PALETTE     TRUE    // If set to TRUE, it updates Surf's wave palette.
 
 #define HIDE_HEALTHBOXES_DURING_ANIMS   TRUE    //if TRUE, hides healthboxes during move animations
+#define B_TERRAIN_BG_CHANGE             TRUE    // If TRUE, terrain moves permanently change the default battle background until the effect fades.
 
 #endif // GUARD_CONSTANTS_BATTLE_CONFIG_H

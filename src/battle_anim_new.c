@@ -14,6 +14,7 @@
 #include "battle_scripts.h"
 #include "battle_controllers.h"
 #include "constants/moves.h"
+#include "constants/hold_effects.h"
 
 //// function declarations
 static void SpriteCB_SpriteToCentreOfSide(struct Sprite* sprite);
@@ -64,6 +65,20 @@ static const union AffineAnimCmd sSquishTargetAffineAnimCmds[] =
     AFFINEANIMCMD_FRAME(0, -64, 0, 16),
     AFFINEANIMCMD_END,
 };
+
+//// GEN 4
+// power trick
+const struct SpriteTemplate gPowerTrickSpriteTemplate = 
+{
+    .tileTag = ANIM_TAG_POWER_TRICK,
+    .paletteTag = ANIM_TAG_POWER_TRICK,
+    .oam = &gOamData_AffineNormal_ObjNormal_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_SpinningBone,
+    .callback = SpriteCB_SpriteOnMonForDuration
+};
+
 
 //// GEN 5
 //wide guard
@@ -4987,8 +5002,9 @@ void AnimTask_PurpleFlamesOnTarget(u8 taskId)
 
 void AnimTask_TechnoBlast(u8 taskId)
 {
-    //gBattleAnimArgs[0] = gItems[GetBattlerPartyData(gBattleAnimAttacker).item].holdEffectParam;
-    gBattleAnimArgs[0] = ItemId_GetHoldEffectParam(gBattleMons[gBattleAnimAttacker].item);
+    if (ItemId_GetHoldEffect(gBattleMons[gBattleAnimAttacker].item) == HOLD_EFFECT_DRIVE)
+        gBattleAnimArgs[0] = ItemId_GetSecondaryId(gBattleMons[gBattleAnimAttacker].item);
+    else
+        gBattleAnimArgs[0] = 0;
     DestroyAnimVisualTask(taskId);
 }
-
