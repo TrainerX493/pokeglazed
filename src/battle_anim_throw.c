@@ -304,12 +304,7 @@ static const u8 sBallParticleAnimNums[POKEBALL_COUNT] =
     [BALL_BEAST] = 5,
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD:src/battle_anim_special.c
-const TaskFunc gBallParticleAnimationFuncs[] =
-=======
 static const TaskFunc sBallParticleAnimationFuncs[] =
->>>>>>> 271219f962413f97a5f3db3d7b1d56d04f505f76
 {
     [BALL_POKE] = PokeBallOpenParticleAnimation,
     [BALL_GREAT] = GreatBallOpenParticleAnimation,
@@ -340,25 +335,6 @@ static const TaskFunc sBallParticleAnimationFuncs[] =
     [BALL_PARK] = UltraBallOpenParticleAnimation,
     [BALL_DREAM] = UltraBallOpenParticleAnimation,
     [BALL_BEAST] = UltraBallOpenParticleAnimation
-<<<<<<< HEAD
-=======
-static const TaskFunc sBallParticleAnimationFuncs[POKEBALL_COUNT] =
-{
-    [BALL_POKE]    = PokeBallOpenParticleAnimation,
-    [BALL_GREAT]   = GreatBallOpenParticleAnimation,
-    [BALL_SAFARI]  = SafariBallOpenParticleAnimation,
-    [BALL_ULTRA]   = UltraBallOpenParticleAnimation,
-    [BALL_MASTER]  = MasterBallOpenParticleAnimation,
-    [BALL_NET]     = SafariBallOpenParticleAnimation,
-    [BALL_DIVE]    = DiveBallOpenParticleAnimation,
-    [BALL_NEST]    = UltraBallOpenParticleAnimation,
-    [BALL_REPEAT]  = RepeatBallOpenParticleAnimation,
-    [BALL_TIMER]   = TimerBallOpenParticleAnimation,
-    [BALL_LUXURY]  = GreatBallOpenParticleAnimation,
-    [BALL_PREMIER] = PremierBallOpenParticleAnimation,
->>>>>>> 97d06431103d78022db970aeed70179d63190939:src/battle_anim_throw.c
-=======
->>>>>>> 271219f962413f97a5f3db3d7b1d56d04f505f76
 };
 
 static const struct SpriteTemplate sBallParticleSpriteTemplates[POKEBALL_COUNT] =

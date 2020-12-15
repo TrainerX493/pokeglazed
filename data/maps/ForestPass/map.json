@@ -2,7 +2,7 @@
   "id": "MAP_FOREST_PASS",
   "name": "ForestPass",
   "layout": "LAYOUT_FOREST_PASS",
-  "music": "MUS_AJITO",
+  "music": "MUS_ROUTE101",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
@@ -12,7 +12,18 @@
   "allow_running": true,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": [
+    {
+      "direction": "left",
+      "offset": 0,
+      "map": "MAP_GLENWOOD_TOWN"
+    },
+    {
+      "direction": "right",
+      "offset": -10,
+      "map": "MAP_CHOCCO_TOWN"
+    }
+  ],
   "object_events": [
 
   ],

@@ -57,14 +57,14 @@
   "warp_events": [
     {
       "x": 4,
-      "y": 1,
+      "y": 2,
       "elevation": 0,
       "dest_map": "MAP_GLENWOOD_TOWN",
       "dest_warp_id": 0
     },
     {
       "x": 4,
-      "y": 2,
+      "y": 1,
       "elevation": 0,
       "dest_map": "MAP_NONE",
       "dest_warp_id": 127
@@ -90,7 +90,7 @@
     {
       "type": "trigger",
       "x": 3,
-      "y": 2,
+      "y": 1,
       "elevation": 3,
       "var": "VAR_LITTLEROOT_INTRO_STATE",
       "var_value": "0",

@@ -2,7 +2,7 @@
   "id": "MAP_CHOCCO_TOWN_LAB",
   "name": "ChoccoTown_Lab",
   "layout": "LAYOUT_CHOCCO_TOWN_LAB",
-  "music": "MUS_AJITO",
+  "music": "MUS_VERDANTURF",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",

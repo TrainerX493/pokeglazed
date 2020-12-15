@@ -2,7 +2,7 @@
   "id": "MAP_CHOCCO_TOWN_POKEMON_CENTER",
   "name": "ChoccoTown_PokemonCenter",
   "layout": "LAYOUT_CHOCCO_TOWN_POKEMON_CENTER",
-  "music": "MUS_AJITO",
+  "music": "MUS_POKE_CENTER",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
