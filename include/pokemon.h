@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "constants/region_map_sections.h"
 #include "constants/pokemon_config.h"
+#include "constants/map_groups.h"
 
 struct PokemonSubstruct0
 {
@@ -210,6 +211,7 @@ struct BaseStats
             u8 safariZoneFleeRate;
             u8 bodyColor : 7;
             u8 noFlip : 1;
+ /* 0x1B */ u8 flags;
 };
 
 #include "constants/battle_config.h"

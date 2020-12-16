@@ -123,6 +123,7 @@
 // e.g. If you have both the battle_engine and pokemon_expansion branch,
 //      then both BATTLE_ENGINE and POKEMON_EXPANSION must be defined here.
 #define BATTLE_ENGINE
+#define POKEMON_EXPANSION
 
 #define ROUND_BITS_TO_BYTES(numBits)(((numBits) / 8) + (((numBits) % 8) ? 1 : 0))
 
