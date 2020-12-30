@@ -304,6 +304,7 @@ const u8 gAbilityNames[ABILITIES_COUNT_GEN8][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_RAIN_DISH] = _("Rain Dish"),
     [ABILITY_SAND_STREAM] = _("Sand Stream"),
     [ABILITY_PRESSURE] = _("PRESSURE"),
+<<<<<<< HEAD
     [ABILITY_THICK_FAT] = _("Thick Fat"),
     [ABILITY_EARLY_BIRD] = _("Early Bird"),
     [ABILITY_FLAME_BODY] = _("Flame Body"),
@@ -605,6 +606,7 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT_GEN8] =
     [ABILITY_WHITE_SMOKE] = sWhiteSmokeDescription,
     [ABILITY_PURE_POWER] = sPurePowerDescription,
     [ABILITY_SHELL_ARMOR] = sShellArmorDescription,
+//    [ABILITY_CACOPHONY] = sCacophonyDescription,
     [ABILITY_AIR_LOCK] = sAirLockDescription,
     [ABILITY_TANGLED_FEET] = sTangledFeetDescription,
     [ABILITY_MOTOR_DRIVE] = sMotorDriveDescription,
