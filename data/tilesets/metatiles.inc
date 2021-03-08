@@ -950,3 +950,10 @@ gMetatiles_undersea_grotto::
 	.align 1
 gMetatileAttributes_undersea_grotto::
 	.incbin "data/tilesets/secondary/undersea_grotto/metatile_attributes.bin"
+	.align 1
+gMetatiles_glenwood2::
+	.incbin "data/tilesets/secondary/glenwood2/metatiles.bin"
+
+	.align 1
+gMetatileAttributes_glenwood2::
+	.incbin "data/tilesets/secondary/glenwood2/metatile_attributes.bin"

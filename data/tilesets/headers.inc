@@ -1446,3 +1446,14 @@ gTileset_undersea_grotto::
 	.4byte gMetatiles_undersea_grotto
 	.4byte gMetatileAttributes_undersea_grotto
 	.4byte NULL
+
+	.align 2
+gTileset_glenwood2::
+	.byte TRUE @ is compressed
+	.byte TRUE @ is secondary
+	.2byte 0
+	.4byte gTilesetTiles_glenwood2
+	.4byte gTilesetPalettes_glenwood2
+	.4byte gMetatiles_glenwood2
+	.4byte gMetatileAttributes_glenwood2
+	.4byte NULL
