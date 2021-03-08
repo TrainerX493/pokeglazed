@@ -7,6 +7,8 @@
 #include "constants/pokemon_config.h"
 #include "constants/map_groups.h"
 
+#define GET_BASE_SPECIES_ID(speciesId) (GetFormSpeciesId(speciesId, 0))
+
 struct PokemonSubstruct0
 {
     /*0x00*/ u16 species;
@@ -14,9 +16,8 @@ struct PokemonSubstruct0
     /*0x04*/ u32 experience;
     /*0x08*/ u8 ppBonuses;
     /*0x09*/ u8 friendship;
-    /*0x0A*/ u8 pokeball:5; //31 balls
-             u8 unused0_A:3;
-    /*0x0B*/ u8 unused0_B;
+    /*0x0A*/ u16 pokeball:5; //31 balls
+             u16 filler:11;
 }; /* size = 12 */
 
 struct PokemonSubstruct1
@@ -249,6 +250,15 @@ struct Evolution
     u16 targetSpecies;
 };
 
+#define NUM_UNOWN_FORMS 28
+
+#define GET_UNOWN_LETTER(personality) ((   \
+      (((personality) & 0x03000000) >> 18) \
+    | (((personality) & 0x00030000) >> 12) \
+    | (((personality) & 0x00000300) >> 6)  \
+    | (((personality) & 0x00000003) >> 0)  \
+) % NUM_UNOWN_FORMS)
+
 extern u8 gPlayerPartyCount;
 extern struct Pokemon gPlayerParty[PARTY_SIZE];
 extern u8 gEnemyPartyCount;
@@ -287,10 +297,9 @@ void CreateBattleTowerMon(struct Pokemon *mon, struct BattleTowerPokemon *src);
 void CreateBattleTowerMon2(struct Pokemon *mon, struct BattleTowerPokemon *src, bool8 lvl50);
 void CreateApprenticeMon(struct Pokemon *mon, const struct Apprentice *src, u8 monId);
 void CreateMonWithEVSpreadNatureOTID(struct Pokemon *mon, u16 species, u8 level, u8 nature, u8 fixedIV, u8 evSpread, u32 otId);
-void sub_80686FC(struct Pokemon *mon, struct BattleTowerPokemon *dest);
+void ConvertPokemonToBattleTowerPokemon(struct Pokemon *mon, struct BattleTowerPokemon *dest);
 void CreateObedientMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId);
 bool8 sub_80688F8(u8 caseId, u8 battlerId);
-void SetDeoxysStats(void);
 u16 GetUnionRoomTrainerPic(void);
 u16 GetUnionRoomTrainerClass(void);
 void CreateObedientEnemyMon(void);
@@ -393,7 +402,7 @@ void ClearBattleMonForms(void);
 u16 GetBattleBGM(void);
 void PlayBattleBGM(void);
 void PlayMapChosenOrBattleBGM(u16 songId);
-void sub_806E694(u16 songId);
+void CreateTask_PlayMapChosenOrBattleBGM(u16 songId);
 const u32 *GetMonFrontSpritePal(struct Pokemon *mon);
 const u32 *GetMonSpritePalFromSpeciesAndPersonality(u16 species, u32 otId, u32 personality);
 const struct CompressedSpritePalette *GetMonSpritePalStruct(struct Pokemon *mon);
@@ -428,5 +437,7 @@ bool8 HasTwoFramesAnimation(u16 species);
 struct Unknown_806F160_Struct *sub_806F2AC(u8 id, u8 arg1);
 void sub_806F47C(u8 id);
 u8 *sub_806F4F8(u8 id, u8 arg1);
+u16 GetFormSpeciesId(u16 speciesId, u8 formId);
+u8 GetFormIdFromFormSpeciesId(u16 formSpeciesId);
 
 #endif // GUARD_POKEMON_H

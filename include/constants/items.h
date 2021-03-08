@@ -31,7 +31,11 @@
 #define ITEM_BEAST_BALL 26
 #define ITEM_PREMIER_BALL 27
 
-#define LAST_BALL ITEM_PREMIER_BALL
+// Note: If moving ball IDs around, updating FIRST_BALL/LAST_BALL is not sufficient
+//       Several places expect the ball IDs to be first and contiguous (e.g. gBattlescriptsForBallThrow and MON_DATA_POKEBALL)
+//       If adding new balls, it's easiest to insert them after the last ball and increment the below IDs (and removing ITEM_034 for example)
+#define FIRST_BALL ITEM_MASTER_BALL
+#define LAST_BALL  ITEM_PREMIER_BALL
 
 // Pokemon Items
 #define ITEM_POTION 28
@@ -154,6 +158,9 @@
 #define ITEM_DREAM_MAIL 141
 #define ITEM_FAB_MAIL 142
 #define ITEM_RETRO_MAIL 143
+
+#define FIRST_MAIL_INDEX ITEM_ORANGE_MAIL
+
 // Berries
 #define ITEM_CHERI_BERRY 144
 #define ITEM_CHESTO_BERRY 145
@@ -222,6 +229,10 @@
 #define ITEM_ROWAP_BERRY 208
 #define ITEM_KEE_BERRY 209
 #define ITEM_MARANGA_BERRY 210
+
+#define FIRST_BERRY_INDEX ITEM_CHERI_BERRY
+#define LAST_BERRY_INDEX  ITEM_MARANGA_BERRY
+
 // Battle Held items
 #define ITEM_BRIGHT_POWDER 211
 #define ITEM_WHITE_HERB 212
@@ -656,11 +667,46 @@
 #define ITEM_SHINY_CHARM 566
 #define ITEM_OVAL_CHARM 567
 
-#define ITEMS_COUNT 568
-#define ITEM_FIELD_ARROW ITEMS_COUNT
+// Z Crystals
+#define ITEM_Z_RING                   568
+#define ITEM_NORMALIUM_Z              569
+#define ITEM_FIGHTINIUM_Z             570
+#define ITEM_FLYINIUM_Z               571
+#define ITEM_POISONIUM_Z              572
+#define ITEM_GROUNDIUM_Z              573
+#define ITEM_ROCKIUM_Z                574
+#define ITEM_BUGINIUM_Z               575
+#define ITEM_GHOSTIUM_Z               576
+#define ITEM_STEELIUM_Z               577
+#define ITEM_FIRIUM_Z                 578
+#define ITEM_WATERIUM_Z               579
+#define ITEM_GRASSIUM_Z               580
+#define ITEM_ELECTRIUM_Z              581
+#define ITEM_PSYCHIUM_Z               582
+#define ITEM_ICIUM_Z                  583
+#define ITEM_DRAGONIUM_Z              584
+#define ITEM_DARKINIUM_Z              585
+#define ITEM_FAIRIUM_Z                586
+#define ITEM_ALORAICHIUM_Z            587
+#define ITEM_DECIDIUM_Z               588
+#define ITEM_EEVIUM_Z                 589
+#define ITEM_INCINIUM_Z               590
+#define ITEM_KOMMONIUM_Z              591
+#define ITEM_LUNALIUM_Z               592
+#define ITEM_LYCANIUM_Z               593
+#define ITEM_MARSHADIUM_Z             594
+#define ITEM_MEWNIUM_Z                595
+#define ITEM_MIMIKIUM_Z               596
+#define ITEM_PIKANIUM_Z               597
+#define ITEM_PIKASHUNIUM_Z            598
+#define ITEM_PRIMARIUM_Z              599
+#define ITEM_SNORLIUM_Z               600
+#define ITEM_SOLGANIUM_Z              601
+#define ITEM_TAPUNIUM_Z               602
+#define ITEM_ULTRANECROZIUM_Z         603
 
-#define FIRST_BERRY_INDEX             ITEM_CHERI_BERRY
-#define LAST_BERRY_INDEX              ITEM_MARANGA_BERRY
+#define ITEMS_COUNT 604
+#define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS
 #define FIRST_BERRY_MASTER_BERRY      ITEM_POMEG_BERRY
@@ -697,6 +743,21 @@
 #define OLD_ROD   0
 #define GOOD_ROD  1
 #define SUPER_ROD 2
+
+// Secondary IDs for bikes
+#define MACH_BIKE 0
+#define ACRO_BIKE 1
+
+// Item type IDs (used to determine the exit callback)
+#define ITEM_USE_MAIL        0
+#define ITEM_USE_PARTY_MENU  1
+#define ITEM_USE_FIELD       2
+#define ITEM_USE_PBLOCK_CASE 3
+#define ITEM_USE_BAG_MENU    4 // No exit callback, stays in bag menu
+
+// Item battle usage IDs (only checked to see if nonzero)
+#define ITEM_B_USE_MEDICINE 1
+#define ITEM_B_USE_OTHER    2
 
 // Check if the item is one that can be used on a Pokemon.
 #define ITEM_HAS_EFFECT(item) ((item) >= ITEM_POTION && (item) <= LAST_BERRY_INDEX)

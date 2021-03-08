@@ -36,12 +36,12 @@ const u8 gItemEffect_MaxPotion[7] = {
 
 const u8 gItemEffect_HyperPotion[7] = {
     [4] = ITEM4_HEAL_HP,
-    [6] = 200,
+    [6] = 120,
 };
 
 const u8 gItemEffect_SuperPotion[7] = {
     [4] = ITEM4_HEAL_HP,
-    [6] = 50,
+    [6] = 60,
 };
 
 const u8 gItemEffect_FullHeal[6] = {
@@ -60,17 +60,17 @@ const u8 gItemEffect_MaxRevive[7] = {
 
 const u8 gItemEffect_FreshWater[7] = {
     [4] = ITEM4_HEAL_HP,
-    [6] = 50,
+    [6] = 30,
 };
 
 const u8 gItemEffect_SodaPop[7] = {
     [4] = ITEM4_HEAL_HP,
-    [6] = 60,
+    [6] = 50,
 };
 
 const u8 gItemEffect_Lemonade[7] = {
     [4] = ITEM4_HEAL_HP,
-    [6] = 80,
+    [6] = 70,
 };
 
 const u8 gItemEffect_MoomooMilk[7] = {
@@ -81,7 +81,7 @@ const u8 gItemEffect_MoomooMilk[7] = {
 const u8 gItemEffect_EnergyPowder[10] = {
     [4] = ITEM4_HEAL_HP,
     [5] = ITEM5_FRIENDSHIP_ALL,
-    [6] = 50,
+    [6] = 60,
     [7] = -5,
     [8] = -5,
     [9] = -10,
@@ -90,7 +90,7 @@ const u8 gItemEffect_EnergyPowder[10] = {
 const u8 gItemEffect_EnergyRoot[10] = {
     [4] = ITEM4_HEAL_HP,
     [5] = ITEM5_FRIENDSHIP_ALL,
-    [6] = 200,
+    [6] = 120,
     [7] = -10,
     [8] = -10,
     [9] = -15,
@@ -325,42 +325,64 @@ const u8 gItemEffect_DireHit[8] = {
 };
 
 const u8 gItemEffect_XAttack[8] = {
+#ifdef BATTLE_ENGINE
+    [1] = ITEM1_X_ATTACK,
+#else
     [0] = 1,
+#endif
     [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
     [6] = 1,
     [7] = 1,
 };
 
-const u8 gItemEffect_XDefend[8] = {
+const u8 gItemEffect_XDefense[8] = {
+#ifdef BATTLE_ENGINE
+    [1] = ITEM1_X_DEFENSE,
+#else
     [1] = 1 << 4,
+#endif
     [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
     [6] = 1,
     [7] = 1,
 };
 
 const u8 gItemEffect_XSpeed[8] = {
+#ifdef BATTLE_ENGINE
+    [1] = ITEM1_X_SPEED,
+#else
     [1] = 1,
+#endif
     [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
     [6] = 1,
     [7] = 1,
 };
 
 const u8 gItemEffect_XAccuracy[8] = {
+#ifdef BATTLE_ENGINE
+    [1] = ITEM1_X_ACCURACY,
+#else
     [2] = 1 << 4,
+#endif
     [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
     [6] = 1,
     [7] = 1,
 };
 
 const u8 gItemEffect_XSpecialAttack[8] = {
+#ifdef BATTLE_ENGINE
+    [1] = ITEM1_X_SPATK,
+#else
     [2] = 1,
+#endif
     [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
     [6] = 1,
     [7] = 1,
 };
 
 const u8 gItemEffect_XSpecialDefense[8] = {
-    [2] = 1,
+#ifdef BATTLE_ENGINE
+    [1] = ITEM1_X_SPDEF,
+#endif
     [5] = ITEM5_FRIENDSHIP_LOW | ITEM5_FRIENDSHIP_MID,
     [6] = 1,
     [7] = 1,
@@ -517,7 +539,7 @@ const u8 *const gItemEffectTable[] =
     [ITEM_GUARD_SPEC - ITEM_POTION] = gItemEffect_GuardSpec,
     [ITEM_DIRE_HIT - ITEM_POTION] = gItemEffect_DireHit,
     [ITEM_X_ATTACK - ITEM_POTION] = gItemEffect_XAttack,
-    [ITEM_X_DEFENSE - ITEM_POTION] = gItemEffect_XDefend,
+    [ITEM_X_DEFENSE - ITEM_POTION] = gItemEffect_XDefense,
     [ITEM_X_SPEED - ITEM_POTION] = gItemEffect_XSpeed,
     [ITEM_X_ACCURACY - ITEM_POTION] = gItemEffect_XAccuracy,
     [ITEM_X_SP_ATK - ITEM_POTION] = gItemEffect_XSpecialAttack,

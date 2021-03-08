@@ -147,7 +147,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_SEAKING] = gMonIcon_Seaking,
     [SPECIES_STARYU] = gMonIcon_Staryu,
     [SPECIES_STARMIE] = gMonIcon_Starmie,
-    [SPECIES_MR_MIME] = gMonIcon_Mrmime,
+    [SPECIES_MR_MIME] = gMonIcon_MrMime,
     [SPECIES_SCYTHER] = gMonIcon_Scyther,
     [SPECIES_JYNX] = gMonIcon_Jynx,
     [SPECIES_ELECTABUZZ] = gMonIcon_Electabuzz,
@@ -464,7 +464,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_BRONZOR] = gMonIcon_Bronzor,
     [SPECIES_BRONZONG] = gMonIcon_Bronzong,
     [SPECIES_BONSLY] = gMonIcon_Bonsly,
-    [SPECIES_MIMEJR] = gMonIcon_Mimejr,
+    [SPECIES_MIME_JR] = gMonIcon_MimeJr,
     [SPECIES_HAPPINY] = gMonIcon_Happiny,
     [SPECIES_CHATOT] = gMonIcon_Chatot,
     [SPECIES_SPIRITOMB] = gMonIcon_Spiritomb,
@@ -797,7 +797,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_SANDYGAST] = gMonIcon_Sandygast,
     [SPECIES_PALOSSAND] = gMonIcon_Palossand,
     [SPECIES_PYUKUMUKU] = gMonIcon_Pyukumuku,
-    [SPECIES_TYPE_NULL] = gMonIcon_Type_null,
+    [SPECIES_TYPE_NULL] = gMonIcon_TypeNull,
     [SPECIES_SILVALLY] = gMonIcon_Silvally,
     [SPECIES_MINIOR] = gMonIcon_Minior,
     [SPECIES_KOMALA] = gMonIcon_Komala,
@@ -807,13 +807,13 @@ const u8 *const gMonIconTable[] =
     [SPECIES_BRUXISH] = gMonIcon_Bruxish,
     [SPECIES_DRAMPA] = gMonIcon_Drampa,
     [SPECIES_DHELMISE] = gMonIcon_Dhelmise,
-    [SPECIES_JANGMO_O] = gMonIcon_Jangmo_o,
-    [SPECIES_HAKAMO_O] = gMonIcon_Hakamo_o,
-    [SPECIES_KOMMO_O] = gMonIcon_Kommo_o,
-    [SPECIES_TAPU_KOKO] = gMonIcon_Tapu_koko,
-    [SPECIES_TAPU_LELE] = gMonIcon_Tapu_lele,
-    [SPECIES_TAPU_BULU] = gMonIcon_Tapu_bulu,
-    [SPECIES_TAPU_FINI] = gMonIcon_Tapu_fini,
+    [SPECIES_JANGMO_O] = gMonIcon_Jangmoo,
+    [SPECIES_HAKAMO_O] = gMonIcon_Hakamoo,
+    [SPECIES_KOMMO_O] = gMonIcon_Kommoo,
+    [SPECIES_TAPU_KOKO] = gMonIcon_TapuKoko,
+    [SPECIES_TAPU_LELE] = gMonIcon_TapuLele,
+    [SPECIES_TAPU_BULU] = gMonIcon_TapuBulu,
+    [SPECIES_TAPU_FINI] = gMonIcon_TapuFini,
     [SPECIES_COSMOG] = gMonIcon_Cosmog,
     [SPECIES_COSMOEM] = gMonIcon_Cosmoem,
     [SPECIES_SOLGALEO] = gMonIcon_Solgaleo,
@@ -1168,7 +1168,7 @@ const u8 *const gMonIconTable[] =
     [SPECIES_ZYGARDE_COMPLETE] = gMonIcon_ZygardeComplete,
     [SPECIES_HOOPA_UNBOUND] = gMonIcon_HoopaUnbound,
     [SPECIES_ORICORIO_POM_POM] = gMonIcon_OricorioPomPom,
-    [SPECIES_ORICORIO_PA_U] = gMonIcon_OricorioPau,
+    [SPECIES_ORICORIO_PAU] = gMonIcon_OricorioPau,
     [SPECIES_ORICORIO_SENSU] = gMonIcon_OricorioSensu,
     [SPECIES_ROCKRUFF_OWN_TEMPO] = gMonIcon_Rockruff,
     [SPECIES_LYCANROC_MIDNIGHT] = gMonIcon_LycanrocMidnight,
@@ -1680,7 +1680,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_BRONZOR] = 0,
     [SPECIES_BRONZONG] = 0,
     [SPECIES_BONSLY] = 1,
-    [SPECIES_MIMEJR] = 0,
+    [SPECIES_MIME_JR] = 0,
     [SPECIES_HAPPINY] = 0,
     [SPECIES_CHATOT] = 0,
     [SPECIES_SPIRITOMB] = 5,
@@ -2355,7 +2355,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_ZYGARDE_COMPLETE] = 1,
     [SPECIES_HOOPA_UNBOUND] = 0,
     [SPECIES_ORICORIO_POM_POM] = 1,
-    [SPECIES_ORICORIO_PA_U] = 1,
+    [SPECIES_ORICORIO_PAU] = 1,
     [SPECIES_ORICORIO_SENSU] = 0,
     [SPECIES_ROCKRUFF_OWN_TEMPO] = 2,
     [SPECIES_LYCANROC_MIDNIGHT] = 0,
@@ -2534,13 +2534,13 @@ const u16 sSpriteImageSizes[3][4] =
     },
 };
 
-u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality, bool32 handleDeoxys)
+u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality)
 {
     u8 spriteId;
     struct MonIconSpriteTemplate iconTemplate =
     {
         .oam = &sMonIconOamData,
-        .image = GetMonIconPtr(species, personality, handleDeoxys),
+        .image = GetMonIconPtr(species, personality),
         .anims = sMonIconAnims,
         .affineAnims = sMonIconAffineAnims,
         .callback = callback,
@@ -2559,7 +2559,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
     return spriteId;
 }
 
-u8 sub_80D2D78(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 extra)
+u8 sub_80D2D78(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority)
 {
     u8 spriteId;
     struct MonIconSpriteTemplate iconTemplate =
@@ -2572,7 +2572,7 @@ u8 sub_80D2D78(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 
         .paletteTag = POKE_ICON_BASE_PAL_TAG + gMonIconPaletteIndices[species],
     };
 
-    iconTemplate.image = GetMonIconTiles(species, extra, 0);
+    iconTemplate.image = GetMonIconTiles(species, 0);
     spriteId = CreateMonIconSprite(&iconTemplate, x, y, subpriority);
 
     UpdateMonIconFrame(&gSprites[spriteId]);
@@ -2604,7 +2604,7 @@ u16 GetUnownLetterByPersonality(u32 personality)
     if (!personality)
         return 0;
     else
-        return (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 0x3)) % 0x1C;
+        return GET_UNOWN_LETTER(personality);
 }
 
 u16 sub_80D2E84(u16 species)
@@ -2625,9 +2625,9 @@ u16 sub_80D2E84(u16 species)
     }
 }
 
-const u8 *GetMonIconPtr(u16 species, u32 personality, bool32 handleDeoxys)
+const u8 *GetMonIconPtr(u16 species, u32 personality)
 {
-    return GetMonIconTiles(GetIconSpecies(species, personality), handleDeoxys, personality);
+    return GetMonIconTiles(GetIconSpecies(species, personality), personality);
 }
 
 void FreeAndDestroyMonIconSprite(struct Sprite *sprite)
@@ -2689,14 +2689,10 @@ void SpriteCB_MonIcon(struct Sprite *sprite)
     UpdateMonIconFrame(sprite);
 }
 
-const u8* GetMonIconTiles(u16 species, bool32 handleDeoxys, u32 personality)
+const u8* GetMonIconTiles(u16 species, u32 personality)
 {
     const u8* iconSprite = gMonIconTable[species];
-    if (species == SPECIES_DEOXYS && handleDeoxys == TRUE)
-    {
-        iconSprite = (const u8*)(0x400 + (u32)iconSprite); // use the specific Deoxys form icon (Speed in this case)
-    }
-    else if (SpeciesHasGenderDifference[species] && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)
+    if (SpeciesHasGenderDifference[species] && GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)
     {
         iconSprite = gMonIconTableFemale[species];
     }
