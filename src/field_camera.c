@@ -222,7 +222,7 @@ void DrawDoorMetatileAt(int x, int y, u16 *arr)
 
     if (offset >= 0)
     {
-        DrawMetatile(1, arr, offset);
+        DrawMetatile(0xFF, arr, offset);
         sFieldCameraOffset.copyBGToVRAM = TRUE;
     }
 }
@@ -241,7 +241,7 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
         metatiles = mapLayout->secondaryTileset->metatiles;
         metatileId -= NUM_METATILES_IN_PRIMARY;
     }
-    DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * 8, offset);
+    DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * 12, offset);
 }
 
 static void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
