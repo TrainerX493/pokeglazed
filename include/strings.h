@@ -2992,5 +2992,7 @@ extern const u8 gText_234Players[];
 extern const u8 gText_TMCase[];
 extern const u8 gText_Close[];
 extern const u8 gText_TMCaseWillBePutAway[];
+extern const u8 gText_FontSize0[];
+extern const u8 gText_FontSize2[];
 
 #endif // GUARD_STRINGS_H

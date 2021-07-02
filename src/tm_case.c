@@ -1,4 +1,5 @@
 #include "global.h"
+#include "malloc.h"
 #include "decompress.h"
 #include "graphics.h"
 #include "task.h"
@@ -11,15 +12,18 @@
 #include "link.h"
 #include "money.h"
 #include "shop.h"
+#include "palette.h"
 #include "pokemon_storage_system.h"
 #include "party_menu.h"
 #include "data.h"
 #include "scanline_effect.h"
+#include "shop.c"
 #include "string_util.h"
 #include "strings.h"
 #include "text.h"
 #include "constants/items.h"
 #include "constants/songs.h"
+#include "constants/rgb.h"
 
 #define TM_CASE_TM_TAG 400
 
@@ -92,16 +96,16 @@ static void Subtask_CloseContextMenuAndReturnToMain(u8 taskId);
 static void TMHMContextMenuAction_Exit(u8 taskId);
 static void Task_SelectTMAction_Type1(u8 taskId);
 static void Task_SelectTMAction_Type3(u8 taskId);
-static void Task_SelectTMAction_FromSellMenu(u8 taskId);
-static void Task_AskConfirmSaleWithAmount(u8 taskId);
-static void Task_PlaceYesNoBox(u8 taskId);
-static void Task_SaleOfTMsCanceled(u8 taskId);
-static void Task_InitQuantitySelectUI(u8 taskId);
-static void SellTM_PrintQuantityAndSalePrice(s16 quantity, s32 value);
-static void Task_QuantitySelect_HandleInput(u8 taskId);
-static void Task_PrintSaleConfirmedText(u8 taskId);
-static void Task_DoSaleOfTMs(u8 taskId);
-static void Task_AfterSale_ReturnToList(u8 taskId);
+// static void Task_SelectTMAction_FromSellMenu(u8 taskId);
+// static void Task_AskConfirmSaleWithAmount(u8 taskId);
+// static void Task_PlaceYesNoBox(u8 taskId);
+// static void Task_SaleOfTMsCanceled(u8 taskId);
+// static void Task_InitQuantitySelectUI(u8 taskId);
+// static void SellTM_PrintQuantityAndSalePrice(s16 quantity, s32 value);
+// static void Task_QuantitySelect_HandleInput(u8 taskId);
+// static void Task_PrintSaleConfirmedText(u8 taskId);
+// static void Task_DoSaleOfTMs(u8 taskId);
+// static void Task_AfterSale_ReturnToList(u8 taskId);
 static void InitWindowTemplatesAndPals(void);
 static void AddTextPrinterParameterized_ColorByIndex(u8 windowId, u8 fontId, const u8 * str, u8 x, u8 y, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorIdx);
 static void TMCase_SetWindowBorder1(u8 windowId);
@@ -154,24 +158,25 @@ static const struct BgTemplate sBGTemplates[] = {
 static void (*const sSelectTMActionTasks[])(u8 taskId) = {
     Task_SelectTMAction_FromFieldBag,
     Task_SelectTMAction_Type1,
-    Task_SelectTMAction_FromSellMenu,
+    //Task_SelectTMAction_FromSellMenu,
     Task_SelectTMAction_Type3
 };
 
 static const struct MenuAction sMenuActions_UseGiveExit[] = {
-    {gOtherText_Use,  TMHMContextMenuAction_Use },
-    {gOtherText_Give, TMHMContextMenuAction_Give},
-    {gOtherText_Exit, TMHMContextMenuAction_Exit},
+    {gMenuText_Use,  TMHMContextMenuAction_Use },
+    {gMenuText_Give, TMHMContextMenuAction_Give},
+    {gText_Exit, TMHMContextMenuAction_Exit},
 };
 
 static const u8 sMenuActionIndices_Field[] = {0, 1, 2};
 static const u8 sMenuActionIndices_UnionRoom[] = {1, 2};
-static const struct YesNoFuncTable sYesNoFuncTable = {Task_PrintSaleConfirmedText, Task_SaleOfTMsCanceled};
+// static const struct YesNoFuncTable sYesNoFuncTable = {Task_PrintSaleConfirmedText, Task_SaleOfTMsCanceled};
 
 static const u8 sText_ClearTo18[] = _("{CLEAR_TO 18}");
 static const u8 sText_SingleSpace[] = _(" ");
 
 const u8 gItemDescription_ITEM_TM_CASE[] = _("A case that holds TMs and HMs.\nIt is attached to the BAG's\ncompartment for important items.");
+//const u16 gTMCaseMainWindowPalette[] = INCBIN_U16("graphics/tm_case/unk_841F408.gbapal");
 
 static ALIGNED(4) const u16 sPal3Override[] = {RGB(8, 8, 8), RGB(30, 16, 6)};
 
@@ -349,7 +354,7 @@ static bool8 DoSetUpTMCaseUI(void)
             gMain.state++;
         break;
     case 9:
-        SortPocketAndPlaceHMsFirst(&gBagPockets[POCKET_TM_HM - 1]);
+        UpdatePocketItemList(TMHM_POCKET);
         gMain.state++;
         break;
     case 10:
@@ -413,7 +418,8 @@ static void ResetBufferPointers_NoFree(void)
 static void LoadBGTemplates(void)
 {
     void ** ptr;
-    ResetAllBgsCoordinatesAndBgCntRegs();
+    ResetVramOamAndBgCntRegs();
+    ResetAllBgsCoordinates();
     ptr = &sTilemapBuffer;
     *ptr = AllocZeroed(0x800);
     ResetBgsAndClearDma3BusyFlags(0);
@@ -483,11 +489,11 @@ static void InitTMCaseListMenuItems(void)
     for (i = 0; i < sTMCaseDynamicResources->numTMs; i++)
     {
         GetTMNumberAndMoveString(sListMenuStringsBuffer[i], pocket->itemSlots[i].itemId);
-        sListMenuItemsBuffer[i].label = sListMenuStringsBuffer[i];
-        sListMenuItemsBuffer[i].index = i;
+        sListMenuItemsBuffer[i].name = sListMenuStringsBuffer[i];
+        sListMenuItemsBuffer[i].id = i;
     }
-    sListMenuItemsBuffer[i].label = gText_Close;
-    sListMenuItemsBuffer[i].index = -2;
+    sListMenuItemsBuffer[i].name = gText_Close;
+    sListMenuItemsBuffer[i].id = -2;
     gMultiuseListMenuTemplate.items = sListMenuItemsBuffer;
     gMultiuseListMenuTemplate.totalItems = sTMCaseDynamicResources->numTMs + 1;
     gMultiuseListMenuTemplate.windowId = 0;
@@ -514,13 +520,13 @@ static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
     if (itemId >= ITEM_HM01)
     {
         StringAppend(gStringVar4, sText_ClearTo18);
-        StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+        StringAppend(gStringVar4, gText_NumberClear01);
         ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_HM01 + 1, STR_CONV_MODE_LEADING_ZEROS, 1);
         StringAppend(gStringVar4, gStringVar1);
     }
     else
     {
-        StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+        StringAppend(gStringVar4, gText_NumberClear01);
         ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_TM01 + 1, STR_CONV_MODE_LEADING_ZEROS, 2);
         StringAppend(gStringVar4, gStringVar1);
     }
@@ -552,10 +558,10 @@ static void TMCase_ItemPrintFunc(u8 windowId, s32 itemId, u8 y)
 {
     if (itemId != -2)
     {
-        if (!itemid_is_unique(BagGetItemIdByPocketPosition(POCKET_TM_HM, itemId)))
+        if (!ItemId_GetImportance(BagGetItemIdByPocketPosition(POCKET_TM_HM, itemId)))
         {
             ConvertIntToDecimalStringN(gStringVar1, BagGetQuantityByPocketPosition(POCKET_TM_HM, itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
-            StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
+            StringExpandPlaceholders(gStringVar4, gText_xVar1);
             AddTextPrinterParameterized_ColorByIndex(windowId, 0, gStringVar4, 0x7E, y, 0, 0, 0xFF, 1);
         }
         else
@@ -596,7 +602,7 @@ static void PrintListMenuCursorAt_WithColorIdx(u8 a0, u8 a1)
     if (a1 == 0xFF)
     {
         FillWindowPixelRect(0, 0, 0, a0, GetFontAttribute(2, 0), GetFontAttribute(2, 1));
-        CopyWindowToVram(0, COPYWIN_GFX);
+        CopyWindowToVram(0, 2);
     }
     else
     {
@@ -635,7 +641,8 @@ static void TMCaseSetup_GetTMCount(void)
     struct BagPocket * pocket = &gBagPockets[POCKET_TM_HM - 1];
     u16 i;
 
-    BagPocketCompaction(pocket->itemSlots, pocket->capacity);
+    // BagPocketCompaction(pocket->itemSlots, pocket->capacity);
+    UpdatePocketItemList(TMHM_POCKET);
     sTMCaseDynamicResources->numTMs = 0;
     for (i = 0; i < pocket->capacity; i++)
     {
@@ -782,16 +789,16 @@ static void Task_SelectTMAction_FromFieldBag(u8 taskId)
         sTMCaseDynamicResources->numMenuActions = NELEMS(sMenuActionIndices_UnionRoom);
     }
     AddItemMenuActionTextPrinters(sTMCaseDynamicResources->contextMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 0, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, sMenuActions_UseGiveExit, sTMCaseDynamicResources->menuActionIndices);
-    Menu_InitCursor(sTMCaseDynamicResources->contextMenuWindowId, 2, 0, 2, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, 0);
+    // Menu_InitCursor(sTMCaseDynamicResources->contextMenuWindowId, 2, 0, 2, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, 0);
     strbuf = Alloc(256);
     GetTMNumberAndMoveString(strbuf, gSpecialVar_ItemId);
     StringAppend(strbuf, gText_Var1IsSelected + 2); // +2 skips over the stringvar
     AddTextPrinterParameterized_ColorByIndex(2, 2, strbuf, 0, 2, 1, 0, 0, 1);
     Free(strbuf);
-    if (itemid_is_unique(gSpecialVar_ItemId))
+    if (ItemId_GetImportance(gSpecialVar_ItemId))
     {
         PlaceHMTileInWindow(2, 0, 2);
-        CopyWindowToVram(2, COPYWIN_GFX);
+        CopyWindowToVram(2, 2);
     }
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
@@ -804,7 +811,8 @@ static void Task_TMContextMenu_HandleInput(u8 taskId)
 
     if (MenuHelpers_CallLinkSomething() != TRUE)
     {
-        input = Menu_ProcessInputNoWrapAround();
+        input = Menu_ProcessInput();
+        // Menu_MoveCursorNoWrapAround(sMenu.cursorPos);
         switch (input)
         {
         case -1:
@@ -853,7 +861,7 @@ static void TMHMContextMenuAction_Give(u8 taskId)
     PutWindowTilemap(5);
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
-    if (!itemid_is_unique(itemId))
+    if (!ItemId_GetImportance(itemId))
     {
         if (CalculatePlayerPartyCount() == 0)
         {
@@ -879,7 +887,7 @@ static void PrintError_ThereIsNoPokemon(u8 taskId)
 static void PrintError_ItemCantBeHeld(u8 taskId)
 {
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeld);
+    StringExpandPlaceholders(gStringVar4, gText_Var1CantBeHeld);
     TMCase_PrintMessageWithFollowupTask(taskId, 2, gStringVar4, Task_WaitButtonAfterErrorPrint);
 }
 
@@ -930,22 +938,23 @@ static void Task_SelectTMAction_Type1(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
 
-    if (!itemid_is_unique(BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1])))
-    {
-        sTMCaseDynamicResources->savedCallback = CB2_GiveHoldItem;
-        Task_BeginFadeOutFromTMCase(taskId);
-    }
-    else
-    {
-        PrintError_ItemCantBeHeld(taskId);
-    }
+    // if (!ItemId_GetImportance(BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1])))
+    // {
+    //     sTMCaseDynamicResources->savedCallback = CB2_GiveHoldItem;
+    //     Task_BeginFadeOutFromTMCase(taskId);
+    // }
+    // else
+    // {
+    //     PrintError_ItemCantBeHeld(taskId);
+    // }
+    PrintError_ItemCantBeHeld(taskId);
 }
 
 static void Task_SelectTMAction_Type3(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
 
-    if (!itemid_is_unique(BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1])))
+    if (!ItemId_GetImportance(BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1])))
     {
         sTMCaseDynamicResources->savedCallback = Cb2_ReturnToPSS;
         Task_BeginFadeOutFromTMCase(taskId);
@@ -956,6 +965,7 @@ static void Task_SelectTMAction_Type3(u8 taskId)
     }
 }
 
+/*
 static void Task_SelectTMAction_FromSellMenu(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
@@ -990,7 +1000,7 @@ static void Task_AskConfirmSaleWithAmount(u8 taskId)
     s16 * data = gTasks[taskId].data;
 
     ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    StringExpandPlaceholders(gStringVar4, gText_ICanPayVar1);
     TMCase_PrintMessageWithFollowupTask(taskId, GetDialogBoxFontId(), gStringVar4, Task_PlaceYesNoBox);
 }
 
@@ -1036,7 +1046,7 @@ static void SellTM_PrintQuantityAndSalePrice(s16 quantity, s32 amount)
 {
     FillWindowPixelBuffer(7, 0x11);
     ConvertIntToDecimalStringN(gStringVar1, quantity, STR_CONV_MODE_LEADING_ZEROS, 2);
-    StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
+    StringExpandPlaceholders(gStringVar4, gText_xVar1);
     AddTextPrinterParameterized_ColorByIndex(7, 0, gStringVar4, 4, 10, 1, 0, 0, 1);
     PrintMoneyAmount(7, 0x38, 0x0A, amount, 0);
 }
@@ -1119,6 +1129,7 @@ static void Task_AfterSale_ReturnToList(u8 taskId)
         Subtask_CloseContextMenuAndReturnToMain(taskId);
     }
 }
+*/
 
 static void InitWindowTemplatesAndPals(void)
 {
@@ -1126,9 +1137,8 @@ static void InitWindowTemplatesAndPals(void)
 
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
-    TextWindow_SetUserSelectedFrame(0, 0x5B, 0xE0);
-    TextWindow_LoadResourcesStdFrame0(0, 0x64, 0xB0);
-    TextWindow_SetStdFrame0_WithPal(0, 0x78, 0xD0);
+    LoadMessageBoxGfx(0, 0x64, 0xB0);
+    LoadUserWindowBorderGfx(0, 0x78, 0xD0);
     LoadPalette(gTMCaseMainWindowPalette, 0xF0, 0x20);
     LoadPalette(gTMCaseMainWindowPalette, 0xA0, 0x20);
     LoadPalette(sPal3Override, 0xF6, 0x04);
@@ -1161,7 +1171,7 @@ static void TMCase_SetWindowBorder2(u8 windowId)
 
 static void TMCase_PrintMessageWithFollowupTask(u8 taskId, u8 windowId, const u8 * str, TaskFunc func)
 {
-    DisplayMessageAndContinueTask(taskId, 6, 0x64, 0x0B, windowId, GetTextSpeedSetting(), str, func);
+    DisplayMessageAndContinueTask(taskId, 6, 0x64, 0x0B, windowId, GetPlayerTextSpeedDelay(), str, func);
     ScheduleBgCopyTilemapToVram(1);
 }
 
@@ -1173,11 +1183,11 @@ static void PrintStringTMCaseOnWindow3(void)
 
 static void DrawMoveInfoUIMarkers(void)
 {
-    BlitMoveInfoIcon(4, 19, 0, 0);
-    BlitMoveInfoIcon(4, 20, 0, 12);
-    BlitMoveInfoIcon(4, 21, 0, 24);
-    BlitMoveInfoIcon(4, 22, 0, 36);
-    CopyWindowToVram(4, COPYWIN_GFX);
+    blit_move_info_icon(4, 19, 0, 0);
+    blit_move_info_icon(4, 20, 0, 12);
+    blit_move_info_icon(4, 21, 0, 24);
+    blit_move_info_icon(4, 22, 0, 36);
+    CopyWindowToVram(4, 2);
 }
 
 static void TMCase_MoveCursor_UpdatePrintedTMInfo(u16 itemId)
@@ -1193,12 +1203,12 @@ static void TMCase_MoveCursor_UpdatePrintedTMInfo(u16 itemId)
         {
             AddTextPrinterParameterized_ColorByIndex(5, 3, gText_ThreeDashes, 7, 12 * i, 0, 0, 0xFF, 3);
         }
-        CopyWindowToVram(5, COPYWIN_GFX);
+        CopyWindowToVram(5, 2);
     }
     else
     {
         move = ItemIdToBattleMoveId(itemId);
-        BlitMoveInfoIcon(5, gBattleMoves[move].type + 1, 0, 0);
+        blit_move_info_icon(5, gBattleMoves[move].type + 1, 0, 0);
         if (gBattleMoves[move].power < 2)
             str = gText_ThreeDashes;
         else
@@ -1217,7 +1227,7 @@ static void TMCase_MoveCursor_UpdatePrintedTMInfo(u16 itemId)
         AddTextPrinterParameterized_ColorByIndex(5, 3, str, 7, 24, 0, 0, 0xFF, 3);
         ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].pp, STR_CONV_MODE_RIGHT_ALIGN, 3);
         AddTextPrinterParameterized_ColorByIndex(5, 3, gStringVar1, 7, 36, 0, 0, 0xFF, 3);
-        CopyWindowToVram(5, COPYWIN_GFX);
+        CopyWindowToVram(5, 2);
     }
 }
 

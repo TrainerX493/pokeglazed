@@ -1822,4 +1822,6 @@ const u8 gText_Berries[] = _("BERRIES");
 const u8 gText_TMCase[] = _("TM CASE");
 const u8 gText_Close[] = _("CLOSE");
 const u8 gText_TMCaseWillBePutAway[] = _("The TM CASE will be\nput away.");
+const u8 gText_FontSize0[] = _("{SIZE 0}");
+const u8 gText_FontSize2[] = _("{SIZE 2}");
 

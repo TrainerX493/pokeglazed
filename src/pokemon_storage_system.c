@@ -2174,7 +2174,7 @@ static void Cb2_EnterPSS(u8 boxOption)
     }
 }
 
-static void Cb2_ReturnToPSS(void)
+void Cb2_ReturnToPSS(void)
 {
     ResetTasks();
     sPSSData = Alloc(sizeof(struct PokemonStorageSystemData));
