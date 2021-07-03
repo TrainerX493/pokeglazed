@@ -112,6 +112,7 @@ static void InitWindowTemplatesAndPals(void);
 static void AddTextPrinterParameterized_ColorByIndex(u8 windowId, u8 fontId, const u8 * str, u8 x, u8 y, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorIdx);
 static void TMCase_SetWindowBorder1(u8 windowId);
 static void TMCase_SetWindowBorder2(u8 windowId);
+static void TMCase_SetWindowBorder3(u8 windowId);
 static void TMCase_PrintMessageWithFollowupTask(u8 taskId, u8 windowId, const u8 * str, TaskFunc func);
 static void PrintStringTMCaseOnWindow3(void);
 static void DrawMoveInfoUIMarkers(void);
@@ -181,11 +182,12 @@ const u8 gItemDescription_ITEM_TM_CASE[] = _("A case that holds TMs and HMs.\nIt
 
 static ALIGNED(4) const u16 sPal3Override[] = {RGB(8, 8, 8), RGB(30, 16, 6)};
 
-static const u8 sTextColors[][3] = {
+static const u8 sTMCaseTextColors[][3] = {
     {0, 1, 2},
     {0, 2, 3},
     {0, 3, 6},
-    {0, 14, 10}
+    {0, 14, 10},
+    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY},
 };
 
 static const struct WindowTemplate sWindowTemplates[] = {
@@ -776,8 +778,8 @@ static void Subtask_ReturnToTMCaseMain(u8 taskId)
 static void Task_SelectTMAction_FromFieldBag(u8 taskId)
 {
     u8 * strbuf;
-    TMCase_SetWindowBorder2(2);
-    if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE)
+    // contex menu
+    if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE) // menu code
     {
         AddTMContextMenu(&sTMCaseDynamicResources->contextMenuWindowId, 1);
         sTMCaseDynamicResources->menuActionIndices = sMenuActionIndices_Field;
@@ -789,18 +791,26 @@ static void Task_SelectTMAction_FromFieldBag(u8 taskId)
         sTMCaseDynamicResources->menuActionIndices = sMenuActionIndices_UnionRoom;
         sTMCaseDynamicResources->numMenuActions = NELEMS(sMenuActionIndices_UnionRoom);
     }
+    // context menu text
     AddItemMenuActionTextPrinters(sTMCaseDynamicResources->contextMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 0, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, sMenuActions_UseGiveExit, sTMCaseDynamicResources->menuActionIndices);
-    // Menu_InitCursor(sTMCaseDynamicResources->contextMenuWindowId, 2, 0, 2, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, 0);
+    // context menu cursor
+    InitMenuInUpperLeftCornerPlaySoundWhenAPressed(sTMCaseDynamicResources->contextMenuWindowId, sTMCaseDynamicResources->numMenuActions, 0);
+    
+    //"Move xyz is selected" text and window (no shoing the right palette)
+    TMCase_SetWindowBorder3(2); // context window border style
     strbuf = Alloc(256);
     GetTMNumberAndMoveString(strbuf, gSpecialVar_ItemId);
     StringAppend(strbuf, gText_Var1IsSelected + 2); // +2 skips over the stringvar
-    AddTextPrinterParameterized_ColorByIndex(2, 2, strbuf, 0, 2, 1, 0, 0, 1);
+    AddTextPrinterParameterized_ColorByIndex(2, 2, strbuf, 0, 2, 1, 0, 0, 4);
     Free(strbuf);
+
+    //show HM icon
     if (ItemId_GetImportance(gSpecialVar_ItemId))
     {
         PlaceHMTileInWindow(2, 0, 2);
         CopyWindowToVram(2, 2);
     }
+
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     gTasks[taskId].func = Task_TMContextMenu_HandleInput;
@@ -812,15 +822,14 @@ static void Task_TMContextMenu_HandleInput(u8 taskId)
 
     if (MenuHelpers_CallLinkSomething() != TRUE)
     {
-        input = Menu_ProcessInput();
-        // Menu_MoveCursorNoWrapAround(sMenu.cursorPos);
+        input = Menu_ProcessInputNoWrap();
         switch (input)
         {
-        case -1:
+        case MENU_B_PRESSED:
             PlaySE(SE_SELECT);
             sMenuActions_UseGiveExit[sTMCaseDynamicResources->menuActionIndices[sTMCaseDynamicResources->numMenuActions - 1]].func.void_u8(taskId);
             break;
-        case -2:
+        case MENU_NOTHING_CHOSEN:
             break;
         default:
             PlaySE(SE_SELECT);
@@ -1157,7 +1166,7 @@ static void InitWindowTemplatesAndPals(void)
 
 static void AddTextPrinterParameterized_ColorByIndex(u8 windowId, u8 fontId, const u8 * str, u8 x, u8 y, u8 letterSpacing, u8 lineSpacing, u8 speed, u8 colorIdx)
 {
-    AddTextPrinterParameterized4(windowId, fontId, x, y, letterSpacing, lineSpacing, sTextColors[colorIdx], speed, str);
+    AddTextPrinterParameterized4(windowId, fontId, x, y, letterSpacing, lineSpacing, sTMCaseTextColors[colorIdx], speed, str);
 }
 
 static void TMCase_SetWindowBorder1(u8 windowId)
@@ -1166,6 +1175,11 @@ static void TMCase_SetWindowBorder1(u8 windowId)
 }
 
 static void TMCase_SetWindowBorder2(u8 windowId)
+{
+    DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x78, 0x0D);
+}
+
+static void TMCase_SetWindowBorder3(u8 windowId)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x78, 0x0D);
 }
@@ -1179,7 +1193,7 @@ static void TMCase_PrintMessageWithFollowupTask(u8 taskId, u8 windowId, const u8
 static void PrintStringTMCaseOnWindow3(void)
 {
     u32 distance = 72 - GetStringWidth(1, gText_TMCase, 0);
-    AddTextPrinterParameterized3(3, 1, distance / 2, 1, sTextColors[0], 0, gText_TMCase);
+    AddTextPrinterParameterized3(3, 1, distance / 2, 1, sTMCaseTextColors[0], 0, gText_TMCase);
 }
 
 static void DrawMoveInfoUIMarkers(void)
