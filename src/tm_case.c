@@ -166,12 +166,11 @@ static void (*const sSelectTMActionTasks[])(u8 taskId) = {
 
 static const struct MenuAction sMenuActions_UseGiveExit[] = {
     {gMenuText_Use,  TMHMContextMenuAction_Use },
-    {gMenuText_Give, TMHMContextMenuAction_Give},
     {gText_Exit, TMHMContextMenuAction_Exit},
 };
 
-static const u8 sMenuActionIndices_Field[] = {0, 1, 2};
-static const u8 sMenuActionIndices_UnionRoom[] = {1, 2};
+static const u8 sMenuActionIndices_Field[] = {0, 1};
+static const u8 sMenuActionIndices_UnionRoom[] = {0, 1};
 // static const struct YesNoFuncTable sYesNoFuncTable = {Task_PrintSaleConfirmedText, Task_SaleOfTMsCanceled};
 
 static const u8 sText_ClearTo18[] = _("{CLEAR_TO 18}");
@@ -780,7 +779,7 @@ static void Task_SelectTMAction_FromFieldBag(u8 taskId)
     TMCase_SetWindowBorder2(2);
     if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE)
     {
-        AddTMContextMenu(&sTMCaseDynamicResources->contextMenuWindowId, 0);
+        AddTMContextMenu(&sTMCaseDynamicResources->contextMenuWindowId, 1);
         sTMCaseDynamicResources->menuActionIndices = sMenuActionIndices_Field;
         sTMCaseDynamicResources->numMenuActions = NELEMS(sMenuActionIndices_Field);
     }
