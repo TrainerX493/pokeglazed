@@ -1253,7 +1253,7 @@ static u8 AddTMContextMenu(u8 * a0, u8 a1)
     if (*a0 == 0xFF)
     {
         *a0 = AddWindow(&sTMContextWindowTemplates[a1]);
-        TMCase_SetWindowBorder1(*a0);
+        TMCase_SetWindowBorder2(*a0);
         ScheduleBgCopyTilemapToVram(0);
     }
     return *a0;
