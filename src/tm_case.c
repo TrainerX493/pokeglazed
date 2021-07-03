@@ -167,7 +167,7 @@ static void (*const sSelectTMActionTasks[])(u8 taskId) = {
 
 static const struct MenuAction sMenuActions_UseGiveExit[] = {
     {gMenuText_Use,  TMHMContextMenuAction_Use },
-    {gText_Exit, TMHMContextMenuAction_Exit},
+    {gText_Cancel, TMHMContextMenuAction_Exit},
 };
 
 static const u8 sMenuActionIndices_Field[] = {0, 1};
@@ -854,7 +854,7 @@ static void TMHMContextMenuAction_Use(u8 taskId)
     else
     {
         gItemUseCB = ItemUseCB_TMHM;
-        sTMCaseDynamicResources->savedCallback = CB2_ShowPartyMenuForItemUse;
+        sTMCaseDynamicResources->savedCallback = CB2_ShowPartyMenuForItemUseTMCase;
         Task_BeginFadeOutFromTMCase(taskId);
     }
 }
