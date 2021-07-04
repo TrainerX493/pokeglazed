@@ -2,6 +2,7 @@
 #define GUARD_POKEMON_ICON_H
 
 extern const u8 gMonIconPaletteIndices[];
+extern const struct SpritePalette gMonIconPaletteTable[6];
 
 const u8 *GetMonIconTiles(u16 species, bool32);
 void sub_80D304C(u16 offset);

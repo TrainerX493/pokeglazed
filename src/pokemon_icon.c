@@ -911,7 +911,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_UNOWN_QMARK] = 0,
 };
 
-const struct SpritePalette gMonIconPaletteTable[] =
+const struct SpritePalette gMonIconPaletteTable[6] =
 {
     { gMonIconPalettes[0], POKE_ICON_BASE_PAL_TAG + 0 },
     { gMonIconPalettes[1], POKE_ICON_BASE_PAL_TAG + 1 },

@@ -14,6 +14,8 @@
 #include "link.h"
 #include "money.h"
 #include "palette.h"
+#include "pokemon_icon.h"
+#include "pokemon_summary_screen.h"
 #include "pokemon_storage_system.h"
 #include "party_menu.h"
 #include "data.h"
@@ -68,6 +70,8 @@ static EWRAM_DATA void * sTilemapBuffer = NULL; // tilemap buffer
 static EWRAM_DATA struct ListMenuItem * sListMenuItemsBuffer = NULL;
 static EWRAM_DATA u8 (* sListMenuStringsBuffer)[29] = NULL;
 static EWRAM_DATA u16 * sTMSpritePaletteBuffer = NULL;
+static EWRAM_DATA u8    spriteIdData[PARTY_SIZE] = {};
+static EWRAM_DATA u16   spriteIdPalette[PARTY_SIZE] = {};
 
 static void CB2_SetUpTMCaseUI_Blocking(void);
 static bool8 DoSetUpTMCaseUI(void);
@@ -129,6 +133,9 @@ static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var);
 static void InitSelectedTMSpriteData(u8 a0, u16 itemId);
 static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite);
 static void LoadTMTypePalettes(void);
+static void DrawPartyMonIcons(void);
+static void TintPartyMonIcons(u8 tm);
+static void DestroyPartyMonIcons(void);
 
 static const struct BgTemplate sBGTemplates[] = {
     {
@@ -191,7 +198,7 @@ static const u8 sTMCaseTextColors[][3] = {
 };
 
 static const struct WindowTemplate sWindowTemplates[] = {
-    {0x00, 0x0a, 0x01, 0x13, 0x0a, 0x0f, 0x0081},
+    {0x00, 0x0e, 0x01, 0x0f, 0x0a, 0x0f, 0x0081},
     {0x00, 0x0c, 0x0c, 0x12, 0x08, 0x0a, 0x013f},
     {0x01, 0x05, 0x0f, 0x0f, 0x04, 0x0f, 0x01f9},
     {0x00, 0x00, 0x01, 0x0a, 0x02, 0x0f, 0x0235},
@@ -368,6 +375,7 @@ static bool8 DoSetUpTMCaseUI(void)
         break;
     case 11:
         DrawMoveInfoUIMarkers();
+        DrawPartyMonIcons();
         gMain.state++;
         break;
     case 12:
@@ -389,7 +397,7 @@ static bool8 DoSetUpTMCaseUI(void)
         gMain.state++;
         break;
     case 16:
-        sTMCaseDynamicResources->tmSpriteId = CreateTMSprite(BagGetItemIdByPocketPosition(POCKET_TM_HM, sTMCaseStaticResources.scrollOffset + sTMCaseStaticResources.selectedRow));
+        // sTMCaseDynamicResources->tmSpriteId = CreateTMSprite(BagGetItemIdByPocketPosition(POCKET_TM_HM, sTMCaseStaticResources.scrollOffset + sTMCaseStaticResources.selectedRow));
         gMain.state++;
         break;
     case 17:
@@ -454,7 +462,7 @@ static bool8 HandleLoadTMCaseGraphicsAndPalettes(void)
         }
         break;
     case 2:
-        LZDecompressWram(gUnknown_8E84B70, GetBgTilemapBuffer(1));
+        // LZDecompressWram(gUnknown_8E84B70, GetBgTilemapBuffer(1)); //TM case bg graphic
         sTMCaseDynamicResources->seqId++;
         break;
     case 3:
@@ -469,7 +477,7 @@ static bool8 HandleLoadTMCaseGraphicsAndPalettes(void)
         sTMCaseDynamicResources->seqId++;
         break;
     default:
-        LoadTMTypePalettes();
+        //LoadTMTypePalettes();
         sTMCaseDynamicResources->seqId = 0;
         return TRUE;
     }
@@ -495,10 +503,10 @@ static void InitTMCaseListMenuItems(void)
         sListMenuItemsBuffer[i].name = sListMenuStringsBuffer[i];
         sListMenuItemsBuffer[i].id = i;
     }
-    sListMenuItemsBuffer[i].name = gText_Close;
-    sListMenuItemsBuffer[i].id = -2;
+    // sListMenuItemsBuffer[i].name = gText_Close;
+    // sListMenuItemsBuffer[i].id = -2;
     gMultiuseListMenuTemplate.items = sListMenuItemsBuffer;
-    gMultiuseListMenuTemplate.totalItems = sTMCaseDynamicResources->numTMs + 1;
+    gMultiuseListMenuTemplate.totalItems = sTMCaseDynamicResources->numTMs;
     gMultiuseListMenuTemplate.windowId = 0;
     gMultiuseListMenuTemplate.header_X = 0;
     gMultiuseListMenuTemplate.item_X = 8;
@@ -551,7 +559,7 @@ static void TMCase_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *
     if (onInit != TRUE)
     {
         PlaySE(SE_SELECT);
-        InitSelectedTMSpriteData(sTMCaseDynamicResources->tmSpriteId, itemId);
+        // InitSelectedTMSpriteData(sTMCaseDynamicResources->tmSpriteId, itemId);
     }
     TMCase_MoveCursor_UpdatePrintedDescription(itemIndex);
     TMCase_MoveCursor_UpdatePrintedTMInfo(itemId);
@@ -563,9 +571,9 @@ static void TMCase_ItemPrintFunc(u8 windowId, s32 itemId, u8 y)
     {
         if (!ItemId_GetImportance(BagGetItemIdByPocketPosition(POCKET_TM_HM, itemId)))
         {
-            ConvertIntToDecimalStringN(gStringVar1, BagGetQuantityByPocketPosition(POCKET_TM_HM, itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
-            StringExpandPlaceholders(gStringVar4, gText_xVar1);
-            AddTextPrinterParameterized_ColorByIndex(windowId, 0, gStringVar4, 0x7E, y, 0, 0, 0xFF, 1);
+            // ConvertIntToDecimalStringN(gStringVar1, BagGetQuantityByPocketPosition(POCKET_TM_HM, itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
+            // StringExpandPlaceholders(gStringVar4, gText_xVar1);
+            // AddTextPrinterParameterized_ColorByIndex(windowId, 0, gStringVar4, 0x7E, y, 0, 0, 0xFF, 1);
         }
         else
         {
@@ -577,9 +585,10 @@ static void TMCase_ItemPrintFunc(u8 windowId, s32 itemId, u8 y)
 static void TMCase_MoveCursor_UpdatePrintedDescription(s32 itemIndex)
 {
     const u8 * str;
+    u16 itemId = BagGetItemIdByPocketPosition(POCKET_TM_HM, itemIndex);
     if (itemIndex != -2)
     {
-        str = ItemId_GetDescription(BagGetItemIdByPocketPosition(POCKET_TM_HM, itemIndex));
+        str = ItemId_GetDescription(itemId);
     }
     else
     {
@@ -587,6 +596,9 @@ static void TMCase_MoveCursor_UpdatePrintedDescription(s32 itemIndex)
     }
     FillWindowPixelBuffer(1, 0);
     AddTextPrinterParameterized_ColorByIndex(1, 2, str, 2, 3, 1, 0, 0, 0);
+
+    // update icons
+    TintPartyMonIcons(itemId - ITEM_TM01);
 }
 
 static void FillBG2RowWithPalette_2timesNplus1(s32 a0)
@@ -859,35 +871,35 @@ static void TMHMContextMenuAction_Use(u8 taskId)
     }
 }
 
-static void TMHMContextMenuAction_Give(u8 taskId)
-{
-    s16 * data = gTasks[taskId].data;
-    u16 itemId = BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1]);
-    RemoveTMContextMenu(&sTMCaseDynamicResources->contextMenuWindowId);
-    ClearStdWindowAndFrameToTransparent(2, 0);
-    ClearWindowTilemap(2);
-    PutWindowTilemap(1);
-    PutWindowTilemap(4);
-    PutWindowTilemap(5);
-    ScheduleBgCopyTilemapToVram(0);
-    ScheduleBgCopyTilemapToVram(1);
-    if (!ItemId_GetImportance(itemId))
-    {
-        if (CalculatePlayerPartyCount() == 0)
-        {
-            PrintError_ThereIsNoPokemon(taskId);
-        }
-        else
-        {
-            sTMCaseDynamicResources->savedCallback = CB2_ChooseMonToGiveItem;
-            Task_BeginFadeOutFromTMCase(taskId);
-        }
-    }
-    else
-    {
-        PrintError_ItemCantBeHeld(taskId);
-    }
-}
+// static void TMHMContextMenuAction_Give(u8 taskId)
+// {
+//     s16 * data = gTasks[taskId].data;
+//     u16 itemId = BagGetItemIdByPocketPosition(POCKET_TM_HM, data[1]);
+//     RemoveTMContextMenu(&sTMCaseDynamicResources->contextMenuWindowId);
+//     ClearStdWindowAndFrameToTransparent(2, 0);
+//     ClearWindowTilemap(2);
+//     PutWindowTilemap(1);
+//     PutWindowTilemap(4);
+//     PutWindowTilemap(5);
+//     ScheduleBgCopyTilemapToVram(0);
+//     ScheduleBgCopyTilemapToVram(1);
+//     if (!ItemId_GetImportance(itemId))
+//     {
+//         if (CalculatePlayerPartyCount() == 0)
+//         {
+//             PrintError_ThereIsNoPokemon(taskId);
+//         }
+//         else
+//         {
+//             sTMCaseDynamicResources->savedCallback = CB2_ChooseMonToGiveItem;
+//             Task_BeginFadeOutFromTMCase(taskId);
+//         }
+//     }
+//     else
+//     {
+//         PrintError_ItemCantBeHeld(taskId);
+//     }
+// }
 
 static void PrintError_ThereIsNoPokemon(u8 taskId)
 {
@@ -1198,10 +1210,21 @@ static void PrintStringTMCaseOnWindow3(void)
 
 static void DrawMoveInfoUIMarkers(void)
 {
-    blit_move_info_icon(4, 19, 0, 0);
-    blit_move_info_icon(4, 20, 0, 12);
-    blit_move_info_icon(4, 21, 0, 24);
-    blit_move_info_icon(4, 22, 0, 36);
+    #ifndef POKEMON_EXPANSION
+        // BlitMenuInfoIcon(4, 19, 0, 0); // "Type" sprite
+        // BlitMenuInfoIcon(4, 20, 0, 12); // "Power" sprite
+        // BlitMenuInfoIcon(4, 21, 0, 24); // "Accuracy" sprite
+        // BlitMenuInfoIcon(4, 22, 0, 36); // "PP" sprite
+        blit_move_info_icon(4, 19, 0, 0);
+        blit_move_info_icon(4, 20, 0, 12);
+        blit_move_info_icon(4, 21, 0, 24);
+        blit_move_info_icon(4, 22, 0, 36);
+    #else
+        BlitMenuInfoIcon(4, 20, 0, 0); // "Type" sprite
+        BlitMenuInfoIcon(4, 21, 0, 12); // "Power" sprite
+        BlitMenuInfoIcon(4, 22, 0, 24); // "Accuracy" sprite
+        BlitMenuInfoIcon(4, 23, 0, 36); // "PP" sprite
+    #endif
     CopyWindowToVram(4, 2);
 }
 
@@ -1281,6 +1304,7 @@ static void RemoveTMContextMenu(u8 * a0)
     *a0 = 0xFF;
 }
 
+/*
 static u8 CreateTMSprite(u16 itemId)
 {
     u8 spriteId = CreateSprite(&sTMSpriteTemplate, 0x29, 0x2E, 0);
@@ -1388,4 +1412,112 @@ static void LoadTMTypePalettes(void)
     spritePalette.data = sTMSpritePaletteBuffer + 0x110;
     spritePalette.tag = TM_CASE_TM_TAG;
     LoadSpritePalette(&spritePalette);
+}
+*/
+
+#define sMonIconStill data[3]
+static void SpriteCb_MonIcon(struct Sprite *sprite)
+{
+    if (!sprite->sMonIconStill)
+        UpdateMonIconFrame(sprite);
+}
+#undef sMonIconStill
+
+#define MON_ICON_START_X  0x10
+#define MON_ICON_START_Y  0x2a
+#define MON_ICON_PADDING  0x20
+
+
+void LoadMonIconPalettesTinted(void)
+{
+    u8 i;
+    for (i = 0; i < ARRAY_COUNT(gMonIconPaletteTable); i++)
+    {
+        LoadSpritePaletteDouble(&gMonIconPaletteTable[i]);
+        TintPalette_GrayScale2(&gPlttBufferUnfaded[0x170 + i*16], 16);
+    }
+}
+        
+
+static void DrawPartyMonIcons(void)
+{
+    u8 i;
+    u16 species;
+    u8 icon_x = 0;
+    u8 icon_y = 0;
+
+    LoadMonIconPalettesTinted();
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        //calc icon position (centered)
+        if (gPlayerPartyCount == 1)
+        {
+            icon_x = MON_ICON_START_X + MON_ICON_PADDING;
+            icon_y = MON_ICON_START_Y + MON_ICON_PADDING*0.5;
+        }
+        else if (gPlayerPartyCount == 2)
+        {
+            icon_x = i < 2 ? MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * (i - 2);
+            icon_y = MON_ICON_START_Y + MON_ICON_PADDING*0.5;
+        }else if (gPlayerPartyCount == 3)
+        {
+            icon_x = i < 3 ? MON_ICON_START_X + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING * (i - 3);
+            icon_y = MON_ICON_START_Y + MON_ICON_PADDING*0.5;
+        }
+        else if (gPlayerPartyCount == 4)
+        {
+            icon_x = i < 2 ? MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING*0.5 + MON_ICON_PADDING * (i - 2);
+            icon_y = i < 2 ? MON_ICON_START_Y : MON_ICON_START_Y + MON_ICON_PADDING;
+        }
+        else
+        {
+            icon_x = i < 3 ? MON_ICON_START_X + MON_ICON_PADDING * i : MON_ICON_START_X + MON_ICON_PADDING * (i - 3);
+            icon_y = i < 3 ? MON_ICON_START_Y : MON_ICON_START_Y + MON_ICON_PADDING;
+        }
+        //get species
+        species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+
+        //create icon sprite
+        #ifndef POKEMON_EXPANSION
+            spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY), TRUE);
+        #else
+            spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY));
+        #endif
+
+        //Set priority, stop movement and save original palette position
+        gSprites[spriteIdData[i]].oam.priority = 0;
+        StartSpriteAnim(&gSprites[spriteIdData[i]], 4); //full stop
+        spriteIdPalette[i] = gSprites[spriteIdData[i]].oam.paletteNum; //save correct palette number to array
+    }
+}
+
+static void TintPartyMonIcons(u8 tm)
+{
+    u8 i;
+    u16 species;
+
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
+        if (!CanSpeciesLearnTMHM(species, tm))
+        {
+            gSprites[spriteIdData[i]].oam.paletteNum = 7 + spriteIdPalette[i];
+        }
+        else
+        {
+            gSprites[spriteIdData[i]].oam.paletteNum = spriteIdPalette[i];//gMonIconPaletteIndices[species];
+        }
+    }
+    
+}
+
+static void DestroyPartyMonIcons(void)
+{
+    u8 i;
+    for (i = 0; i < gPlayerPartyCount; i++)
+    {
+        FreeAndDestroyMonIconSprite(&gSprites[spriteIdData[i]]);
+        FreeMonIconPalettes();
+    }
 }
