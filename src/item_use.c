@@ -842,7 +842,7 @@ void ItemUseOutOfBattle_TmCase(u8 taskId)
     }
     else
     {
-        gFieldCallback = sub_80AF6D4;
+        gFieldCallback = sub_80AF6D4; //FieldCB_ReturnToFieldNoScript
         FadeScreen(FADE_TO_BLACK, 0);
         gTasks[taskId].func = Task_InitTMCaseFromField;
     }
