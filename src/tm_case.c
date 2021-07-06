@@ -488,7 +488,7 @@ static bool8 HandleLoadTMCaseGraphicsAndPalettes(void)
 static void CreateTMCaseListMenuBuffers(void)
 {
     struct BagPocket * pocket = &gBagPockets[POCKET_TM_HM - 1];
-    sListMenuItemsBuffer = Alloc((pocket->capacity + 1) * sizeof(struct ListMenuItem));
+    sListMenuItemsBuffer = Alloc((pocket->capacity) * sizeof(struct ListMenuItem));
     sListMenuStringsBuffer = Alloc(sTMCaseDynamicResources->numTMs * 29);
 }
 
@@ -627,7 +627,7 @@ static void PrintListMenuCursorAt_WithColorIdx(u8 a0, u8 a1)
 
 static void CreateTMCaseScrollIndicatorArrowPair_Main(void)
 {
-    sTMCaseDynamicResources->scrollIndicatorArrowPairId = AddScrollIndicatorArrowPairParameterized(2, 0xA0, 0x08, 0x58, sTMCaseDynamicResources->numTMs - sTMCaseDynamicResources->maxTMsShown + 1, 0x6E, 0x6E, &sTMCaseStaticResources.scrollOffset);
+    sTMCaseDynamicResources->scrollIndicatorArrowPairId = AddScrollIndicatorArrowPairParameterized(2, 0xA0, 0x08, 0x58, sTMCaseDynamicResources->numTMs - sTMCaseDynamicResources->maxTMsShown, 0x6E, 0x6E, &sTMCaseStaticResources.scrollOffset);
 }
 
 static void CreateTMCaseScrollIndicatorArrowPair_SellQuantitySelect(void)
@@ -665,19 +665,19 @@ static void TMCaseSetup_GetTMCount(void)
             break;
         sTMCaseDynamicResources->numTMs++;
     }
-    sTMCaseDynamicResources->maxTMsShown = min(sTMCaseDynamicResources->numTMs + 1, 5);
+    sTMCaseDynamicResources->maxTMsShown = min(sTMCaseDynamicResources->numTMs, 5);
 }
 
 static void TMCaseSetup_InitListMenuPositions(void)
 {
     if (sTMCaseStaticResources.scrollOffset != 0)
     {
-        if (sTMCaseStaticResources.scrollOffset + sTMCaseDynamicResources->maxTMsShown > sTMCaseDynamicResources->numTMs + 1)
-            sTMCaseStaticResources.scrollOffset = sTMCaseDynamicResources->numTMs + 1 - sTMCaseDynamicResources->maxTMsShown;
+        if (sTMCaseStaticResources.scrollOffset + sTMCaseDynamicResources->maxTMsShown > sTMCaseDynamicResources->numTMs)
+            sTMCaseStaticResources.scrollOffset = sTMCaseDynamicResources->numTMs - sTMCaseDynamicResources->maxTMsShown;
     }
-    if (sTMCaseStaticResources.scrollOffset + sTMCaseStaticResources.selectedRow >= sTMCaseDynamicResources->numTMs + 1)
+    if (sTMCaseStaticResources.scrollOffset + sTMCaseStaticResources.selectedRow >= sTMCaseDynamicResources->numTMs)
     {
-        if (sTMCaseDynamicResources->numTMs + 1 < 2)
+        if (sTMCaseDynamicResources->numTMs < 2)
             sTMCaseStaticResources.selectedRow = 0;
         else
             sTMCaseStaticResources.selectedRow = sTMCaseDynamicResources->numTMs;
@@ -689,7 +689,7 @@ static void TMCaseSetup_UpdateVisualMenuOffset(void)
     u8 i;
     if (sTMCaseStaticResources.selectedRow > 3)
     {
-        for (i = 0; i <= sTMCaseStaticResources.selectedRow - 3 && sTMCaseStaticResources.scrollOffset + sTMCaseDynamicResources->maxTMsShown != sTMCaseDynamicResources->numTMs + 1; i++)
+        for (i = 0; i <= sTMCaseStaticResources.selectedRow - 3 && sTMCaseStaticResources.scrollOffset + sTMCaseDynamicResources->maxTMsShown != sTMCaseDynamicResources->numTMs; i++)
         {
             do {} while (0);
             sTMCaseStaticResources.selectedRow--;
