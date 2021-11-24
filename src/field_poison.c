@@ -16,7 +16,6 @@
 #include "trainer_hill.h"
 #include "constants/field_poison.h"
 #include "constants/party_menu.h"
-#include "constants/species.h"
 
 static bool32 IsMonValidSpecies(struct Pokemon *pokemon)
 {
@@ -51,7 +50,7 @@ static void FaintFromFieldPoison(u8 partyIdx)
     AdjustFriendship(pokemon, FRIENDSHIP_EVENT_FAINT_FIELD_PSN);
     SetMonData(pokemon, MON_DATA_STATUS, &status);
     GetMonData(pokemon, MON_DATA_NICKNAME, gStringVar1);
-    StringGetEnd10(gStringVar1);
+    StringGet_Nickname(gStringVar1);
 }
 
 static bool32 MonFaintedFromPoison(u8 partyIdx)
