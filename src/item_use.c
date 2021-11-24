@@ -834,18 +834,18 @@ static void Task_InitTMCaseFromField(u8 taskId)
 
 void ItemUseOutOfBattle_TmCase(u8 taskId)
 {
-    if (MenuHelpers_LinkSomething() == TRUE) // link func
+    if (MenuHelpers_IsLinkActive() == TRUE) // link func
     {
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
     else if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
     {
-        gBagMenu->exitCallback = CB2_OpenTMCaseOnField;
+        gBagMenu->newScreenCallback = CB2_OpenTMCaseOnField;
         Task_FadeAndCloseBagMenu(taskId);
     }
     else
     {
-        gFieldCallback = sub_80AF6D4; //FieldCB_ReturnToFieldNoScript
+        gFieldCallback = FieldCB_ReturnToFieldNoScript; //FieldCB_ReturnToFieldNoScript
         FadeScreen(FADE_TO_BLACK, 0);
         gTasks[taskId].func = Task_InitTMCaseFromField;
     }
