@@ -102,7 +102,7 @@ static const u8 sEqualSignGfx[] = INCBIN_U8("graphics/misc/option_menu_equals_si
 
 static const u8 sText_HpBar[] = _("HP BAR");
 static const u8 sText_ExpBar[] = _("EXP BAR");
-static const u8 sText_UnitSystem[] = _("Unit System");
+static const u8 sText_UnitSystem[] = _("UNIT SYSTEM");
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -115,7 +115,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_EXP_BAR]     = sText_ExpBar,
     [MENUITEM_UNIT_SYSTEM] = sText_UnitSystem,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
-    [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
+    [MENUITEM_CANCEL]      = gText_OptionMenuSave,
 };
 
 static const u8 sText_Faster[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FASTER");
