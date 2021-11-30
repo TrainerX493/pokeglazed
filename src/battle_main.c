@@ -228,13 +228,9 @@ EWRAM_DATA u32 gFieldStatuses = 0;
 EWRAM_DATA struct FieldTimer gFieldTimers = {0};
 EWRAM_DATA u8 gBattlerAbility = 0;
 EWRAM_DATA u16 gPartnerSpriteId = 0;
-<<<<<<< HEAD
-EWRAM_DATA u8 gMaxPartyLevel = 1;
-=======
 EWRAM_DATA struct TotemBoost gTotemBoosts[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA bool8 gHasFetchedBall = FALSE;
 EWRAM_DATA u8 gLastUsedBall = 0;
->>>>>>> 4679860d837fdedb01991ba95702dd2fc1982b1e
 
 // IWRAM common vars
 void (*gPreBattleCallback1)(void);
