@@ -1095,3 +1095,11 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/OceanviewPark/scripts.inc"
 
 	.include "data/maps/OceanviewCity/scripts.inc"
+
+	.include "data/maps/OceanviewCity_House1/scripts.inc"
+
+	.include "data/maps/OceanviewCity_House2/scripts.inc"
+
+	.include "data/maps/OceanviewCity_House3/scripts.inc"
+
+	.include "data/maps/OceanviewCity_BedAndBreakfast/scripts.inc"

@@ -2417,7 +2417,7 @@
       "width": 58,
       "height": 26,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "0",
+      "secondary_tileset": "gTileset_Petalburg",
       "border_filepath": "data/layouts/UnusedOutdoorArea/border.bin",
       "blockdata_filepath": "data/layouts/UnusedOutdoorArea/map.bin"
     },
@@ -4580,6 +4580,46 @@
       "secondary_tileset": "gTileset_oceanview",
       "border_filepath": "data/layouts/OceanviewCity/border.bin",
       "blockdata_filepath": "data/layouts/OceanviewCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_OCEANVIEW_CITY_HOUSE1",
+      "name": "OceanviewCity_House1_Layout",
+      "width": 10,
+      "height": 10,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/OceanviewCity_House1/border.bin",
+      "blockdata_filepath": "data/layouts/OceanviewCity_House1/map.bin"
+    },
+    {
+      "id": "LAYOUT_OCEANVIEW_CITY_HOUSE2",
+      "name": "OceanviewCity_House2_Layout",
+      "width": 10,
+      "height": 10,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/OceanviewCity_House2/border.bin",
+      "blockdata_filepath": "data/layouts/OceanviewCity_House2/map.bin"
+    },
+    {
+      "id": "LAYOUT_OCEANVIEW_CITY_HOUSE3",
+      "name": "OceanviewCity_House3_Layout",
+      "width": 10,
+      "height": 10,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/OceanviewCity_House3/border.bin",
+      "blockdata_filepath": "data/layouts/OceanviewCity_House3/map.bin"
+    },
+    {
+      "id": "LAYOUT_OCEANVIEW_CITY_BED_AND_BREAKFAST",
+      "name": "OceanviewCity_BedAndBreakfast_Layout",
+      "width": 42,
+      "height": 22,
+      "primary_tileset": "gTileset_glazed_building",
+      "secondary_tileset": "gTileset_town1",
+      "border_filepath": "data/layouts/OceanviewCity_BedAndBreakfast/border.bin",
+      "blockdata_filepath": "data/layouts/OceanviewCity_BedAndBreakfast/map.bin"
     }
   ]
 }

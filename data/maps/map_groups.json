@@ -122,7 +122,11 @@
     "ChoccoTown_House1",
     "ChoccoTown_House2",
     "ChoccoTown_House3",
-    "ChoccoTown_Lab"
+    "ChoccoTown_Lab",
+    "OceanviewCity_House1",
+    "OceanviewCity_House2",
+    "OceanviewCity_House3",
+    "OceanviewCity_BedAndBreakfast"
   ],
   "gMapGroup_IndoorDewford": [
     "DewfordTown_House1",
