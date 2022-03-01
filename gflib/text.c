@@ -328,11 +328,10 @@ void RunTextPrinters(void)
             if (sTextPrinters[i].active)
             {
                 u16 temp = RenderFont(&sTextPrinters[i]);
-                CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
                 switch (temp)
                 {
                 case RENDER_PRINT:
-                    //CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
+                    CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
                 case RENDER_UPDATE:
                     if (sTextPrinters[i].callback != 0)
                         sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
@@ -937,7 +936,7 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *c
 static u16 RenderText(struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
-    u16 currChar;
+    u16 currChar, nextChar;
     s32 width;
     s32 widthHelper;
     u8 repeats;
@@ -983,6 +982,7 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         do {
         currChar = *textPrinter->printerTemplate.currentChar;
         textPrinter->printerTemplate.currentChar++;
+        nextChar = *textPrinter->printerTemplate.currentChar;
 
         switch (currChar)
         {
@@ -1183,6 +1183,21 @@ static u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentX += (gCurGlyph.width + textPrinter->printerTemplate.letterSpacing);
             else
                 textPrinter->printerTemplate.currentX += gCurGlyph.width;
+        }
+        if (repeats == 2)
+        {
+            switch (nextChar)
+            {
+            case CHAR_NEWLINE:
+            case PLACEHOLDER_BEGIN:
+            case EXT_CTRL_CODE_BEGIN:
+            case CHAR_PROMPT_CLEAR:
+            case CHAR_PROMPT_SCROLL:
+            case CHAR_KEYPAD_ICON:
+            case EOS:
+                repeats--;
+                break;
+            }
         }
         repeats--;
         } while (repeats > 0);
