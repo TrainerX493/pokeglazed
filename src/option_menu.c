@@ -29,6 +29,8 @@ enum
     MENUITEM_EXP_BAR,
     MENUITEM_UNIT_SYSTEM,
     MENUITEM_FRAMETYPE,
+    MENUITEM_FONT,
+    MENUITEM_MATCHCALL,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -63,6 +65,8 @@ static void DrawChoices_ButtonMode(int selection, int y);
 static void DrawChoices_HpBar(int selection, int y);
 static void DrawChoices_UnitSystem(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
+static void DrawChoices_Font(int selection, int y);
+static void DrawChoices_MatchCall(int selection, int y);
 static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y);
 static void DrawTextOption(void);
 static void DrawOptionMenuTexts(void);
@@ -90,6 +94,8 @@ struct
     [MENUITEM_EXP_BAR]      = {DrawChoices_HpBar,       ProcessInput_Options_Eleven},
     [MENUITEM_UNIT_SYSTEM]  = {DrawChoices_UnitSystem,  ProcessInput_Options_Two},
     [MENUITEM_FRAMETYPE]    = {DrawChoices_FrameType,   ProcessInput_FrameType},
+    [MENUITEM_FONT]         = {DrawChoices_Font,        ProcessInput_Options_Two}, 
+    [MENUITEM_MATCHCALL]    = {DrawChoices_MatchCall,   ProcessInput_Options_Two},
     [MENUITEM_CANCEL]       = {NULL, NULL},
 };
 
@@ -115,6 +121,8 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_EXP_BAR]     = sText_ExpBar,
     [MENUITEM_UNIT_SYSTEM] = sText_UnitSystem,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
+    [MENUITEM_FONT]        = gText_Font,
+    [MENUITEM_MATCHCALL]   = gText_OptionMatchCalls,
     [MENUITEM_CANCEL]      = gText_OptionMenuSave,
 };
 
@@ -272,6 +280,8 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_EXP_BAR]     = gSaveBlock2Ptr->optionsExpBarSpeed;
         sOptions->sel[MENUITEM_UNIT_SYSTEM] = gSaveBlock2Ptr->optionsUnitSystem;
         sOptions->sel[MENUITEM_FRAMETYPE]   = gSaveBlock2Ptr->optionsWindowFrameType;
+        sOptions->sel[MENUITEM_FONT]        = gSaveBlock2Ptr->optionsCurrentFont;
+        sOptions->sel[MENUITEM_MATCHCALL]   = gSaveBlock2Ptr->optionsDisableMatchCall;
         
         AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 33, 153,
           MENUITEM_COUNT - 1, 110, 110, 0);
@@ -434,6 +444,8 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsExpBarSpeed      = sOptions->sel[MENUITEM_EXP_BAR];
     gSaveBlock2Ptr->optionsUnitSystem       = sOptions->sel[MENUITEM_UNIT_SYSTEM];
     gSaveBlock2Ptr->optionsWindowFrameType  = sOptions->sel[MENUITEM_FRAMETYPE];
+    gSaveBlock2Ptr->optionsCurrentFont      = sOptions->sel[MENUITEM_FONT];
+    gSaveBlock2Ptr->optionsDisableMatchCall = sOptions->sel[MENUITEM_MATCHCALL];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -715,6 +727,26 @@ static void DrawChoices_FrameType(int selection, int y)
 
     DrawOptionMenuChoice(gText_FrameType, 104, y, 0);
     DrawOptionMenuChoice(text, 128, y, 1);
+}
+
+static void DrawChoices_Font(int selection, int y)
+{
+    u8 styles[2] = {0};
+
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1]);
+}
+
+static void DrawChoices_MatchCall(int selection, int y)
+{
+    u8 styles[2] = {0};
+
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
 static void DrawTextOption(void)
