@@ -274,7 +274,7 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_FRAMETYPE]   = gSaveBlock2Ptr->optionsWindowFrameType;
         
         AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 33, 153,
-          MENUITEM_COUNT - 1, 110, 110, (u16 *)&sOptions->menuCursor);
+          MENUITEM_COUNT - 1, 110, 110, 0);
 
         for (i = 0; i < 7; i++)
             DrawChoices(i, i * Y_DIFF);
@@ -560,8 +560,8 @@ static void DrawChoices_BattleScene(int selection, int y)
 
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_BattleStyleShift, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1]);
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
 static int ProcessInput_BattleStyle(int selection)
@@ -582,8 +582,8 @@ static void DrawChoices_BattleStyle(int selection, int y)
     styles[1] = 0;
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
+    DrawOptionMenuChoice(gText_BattleStyleShift, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1]);
 }
 
 static int ProcessInput_Sound(int selection)
