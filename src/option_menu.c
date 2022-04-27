@@ -100,6 +100,8 @@ struct OptionMenu
 static void MainCB2(void);
 static void VBlankCB(void);
 static void DrawTextOption(void); //top Option text
+static void DrawLeftSideOptionText(int selection, int y);
+static void DrawRightSideChoiceText(const u8 *str, int x, int y, bool8 choosen, bool8 active);
 static void DrawOptionMenuTexts(void); //left side text;
 static void DrawChoices(u32 id, int y); //right side draw function
 static void HighlightOptionMenuItem(int cursor);
@@ -117,8 +119,8 @@ static int ProcessInput_Options_Four(int selection);
 static int ProcessInput_Options_Eleven(int selection);
 static int ProcessInput_Sound(int selection);
 static int ProcessInput_FrameType(int selection);
-static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style);
-static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y);
+static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style, bool8 active);
+static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y, bool8 active);
 static void DrawChoices_TextSpeed(int selection, int y);
 static void DrawChoices_BattleScene(int selection, int y);
 static void DrawChoices_BattleStyle(int selection, int y);
@@ -135,9 +137,24 @@ static void DrawBgWindowFrames(void);
 EWRAM_DATA static struct OptionMenu *sOptions = NULL;
 
 // const data
-static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_menu_text.gbapal");
 static const u8 sEqualSignGfx[] = INCBIN_U8("graphics/interface/option_menu_equals_sign.4bpp"); // note: this is only used in the Japanese release
 static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};
+static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_menu_text_custom.gbapal");
+
+#define TEXT_COLOR_OPTIONS_WHITE                1
+#define TEXT_COLOR_OPTIONS_ORANGE_FG            2
+#define TEXT_COLOR_OPTIONS_ORANGE_SHADOW        3
+#define TEXT_COLOR_OPTIONS_RED_FG               4
+#define TEXT_COLOR_OPTIONS_RED_SHADOW           5
+#define TEXT_COLOR_OPTIONS_GRAY_FG              6
+#define TEXT_COLOR_OPTIONS_GRAY_SHADOW          7
+#define TEXT_COLOR_OPTIONS_GRAY_LIGHT_FG        8
+#define TEXT_COLOR_OPTIONS_GREEN_FG             9
+#define TEXT_COLOR_OPTIONS_GREEN_SHADOW         10
+#define TEXT_COLOR_OPTIONS_GREEN_DARK_FG        11
+#define TEXT_COLOR_OPTIONS_GREEN_DARK_SHADOW    12
+#define TEXT_COLOR_OPTIONS_RED_DARK_FG          13
+#define TEXT_COLOR_OPTIONS_RED_DARK_SHADOW      14
 
 // Menu draw and input functions
 struct
@@ -180,6 +197,27 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_CANCEL]      = gText_OptionMenuSave,
 };
 
+// Menu left side text conditions
+static bool8 CheckConditions(int selection)
+{
+    switch(selection)
+    {
+    case MENUITEM_TEXTSPEED:       return TRUE;
+    case MENUITEM_BATTLESCENE:     return TRUE;
+    case MENUITEM_BATTLESTYLE:     return sOptions->sel[1];
+    case MENUITEM_SOUND:           return FALSE;
+    case MENUITEM_BUTTONMODE:      return TRUE;
+    case MENUITEM_HP_BAR:          return TRUE;
+    case MENUITEM_EXP_BAR:         return TRUE;
+    case MENUITEM_UNIT_SYSTEM:     return TRUE;
+    case MENUITEM_FRAMETYPE:       return TRUE;
+    case MENUITEM_FONT:            return TRUE;
+    case MENUITEM_MATCHCALL:       return TRUE;
+    case MENUITEM_CANCEL:          return TRUE;
+    case MENUITEM_COUNT:           return TRUE;
+    }
+}
+
 // Main code
 static void MainCB2(void)
 {
@@ -209,8 +247,57 @@ static void DrawOptionMenuTexts(void) //left side text
 
     FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
     for (i = 0; i < MENUITEM_COUNT; i++)
-        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, sOptionMenuItemsNames[i], 8, (i * Y_DIFF) + 1, TEXT_SKIP_DRAW, NULL);
+        DrawLeftSideOptionText(i, (i * Y_DIFF) + 1);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
+}
+
+static void DrawLeftSideOptionText(int selection, int y)
+{
+    u8 color_yellow[3];
+    u8 color_gray[3];
+
+    color_yellow[0] = TEXT_COLOR_TRANSPARENT;
+    color_yellow[1] = TEXT_COLOR_OPTIONS_ORANGE_FG;
+    color_yellow[2] = TEXT_COLOR_OPTIONS_ORANGE_SHADOW;
+    color_gray[0] = TEXT_COLOR_TRANSPARENT;
+    color_gray[1] = TEXT_COLOR_OPTIONS_GRAY_LIGHT_FG;
+    color_gray[2] = TEXT_COLOR_OPTIONS_GRAY_SHADOW;
+
+    if (CheckConditions(selection))
+        AddTextPrinterParameterized4(WIN_OPTIONS, FONT_NORMAL, 8, y, 0, 0, color_yellow, TEXT_SKIP_DRAW, sOptionMenuItemsNames[selection]);
+    else
+        AddTextPrinterParameterized4(WIN_OPTIONS, FONT_NORMAL, 8, y, 0, 0, color_gray, TEXT_SKIP_DRAW, sOptionMenuItemsNames[selection]);
+}
+
+static void DrawRightSideChoiceText(const u8 *text, int x, int y, bool8 choosen, bool8 active)
+{
+    u8 color_red[3];
+    u8 color_gray[3];
+
+    if (active)
+    {
+        color_red[0] = TEXT_COLOR_TRANSPARENT;
+        color_red[1] = TEXT_COLOR_OPTIONS_RED_FG;
+        color_red[2] = TEXT_COLOR_OPTIONS_RED_SHADOW;
+        color_gray[0] = TEXT_COLOR_TRANSPARENT;
+        color_gray[1] = TEXT_COLOR_OPTIONS_GRAY_FG;
+        color_gray[2] = TEXT_COLOR_OPTIONS_GRAY_SHADOW;
+    }
+    else
+    {
+        color_red[0] = TEXT_COLOR_TRANSPARENT;
+        color_red[1] = TEXT_COLOR_OPTIONS_RED_DARK_FG;
+        color_red[2] = TEXT_COLOR_OPTIONS_RED_DARK_SHADOW;
+        color_gray[0] = TEXT_COLOR_TRANSPARENT;
+        color_gray[1] = TEXT_COLOR_OPTIONS_GRAY_LIGHT_FG;
+        color_gray[2] = TEXT_COLOR_OPTIONS_GRAY_SHADOW;
+    }
+
+
+    if (choosen)
+        AddTextPrinterParameterized4(WIN_OPTIONS, FONT_NORMAL, x, y, 0, 0, color_red, TEXT_SKIP_DRAW, text);
+    else
+        AddTextPrinterParameterized4(WIN_OPTIONS, FONT_NORMAL, x, y, 0, 0, color_gray, TEXT_SKIP_DRAW, text);
 }
 
 static void DrawChoices(u32 id, int y) //right side draw function
@@ -283,19 +370,6 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 7:
-        gMain.state++;
-        break;
-    case 8:
-        PutWindowTilemap(1);
-        DrawOptionMenuTexts();
-        gMain.state++;
-    case 9:
-        DrawBgWindowFrames();
-        gMain.state++;
-        break;
-    case 10:
-        taskId = CreateTask(Task_OptionMenuFadeIn, 0);
-
         sOptions = AllocZeroed(sizeof(*sOptions));
         sOptions->sel[MENUITEM_TEXTSPEED]   = gSaveBlock2Ptr->optionsTextSpeed;
         sOptions->sel[MENUITEM_BATTLESCENE] = gSaveBlock2Ptr->optionsBattleSceneOff;
@@ -308,6 +382,18 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_FRAMETYPE]   = gSaveBlock2Ptr->optionsWindowFrameType;
         sOptions->sel[MENUITEM_FONT]        = gSaveBlock2Ptr->optionsCurrentFont;
         sOptions->sel[MENUITEM_MATCHCALL]   = gSaveBlock2Ptr->optionsDisableMatchCall;
+        gMain.state++;
+        break;
+    case 8:
+        PutWindowTilemap(1);
+        DrawOptionMenuTexts();
+        gMain.state++;
+    case 9:
+        DrawBgWindowFrames();
+        gMain.state++;
+        break;
+    case 10:
+        taskId = CreateTask(Task_OptionMenuFadeIn, 0);
         
         AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 33, 153,
           MENUITEM_COUNT - 1, 110, 110, 0);
@@ -400,11 +486,14 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     {
         int cursor = sOptions->menuCursor;
         u8 previousOption = sOptions->sel[cursor];
-        if (sItemFunctions[cursor].processInput != NULL)
-            sOptions->sel[cursor] = sItemFunctions[cursor].processInput(previousOption);
+        if (CheckConditions(cursor))
+        {
+            if (sItemFunctions[cursor].processInput != NULL)
+                sOptions->sel[cursor] = sItemFunctions[cursor].processInput(previousOption);
 
-        if (previousOption != sOptions->sel[cursor])
-            DrawChoices(cursor, sOptions->visibleCursor * Y_DIFF);
+            if (previousOption != sOptions->sel[cursor])
+                DrawChoices(cursor, sOptions->visibleCursor * Y_DIFF);
+        }
     }
 }
 
@@ -451,7 +540,7 @@ static void ScrollMenu(int direction)
     FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 0, Y_DIFF * pos, 26 * 8, Y_DIFF);
     // Print
     DrawChoices(menuItem, pos * Y_DIFF);
-    AddTextPrinterParameterized(WIN_OPTIONS, 1, sOptionMenuItemsNames[menuItem], 8, (pos * Y_DIFF) + 1, TEXT_SKIP_DRAW, NULL);
+    DrawLeftSideOptionText(menuItem, (pos * Y_DIFF) + 1);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 }
 static void ScrollAll(int direction) // to bottom or top
@@ -483,7 +572,7 @@ static void ScrollAll(int direction) // to bottom or top
         else // From bottom to top
             menuItem = i, pos = i;
         DrawChoices(menuItem, pos * Y_DIFF);
-        AddTextPrinterParameterized(WIN_OPTIONS, 1, sOptionMenuItemsNames[menuItem], 8, (pos * Y_DIFF) + 1, TEXT_SKIP_DRAW, NULL);
+        DrawLeftSideOptionText(menuItem, (pos * Y_DIFF) + 1);
     }
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 }
@@ -577,25 +666,16 @@ static int ProcessInput_FrameType(int selection)
 }
 
 // Draw Choices functions ****GENERIC****
-static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
+static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style, bool8 active)
 {
-    u8 dst[16];
-    u16 i;
-
-    for (i = 0; *text != EOS && i <= 14; i++)
-        dst[i] = *(text++);
-
+    bool8 choosen = FALSE;
     if (style != 0)
-    {
-        dst[2] = 4;
-        dst[5] = 5;
-    }
+        choosen = TRUE;
 
-    dst[i] = EOS;
-    AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, dst, x, y + 1, 0x00, NULL);
+    DrawRightSideChoiceText(text, x, y+1, choosen, active);
 }
 
-static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y)
+static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y, bool8 active)
 {
     static const u8 choiceOrders[][3] =
     {
@@ -614,102 +694,116 @@ static void DrawChoices_Options_Four(const u8 *const *const strings, int selecti
     FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
-    DrawOptionMenuChoice(strings[order[0]], 104, y, styles[order[0]]);
-    DrawOptionMenuChoice(strings[order[1]], xMid, y, styles[order[1]]);
-    DrawOptionMenuChoice(strings[order[2]], GetStringRightAlignXOffset(1, strings[order[2]], 198), y, styles[order[2]]);
+    DrawOptionMenuChoice(strings[order[0]], 104, y, styles[order[0]], active);
+    DrawOptionMenuChoice(strings[order[1]], xMid, y, styles[order[1]], active);
+    DrawOptionMenuChoice(strings[order[2]], GetStringRightAlignXOffset(1, strings[order[2]], 198), y, styles[order[2]], active);
 }
 
 // Process Input functions ****SPECIFIC****
-static const u8 sText_Faster[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FASTER");
-static const u8 sText_Instant[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}INSTANT");
+static const u8 sText_Faster[] = _("FASTER");
+static const u8 sText_Instant[] = _("INSTANT");
 static const u8 *const sTextSpeedStrings[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast, sText_Faster};
 static void DrawChoices_TextSpeed(int selection, int y)
 {
-    DrawChoices_Options_Four(sTextSpeedStrings, selection, y);
+    bool8 active = CheckConditions(MENUITEM_TEXTSPEED);
+    DrawChoices_Options_Four(sTextSpeedStrings, selection, y, active);
 }
 
 static void DrawChoices_BattleScene(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_BATTLESCENE);
     u8 styles[2] = {0};
-
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1], active);
 }
 
 static void DrawChoices_BattleStyle(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_BATTLESTYLE);
     u8 styles[2] = {0};
-
-    styles[0] = 0;
-    styles[1] = 0;
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_BattleStyleShift, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1]);
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
+    DrawOptionMenuChoice(gText_BattleStyleShift, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1], active);
 }
 
 static void DrawChoices_Sound(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_SOUND);
     u8 styles[2] = {0};
-
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_SoundMono, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), y, styles[1]);
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
+    DrawOptionMenuChoice(gText_SoundMono, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), y, styles[1], active);
 }
 
 static void DrawChoices_ButtonMode(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_BUTTONMODE);
     u8 styles[3] = {0};
     int xMid = GetMiddleX(gText_ButtonTypeNormal, gText_ButtonTypeLR, gText_ButtonTypeLEqualsA);
-
     styles[selection] = 1;
-    DrawOptionMenuChoice(gText_ButtonTypeNormal, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_ButtonTypeLR, xMid, y, styles[1]);
-    DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), y, styles[2]);
+
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
+    DrawOptionMenuChoice(gText_ButtonTypeNormal, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_ButtonTypeLR, xMid, y, styles[1], active);
+    DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), y, styles[2], active);
 }
 
 static void DrawChoices_BarSpeed(int selection, int y) //HP and EXP
 {
+    bool8 active = CheckConditions(MENUITEM_EXP_BAR);
+
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
     if (selection < 10)
     {
-        u8 textPlus[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}+1{0x77}{0x77}{0x77}{0x77}{0x77}"); // 0x77 is to clear INSTANT text
-        textPlus[7] = CHAR_0 + selection;
-        DrawOptionMenuChoice(textPlus, 104, y, 1);
+        u8 textPlus[] = _("{0x77}{0x77}{0x77}{0x77}{0x77}"); // 0x77 is to clear INSTANT text
+        textPlus[0] = CHAR_0 + selection;
+        DrawOptionMenuChoice(textPlus, 104, y, 1, active);
     }
     else
     {
-        DrawOptionMenuChoice(sText_Instant, 104, y, 1);
+        DrawOptionMenuChoice(sText_Instant, 104, y, 1, active);
     }
 }
 
 static void DrawChoices_UnitSystem(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_UNIT_SYSTEM);
     u8 styles[2] = {0};
-
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_UnitSystemImperial, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_UnitSystemMetric, GetStringRightAlignXOffset(1, gText_UnitSystemMetric, 198), y, styles[1]);
-}
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
-static void DrawChoices_Font(int selection, int y)
-{
-    u8 styles[2] = {0};
-
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1]);
+    DrawOptionMenuChoice(gText_UnitSystemImperial, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_UnitSystemMetric, GetStringRightAlignXOffset(1, gText_UnitSystemMetric, 198), y, styles[1], active);
 }
 
 static void DrawChoices_FrameType(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_FRAMETYPE);
     u8 text[16];
     u8 n = selection + 1;
     u16 i;
+
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
     for (i = 0; gText_FrameTypeNumber[i] != EOS && i <= 5; i++)
         text[i] = gText_FrameTypeNumber[i];
@@ -732,18 +826,34 @@ static void DrawChoices_FrameType(int selection, int y)
 
     text[i] = EOS;
 
-    DrawOptionMenuChoice(gText_FrameType, 104, y, 0);
-    DrawOptionMenuChoice(text, 128, y, 1);
+    DrawOptionMenuChoice(gText_FrameType, 104, y, 0, active);
+    DrawOptionMenuChoice(text, 128, y, 1, active);
+}
+
+static void DrawChoices_Font(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_FONT);
+    u8 styles[2] = {0};
+    styles[selection] = 1;
+
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
+    DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1], active);
 }
 
 static void DrawChoices_MatchCall(int selection, int y)
 {
+    bool8 active = CheckConditions(MENUITEM_MATCHCALL);
     u8 styles[2] = {0};
-
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1]);
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+
+    DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0], active);
+    DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1], active);
 }
 
 
