@@ -121,6 +121,7 @@ static int ProcessInput_Sound(int selection);
 static int ProcessInput_FrameType(int selection);
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style, bool8 active);
 static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y, bool8 active);
+static void ReDrawAll(void);
 static void DrawChoices_TextSpeed(int selection, int y);
 static void DrawChoices_BattleScene(int selection, int y);
 static void DrawChoices_BattleStyle(int selection, int y);
@@ -489,7 +490,10 @@ static void Task_OptionMenuProcessInput(u8 taskId)
         if (CheckConditions(cursor))
         {
             if (sItemFunctions[cursor].processInput != NULL)
+            {
                 sOptions->sel[cursor] = sItemFunctions[cursor].processInput(previousOption);
+                ReDrawAll();
+            }
 
             if (previousOption != sOptions->sel[cursor])
                 DrawChoices(cursor, sOptions->visibleCursor * Y_DIFF);
@@ -691,12 +695,22 @@ static void DrawChoices_Options_Four(const u8 *const *const strings, int selecti
     styles[selection] = 1;
     xMid = GetMiddleX(strings[order[0]], strings[order[1]], strings[order[2]]);
 
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
-
     DrawOptionMenuChoice(strings[order[0]], 104, y, styles[order[0]], active);
     DrawOptionMenuChoice(strings[order[1]], xMid, y, styles[order[1]], active);
     DrawOptionMenuChoice(strings[order[2]], GetStringRightAlignXOffset(1, strings[order[2]], 198), y, styles[order[2]], active);
+}
+
+static void ReDrawAll(void)
+{
+    u8 menuItem = sOptions->menuCursor - sOptions->visibleCursor;
+    u8 i;
+    FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
+    for (i = 0; i < 7; i++)
+    {
+        DrawChoices(menuItem+i, i * Y_DIFF);
+        DrawLeftSideOptionText(menuItem+i, (i * Y_DIFF) + 1);
+    }
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 }
 
 // Process Input functions ****SPECIFIC****
@@ -715,9 +729,6 @@ static void DrawChoices_BattleScene(int selection, int y)
     u8 styles[2] = {0};
     styles[selection] = 1;
 
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
-
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1], active);
 }
@@ -728,9 +739,6 @@ static void DrawChoices_BattleStyle(int selection, int y)
     u8 styles[2] = {0};
     styles[selection] = 1;
 
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
-
     DrawOptionMenuChoice(gText_BattleStyleShift, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1], active);
 }
@@ -740,9 +748,6 @@ static void DrawChoices_Sound(int selection, int y)
     bool8 active = CheckConditions(MENUITEM_SOUND);
     u8 styles[2] = {0};
     styles[selection] = 1;
-
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
     DrawOptionMenuChoice(gText_SoundMono, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), y, styles[1], active);
@@ -755,9 +760,6 @@ static void DrawChoices_ButtonMode(int selection, int y)
     int xMid = GetMiddleX(gText_ButtonTypeNormal, gText_ButtonTypeLR, gText_ButtonTypeLEqualsA);
     styles[selection] = 1;
 
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
-
     DrawOptionMenuChoice(gText_ButtonTypeNormal, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_ButtonTypeLR, xMid, y, styles[1], active);
     DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), y, styles[2], active);
@@ -766,9 +768,6 @@ static void DrawChoices_ButtonMode(int selection, int y)
 static void DrawChoices_BarSpeed(int selection, int y) //HP and EXP
 {
     bool8 active = CheckConditions(MENUITEM_EXP_BAR);
-
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
     if (selection < 10)
     {
@@ -788,9 +787,6 @@ static void DrawChoices_UnitSystem(int selection, int y)
     u8 styles[2] = {0};
     styles[selection] = 1;
 
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
-
     DrawOptionMenuChoice(gText_UnitSystemImperial, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_UnitSystemMetric, GetStringRightAlignXOffset(1, gText_UnitSystemMetric, 198), y, styles[1], active);
 }
@@ -801,9 +797,6 @@ static void DrawChoices_FrameType(int selection, int y)
     u8 text[16];
     u8 n = selection + 1;
     u16 i;
-
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
     for (i = 0; gText_FrameTypeNumber[i] != EOS && i <= 5; i++)
         text[i] = gText_FrameTypeNumber[i];
@@ -836,9 +829,6 @@ static void DrawChoices_Font(int selection, int y)
     u8 styles[2] = {0};
     styles[selection] = 1;
 
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
-
     DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1], active);
 }
@@ -848,9 +838,6 @@ static void DrawChoices_MatchCall(int selection, int y)
     bool8 active = CheckConditions(MENUITEM_MATCHCALL);
     u8 styles[2] = {0};
     styles[selection] = 1;
-
-    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, y, 26 * 8 - 104, Y_DIFF);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, y, styles[0], active);
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1], active);
