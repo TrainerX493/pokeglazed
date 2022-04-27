@@ -40,7 +40,7 @@ enum
 {
     WIN_TOPBAR,
     WIN_OPTIONS,
-    WIN_DESCRIPTIONS
+    WIN_DESCRIPTION
 };
 
 static const struct WindowTemplate sOptionMenuWinTemplates[] =
@@ -63,38 +63,38 @@ static const struct WindowTemplate sOptionMenuWinTemplates[] =
         .paletteNum = 1,
         .baseBlock = 62
     },
-    {//WIN_DESCRIPTIONS
-        .bg = 0,
+    {//WIN_DESCRIPTION
+        .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 15,
         .width = 26,
         .height = 4,
         .paletteNum = 1,
-        .baseBlock = 322
+        .baseBlock = 500
     },
     DUMMY_WIN_TEMPLATE
 };
 
 static const struct BgTemplate sOptionMenuBgTemplates[] =
 {
-   {
-       .bg = 1,
+    {
+       .bg = 0,
        .charBaseIndex = 1,
        .mapBaseIndex = 30,
        .screenSize = 0,
        .paletteMode = 0,
-       .priority = 0,
+       .priority = 1,
        .baseTile = 0
-   },
-   {
-       .bg = 0,
+    },
+    {
+       .bg = 1,
        .charBaseIndex = 1,
        .mapBaseIndex = 31,
        .screenSize = 0,
        .paletteMode = 0,
-       .priority = 1,
+       .priority = 0,
        .baseTile = 0
-   }
+    },
 };
 
 struct OptionMenu
@@ -111,7 +111,7 @@ struct OptionMenu
 // local functions
 static void MainCB2(void);
 static void VBlankCB(void);
-static void DrawTextOption(void); //top Option text
+static void DrawTopBarText(void); //top Option text
 static void DrawLeftSideOptionText(int selection, int y);
 static void DrawRightSideChoiceText(const u8 *str, int x, int y, bool8 choosen, bool8 active);
 static void DrawOptionMenuTexts(void); //left side text;
@@ -131,6 +131,7 @@ static int ProcessInput_Options_Four(int selection);
 static int ProcessInput_Options_Eleven(int selection);
 static int ProcessInput_Sound(int selection);
 static int ProcessInput_FrameType(int selection);
+static void DrawDescriptionText(void);
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style, bool8 active);
 static void DrawChoices_Options_Four(const u8 *const *const strings, int selection, int y, bool8 active);
 static void ReDrawAll(void);
@@ -231,6 +232,25 @@ static bool8 CheckConditions(int selection)
     }
 }
 
+// Descriptions
+static const u8 sText_Empty[]                                  = _("TEST");
+static const u8 *const sOptionMenuItemDescriptions[MENUITEM_COUNT][4] =
+{
+    [MENUITEM_TEXTSPEED]   = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_BATTLESCENE] = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_BATTLESTYLE] = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_SOUND]       = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_BUTTONMODE]  = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_HP_BAR]      = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_EXP_BAR]     = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_UNIT_SYSTEM] = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_FRAMETYPE]   = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_FONT]        = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_MATCHCALL]   = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_CANCEL]      = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+};
+
+
 // Main code
 static void MainCB2(void)
 {
@@ -247,7 +267,7 @@ static void VBlankCB(void)
     TransferPlttBuffer();
 }
 
-static void DrawTextOption(void) //top Option text
+static void DrawTopBarText(void)
 {
     FillWindowPixelBuffer(WIN_TOPBAR, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_TOPBAR, FONT_NORMAL, gText_Option, 8, 1, TEXT_SKIP_DRAW, NULL);
@@ -262,6 +282,20 @@ static void DrawOptionMenuTexts(void) //left side text
     for (i = 0; i < MENUITEM_COUNT; i++)
         DrawLeftSideOptionText(i, (i * Y_DIFF) + 1);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
+}
+
+static void DrawDescriptionText(void)
+{
+    u8 n = sOptions->menuCursor;
+    u8 s = sOptions->sel[n];
+    u8 color_gray[3];
+    color_gray[0] = TEXT_COLOR_TRANSPARENT;
+    color_gray[1] = TEXT_COLOR_OPTIONS_GRAY_FG;
+    color_gray[2] = TEXT_COLOR_OPTIONS_GRAY_SHADOW;
+        
+    FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(1));
+    AddTextPrinterParameterized4(WIN_DESCRIPTION, FONT_NORMAL, 8, 1, 0, 0, color_gray, TEXT_SKIP_DRAW, sOptionMenuItemDescriptions[n][s]);
+    CopyWindowToVram(WIN_DESCRIPTION, COPYWIN_FULL);
 }
 
 static void DrawLeftSideOptionText(int selection, int y)
@@ -378,11 +412,6 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 6:
-        PutWindowTilemap(0);
-        DrawTextOption();
-        gMain.state++;
-        break;
-    case 7:
         sOptions = AllocZeroed(sizeof(*sOptions));
         sOptions->sel[MENUITEM_TEXTSPEED]   = gSaveBlock2Ptr->optionsTextSpeed;
         sOptions->sel[MENUITEM_BATTLESCENE] = gSaveBlock2Ptr->optionsBattleSceneOff;
@@ -397,12 +426,19 @@ void CB2_InitOptionMenu(void)
         sOptions->sel[MENUITEM_MATCHCALL]   = gSaveBlock2Ptr->optionsDisableMatchCall;
         gMain.state++;
         break;
-    case 8:
-        PutWindowTilemap(1);
-        DrawOptionMenuTexts();
+    case 7:
+        PutWindowTilemap(WIN_TOPBAR);
+        DrawTopBarText();
         gMain.state++;
+        break;
+    case 8:
+        PutWindowTilemap(WIN_DESCRIPTION);
+        DrawDescriptionText();
+        gMain.state++;
+        break;
     case 9:
-        DrawBgWindowFrames();
+        PutWindowTilemap(WIN_OPTIONS);
+        DrawOptionMenuTexts();
         gMain.state++;
         break;
     case 10:
@@ -420,6 +456,10 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 11:
+        DrawBgWindowFrames();
+        gMain.state++;
+        break;
+    case 12:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         SetVBlankCallback(VBlankCB);
         SetMainCallback2(MainCB2);
@@ -469,6 +509,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             }
         }
         HighlightOptionMenuItem(sOptions->visibleCursor);
+        DrawDescriptionText();
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
@@ -494,6 +535,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             }
         }
         HighlightOptionMenuItem(sOptions->visibleCursor);
+        DrawDescriptionText();
     }
     else if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
     {
@@ -505,6 +547,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             {
                 sOptions->sel[cursor] = sItemFunctions[cursor].processInput(previousOption);
                 ReDrawAll();
+                DrawDescriptionText();
             }
 
             if (previousOption != sOptions->sel[cursor])
