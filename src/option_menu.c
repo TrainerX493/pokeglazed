@@ -47,7 +47,7 @@ static const struct WindowTemplate sOptionMenuWinTemplates[] =
 {
     {//WIN_TOPBAR
         .bg = 1,
-        .tilemapLeft = 2,
+        .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = 30,
         .height = 2,
@@ -408,7 +408,7 @@ void CB2_InitOptionMenu(void)
     case 10:
         taskId = CreateTask(Task_OptionMenuFadeIn, 0);
         
-        AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 33, 153,
+        AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 20, 110,
           MENUITEM_COUNT - 1, 110, 110, 0);
 
         for (i = 0; i < OPTIONS_ON_SCREEN; i++)
@@ -474,7 +474,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     {
         if (sOptions->visibleCursor == 3) // don't advance visible cursor until scrolled to the bottom
         {
-            if (++sOptions->menuCursor == MENUITEM_COUNT - 2)
+            if (++sOptions->menuCursor == MENUITEM_COUNT - 1)
                 sOptions->visibleCursor++;
             else
                 ScrollMenu(0);
