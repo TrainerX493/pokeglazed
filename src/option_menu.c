@@ -62,7 +62,7 @@ static void DrawChoices_BattleScene(int selection, int y);
 static void DrawChoices_BattleStyle(int selection, int y);
 static void DrawChoices_Sound(int selection, int y);
 static void DrawChoices_ButtonMode(int selection, int y);
-static void DrawChoices_HpBar(int selection, int y);
+static void DrawChoices_BarSpeed(int selection, int y);
 static void DrawChoices_UnitSystem(int selection, int y);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_Font(int selection, int y);
@@ -72,7 +72,6 @@ static void DrawTextOption(void);
 static void DrawOptionMenuTexts(void);
 static void DrawBgWindowFrames(void);
 static int ProcessInput_Sound(int selection);
-static int ProcessInput_BattleStyle(int selection);
 static int ProcessInput_FrameType(int selection);
 static int ProcessInput_Options_Two(int selection);
 static int ProcessInput_Options_Three(int selection);
@@ -90,8 +89,8 @@ struct
     [MENUITEM_BATTLESTYLE]  = {DrawChoices_BattleStyle, ProcessInput_Options_Two},
     [MENUITEM_SOUND]        = {DrawChoices_Sound,       ProcessInput_Options_Two},
     [MENUITEM_BUTTONMODE]   = {DrawChoices_ButtonMode,  ProcessInput_Options_Three},
-    [MENUITEM_HP_BAR]       = {DrawChoices_HpBar,       ProcessInput_Options_Eleven},
-    [MENUITEM_EXP_BAR]      = {DrawChoices_HpBar,       ProcessInput_Options_Eleven},
+    [MENUITEM_HP_BAR]       = {DrawChoices_BarSpeed,    ProcessInput_Options_Eleven},
+    [MENUITEM_EXP_BAR]      = {DrawChoices_BarSpeed,    ProcessInput_Options_Eleven},
     [MENUITEM_UNIT_SYSTEM]  = {DrawChoices_UnitSystem,  ProcessInput_Options_Two},
     [MENUITEM_FRAMETYPE]    = {DrawChoices_FrameType,   ProcessInput_FrameType},
     [MENUITEM_FONT]         = {DrawChoices_Font,        ProcessInput_Options_Two}, 
@@ -125,10 +124,6 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_MATCHCALL]   = gText_OptionMatchCalls,
     [MENUITEM_CANCEL]      = gText_OptionMenuSave,
 };
-
-static const u8 sText_Faster[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FASTER");
-static const u8 sText_Instant[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}INSTANT");
-static const u8 *const sTextSpeedStrings[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast, sText_Faster};
 
 static const struct WindowTemplate sOptionMenuWinTemplates[] =
 {
@@ -462,13 +457,30 @@ static void Task_OptionMenuFadeOut(u8 taskId)
     }
 }
 
+static void DrawTextOption(void) //top Option text
+{
+    FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_NORMAL, gText_Option, 8, 1, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(WIN_TEXT_OPTION, COPYWIN_FULL);
+}
+
 static void HighlightOptionMenuItem(int cursor)
 {
     SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(Y_DIFF, 224));
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(cursor * Y_DIFF + 40, cursor * Y_DIFF + 56));
 }
 
-// Process Input functions
+static void DrawOptionMenuTexts(void)
+{
+    u8 i;
+
+    FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
+    for (i = 0; i < MENUITEM_COUNT; i++)
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, sOptionMenuItemsNames[i], 8, (i * Y_DIFF) + 1, TEXT_SKIP_DRAW, NULL);
+    CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
+}
+
+// Process Input functions ****GENERIC****
 static int GetMiddleX(const u8 *txt1, const u8 *txt2, const u8 *txt3)
 {
     int xMid;
@@ -519,7 +531,44 @@ static int ProcessInput_Options_Eleven(int selection)
     return XOptions_ProcessInput(11, selection);
 }
 
-// Draw Choices functions
+// Process Input functions ****SPECIFIC****
+static int ProcessInput_Sound(int selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        SetPokemonCryStereo(selection);
+    }
+
+    return selection;
+}
+
+static int ProcessInput_FrameType(int selection)
+{
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (selection < WINDOW_FRAMES_COUNT - 1)
+            selection++;
+        else
+            selection = 0;
+
+        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
+        LoadPalette(GetWindowFrameTilesPal(selection)->pal, 0x70, 0x20);
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (selection != 0)
+            selection--;
+        else
+            selection = WINDOW_FRAMES_COUNT - 1;
+
+        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
+        LoadPalette(GetWindowFrameTilesPal(selection)->pal, 0x70, 0x20);
+    }
+    return selection;
+}
+
+// Draw Choices functions ****GENERIC****
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
 {
     u8 dst[16];
@@ -561,6 +610,11 @@ static void DrawChoices_Options_Four(const u8 *const *const strings, int selecti
     DrawOptionMenuChoice(strings[order[1]], xMid, y, styles[order[1]]);
     DrawOptionMenuChoice(strings[order[2]], GetStringRightAlignXOffset(1, strings[order[2]], 198), y, styles[order[2]]);
 }
+
+// Process Input functions ****SPECIFIC****
+static const u8 sText_Faster[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FASTER");
+static const u8 sText_Instant[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}INSTANT");
+static const u8 *const sTextSpeedStrings[] = {gText_TextSpeedSlow, gText_TextSpeedMid, gText_TextSpeedFast, sText_Faster};
 static void DrawChoices_TextSpeed(int selection, int y)
 {
     DrawChoices_Options_Four(sTextSpeedStrings, selection, y);
@@ -576,16 +630,6 @@ static void DrawChoices_BattleScene(int selection, int y)
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
-static int ProcessInput_BattleStyle(int selection)
-{
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-    }
-
-    return selection;
-}
-
 static void DrawChoices_BattleStyle(int selection, int y)
 {
     u8 styles[2] = {0};
@@ -598,17 +642,6 @@ static void DrawChoices_BattleStyle(int selection, int y)
     DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleStyleSet, 198), y, styles[1]);
 }
 
-static int ProcessInput_Sound(int selection)
-{
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
-    {
-        selection ^= 1;
-        SetPokemonCryStereo(selection);
-    }
-
-    return selection;
-}
-
 static void DrawChoices_Sound(int selection, int y)
 {
     u8 styles[2] = {0};
@@ -617,25 +650,6 @@ static void DrawChoices_Sound(int selection, int y)
 
     DrawOptionMenuChoice(gText_SoundMono, 104, y, styles[0]);
     DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), y, styles[1]);
-}
-
-static int ButtonMode_ProcessInput(int selection)
-{
-    if (JOY_NEW(DPAD_RIGHT))
-    {
-        if (selection <= 1)
-            selection++;
-        else
-            selection = 0;
-    }
-    if (JOY_NEW(DPAD_LEFT))
-    {
-        if (selection != 0)
-            selection--;
-        else
-            selection = 2;
-    }
-    return selection;
 }
 
 static void DrawChoices_ButtonMode(int selection, int y)
@@ -649,7 +663,7 @@ static void DrawChoices_ButtonMode(int selection, int y)
     DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), y, styles[2]);
 }
 
-static void DrawChoices_HpBar(int selection, int y)
+static void DrawChoices_BarSpeed(int selection, int y) //HP and EXP
 {
     if (selection < 10)
     {
@@ -673,29 +687,14 @@ static void DrawChoices_UnitSystem(int selection, int y)
     DrawOptionMenuChoice(gText_UnitSystemMetric, GetStringRightAlignXOffset(1, gText_UnitSystemMetric, 198), y, styles[1]);
 }
 
-static int ProcessInput_FrameType(int selection)
+static void DrawChoices_Font(int selection, int y)
 {
-    if (JOY_NEW(DPAD_RIGHT))
-    {
-        if (selection < WINDOW_FRAMES_COUNT - 1)
-            selection++;
-        else
-            selection = 0;
+    u8 styles[2] = {0};
 
-        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
-        LoadPalette(GetWindowFrameTilesPal(selection)->pal, 0x70, 0x20);
-    }
-    if (JOY_NEW(DPAD_LEFT))
-    {
-        if (selection != 0)
-            selection--;
-        else
-            selection = WINDOW_FRAMES_COUNT - 1;
+    styles[selection] = 1;
 
-        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
-        LoadPalette(GetWindowFrameTilesPal(selection)->pal, 0x70, 0x20);
-    }
-    return selection;
+    DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0]);
+    DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1]);
 }
 
 static void DrawChoices_FrameType(int selection, int y)
@@ -729,16 +728,6 @@ static void DrawChoices_FrameType(int selection, int y)
     DrawOptionMenuChoice(text, 128, y, 1);
 }
 
-static void DrawChoices_Font(int selection, int y)
-{
-    u8 styles[2] = {0};
-
-    styles[selection] = 1;
-
-    DrawOptionMenuChoice(gText_OptionFontEmerald, 104, y, styles[0]);
-    DrawOptionMenuChoice(gText_OptionFontFireRed, GetStringRightAlignXOffset(1, gText_OptionFontFireRed, 198), y, styles[1]);
-}
-
 static void DrawChoices_MatchCall(int selection, int y)
 {
     u8 styles[2] = {0};
@@ -749,23 +738,8 @@ static void DrawChoices_MatchCall(int selection, int y)
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), y, styles[1]);
 }
 
-static void DrawTextOption(void)
-{
-    FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_NORMAL, gText_Option, 8, 1, TEXT_SKIP_DRAW, NULL);
-    CopyWindowToVram(WIN_TEXT_OPTION, COPYWIN_FULL);
-}
 
-static void DrawOptionMenuTexts(void)
-{
-    u8 i;
-
-    FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
-    for (i = 0; i < MENUITEM_COUNT; i++)
-        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, sOptionMenuItemsNames[i], 8, (i * Y_DIFF) + 1, TEXT_SKIP_DRAW, NULL);
-    CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
-}
-
+// Background tilemap
 #define TILE_TOP_CORNER_L 0x1A2
 #define TILE_TOP_EDGE     0x1A3
 #define TILE_TOP_CORNER_R 0x1A4
