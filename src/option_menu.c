@@ -156,13 +156,13 @@ static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};
 static const u16 sOptionMenuText_Pal[] = INCBIN_U16("graphics/interface/option_menu_text_custom.gbapal");
 
 #define TEXT_COLOR_OPTIONS_WHITE                1
-#define TEXT_COLOR_OPTIONS_ORANGE_FG            2
-#define TEXT_COLOR_OPTIONS_ORANGE_SHADOW        3
-#define TEXT_COLOR_OPTIONS_RED_FG               4
-#define TEXT_COLOR_OPTIONS_RED_SHADOW           5
-#define TEXT_COLOR_OPTIONS_GRAY_FG              6
-#define TEXT_COLOR_OPTIONS_GRAY_SHADOW          7
-#define TEXT_COLOR_OPTIONS_GRAY_LIGHT_FG        8
+#define TEXT_COLOR_OPTIONS_GRAY_FG              2
+#define TEXT_COLOR_OPTIONS_GRAY_SHADOW          3
+#define TEXT_COLOR_OPTIONS_GRAY_LIGHT_FG        4
+#define TEXT_COLOR_OPTIONS_ORANGE_FG            5
+#define TEXT_COLOR_OPTIONS_ORANGE_SHADOW        6
+#define TEXT_COLOR_OPTIONS_RED_FG               7
+#define TEXT_COLOR_OPTIONS_RED_SHADOW           8
 #define TEXT_COLOR_OPTIONS_GREEN_FG             9
 #define TEXT_COLOR_OPTIONS_GREEN_SHADOW         10
 #define TEXT_COLOR_OPTIONS_GREEN_DARK_FG        11
@@ -267,10 +267,14 @@ static void VBlankCB(void)
     TransferPlttBuffer();
 }
 
+static const u8 sText_TopBar[] = _("{L_BUTTON}LEFT  {DPAD_UPDOWN}OPTIONS  {DPAD_LEFTRIGHT}SELECTION                 {R_BUTTON}RIGHT");
 static void DrawTopBarText(void)
 {
-    FillWindowPixelBuffer(WIN_TOPBAR, PIXEL_FILL(1));
-    AddTextPrinterParameterized(WIN_TOPBAR, FONT_NORMAL, gText_Option, 8, 1, TEXT_SKIP_DRAW, NULL);
+    const u8 color[3] = { TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_OPTIONS_GRAY_FG };
+
+    FillWindowPixelBuffer(WIN_TOPBAR, PIXEL_FILL(15));
+    AddTextPrinterParameterized3(WIN_TOPBAR, FONT_SMALL, 2, 1, color, 0, sText_TopBar);
+    PutWindowTilemap(WIN_TOPBAR);
     CopyWindowToVram(WIN_TOPBAR, COPYWIN_FULL);
 }
 
