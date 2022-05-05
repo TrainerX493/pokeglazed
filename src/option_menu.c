@@ -1002,20 +1002,21 @@ static void DrawChoices_ButtonMode(int selection, int y)
     DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), y, styles[2], active);
 }
 
+static const u8 sText_Normal[] = _("NORMAL");
 static void DrawChoices_BarSpeed(int selection, int y) //HP and EXP
 {
     bool8 active = CheckConditions(MENUITEM_CUSTOM_EXP_BAR);
 
-    if (selection < 10)
+    if (selection == 0)
+         DrawOptionMenuChoice(sText_Normal, 104, y, 1, active);
+    else if (selection < 10)
     {
-        u8 textPlus[] = _("{0x77}{0x77}{0x77}{0x77}{0x77}"); // 0x77 is to clear INSTANT text
-        textPlus[0] = CHAR_0 + selection;
+        u8 textPlus[] = _("+1{0x77}{0x77}{0x77}{0x77}{0x77}"); // 0x77 is to clear INSTANT text
+        textPlus[1] = CHAR_0 + selection;
         DrawOptionMenuChoice(textPlus, 104, y, 1, active);
     }
     else
-    {
         DrawOptionMenuChoice(sText_Instant, 104, y, 1, active);
-    }
 }
 
 static void DrawChoices_UnitSystem(int selection, int y)
