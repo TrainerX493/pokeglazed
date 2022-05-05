@@ -265,8 +265,8 @@ static bool8 CheckConditions(int selection)
         {
         case MENUITEM_MAIN_TEXTSPEED:       return TRUE;
         case MENUITEM_MAIN_BATTLESCENE:     return TRUE;
-        case MENUITEM_MAIN_BATTLESTYLE:     return sOptions->sel[1];
-        case MENUITEM_MAIN_SOUND:           return FALSE;
+        case MENUITEM_MAIN_BATTLESTYLE:     return TRUE;
+        case MENUITEM_MAIN_SOUND:           return TRUE;
         case MENUITEM_MAIN_BUTTONMODE:      return TRUE;
         case MENUITEM_MAIN_UNIT_SYSTEM:     return TRUE;
         case MENUITEM_MAIN_FRAMETYPE:       return TRUE;
@@ -287,26 +287,51 @@ static bool8 CheckConditions(int selection)
 }
 
 // Descriptions
-static const u8 sText_Empty[]                                  = _("TEST");
-static const u8 *const sOptionMenuItemDescriptionsMain[MENUITEM_MAIN_COUNT][4] =
+static const u8 sText_Empty[]                   = _("");
+static const u8 sText_Desc_Save[]               = _("Save your settings.");
+static const u8 sText_Desc_TextSpeed[]          = _("Choose one of the four text-display\nspeeds.");
+static const u8 sText_Desc_BattleScene_On[]     = _("Show the POKéMON battle animations.");
+static const u8 sText_Desc_BattleScene_Off[]    = _("Skip the POKéMON battle animations.");
+static const u8 sText_Desc_BattleStyle_Shift[]  = _("Get the option to switch your\nPOKéMON after the enemies faints.");
+static const u8 sText_Desc_BattleStyle_Set[]    = _("No free switch after fainting the\nenemies POKéMON.");
+static const u8 sText_Desc_SoundMono[]          = _("Sound is the same in all speakers.\nRecommended for original hardware.");
+static const u8 sText_Desc_SoundStereo[]        = _("Play the left and right audio channel\nseperatly. Great with headphones.");
+static const u8 sText_Desc_ButtonMode[]         = _("All buttons work as normal.");
+static const u8 sText_Desc_ButtonMode_LR[]      = _("On some screens the L and R buttons\nact as left and right.");
+static const u8 sText_Desc_ButtonMode_LA[]      = _("The L button acts as another A\nbutton for one-handed play.");
+static const u8 sText_Desc_UnitSystemImperial[] = _("Display BERRY and POKéMON weight\nand size in pounds and inches.");
+static const u8 sText_Desc_UnitSystemMetric[]   = _("Display BERRY and POKéMON weight\nand size in kilograms and meters.");
+static const u8 sText_Desc_FrameType[]          = _("Choose the frame surrounding the\nwindows.");
+// Custom
+static const u8 sText_Desc_BattleHPBar[]        = _("Choose how fast the HP BAR will get\ndrained in battles.");
+static const u8 sText_Desc_BattleExpBar[]       = _("Choose how fast the EXP BAR will get\nfilled in battles.");
+static const u8 sText_Desc_SurfOff[]            = _("Disables the SURF theme when\nusing SURF.");
+static const u8 sText_Desc_SurfOn[]             = _("Enables the SURF theme\nwhen using SURF.");
+static const u8 sText_Desc_BikeOff[]            = _("Disables the BIKE theme when\nusing the BIKE.");
+static const u8 sText_Desc_BikeOn[]             = _("Enables the BIKE theme when\nusing the BIKE.");
+static const u8 sText_Desc_FontType[]           = _("Choose the font design.");
+static const u8 sText_Desc_OverworldCallsOn[]   = _("TRAINERs will be able to call you,\noffering rematches and info.");
+static const u8 sText_Desc_OverworldCallsOff[]  = _("You will not receive calls.\nSpecial events will still occur.");
+
+static const u8 *const sOptionMenuItemDescriptionsMain[MENUITEM_MAIN_COUNT][3] =
 {
-    [MENUITEM_MAIN_TEXTSPEED]   = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_BATTLESCENE] = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_BATTLESTYLE] = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_SOUND]       = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_BUTTONMODE]  = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_UNIT_SYSTEM] = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_FRAMETYPE]   = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_MAIN_CANCEL]      = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_MAIN_TEXTSPEED]   = {sText_Desc_TextSpeed,            sText_Empty,                sText_Empty},
+    [MENUITEM_MAIN_BATTLESCENE] = {sText_Desc_BattleScene_On,       sText_Desc_BattleScene_Off, sText_Empty},
+    [MENUITEM_MAIN_BATTLESTYLE] = {sText_Desc_BattleStyle_Shift,    sText_Desc_BattleStyle_Set, sText_Empty},
+    [MENUITEM_MAIN_SOUND]       = {sText_Desc_SoundMono,            sText_Desc_SoundStereo,     sText_Empty},
+    [MENUITEM_MAIN_BUTTONMODE]  = {sText_Desc_ButtonMode,           sText_Desc_ButtonMode_LR,   sText_Desc_ButtonMode_LA},
+    [MENUITEM_MAIN_UNIT_SYSTEM] = {sText_Desc_UnitSystemImperial,   sText_Desc_UnitSystemMetric,sText_Empty},
+    [MENUITEM_MAIN_FRAMETYPE]   = {sText_Desc_FrameType,            sText_Empty,                sText_Empty},
+    [MENUITEM_MAIN_CANCEL]      = {sText_Desc_Save,                 sText_Empty,                sText_Empty},
 };
 
-static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][4] =
+static const u8 *const sOptionMenuItemDescriptionsCustom[MENUITEM_CUSTOM_COUNT][2] =
 {
-    [MENUITEM_CUSTOM_HP_BAR]      = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_CUSTOM_EXP_BAR]     = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_CUSTOM_FONT]        = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_CUSTOM_MATCHCALL]   = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
-    [MENUITEM_CUSTOM_CANCEL]      = {sText_Empty, sText_Empty, sText_Empty, sText_Empty},
+    [MENUITEM_CUSTOM_HP_BAR]      = {sText_Desc_BattleHPBar,        sText_Empty},
+    [MENUITEM_CUSTOM_EXP_BAR]     = {sText_Desc_BattleExpBar,       sText_Empty},
+    [MENUITEM_CUSTOM_FONT]        = {sText_Desc_FontType,           sText_Desc_FontType},
+    [MENUITEM_CUSTOM_MATCHCALL]   = {sText_Desc_OverworldCallsOn,   sText_Desc_OverworldCallsOff},
+    [MENUITEM_CUSTOM_CANCEL]      = {sText_Desc_Save,               sText_Empty},
 };
 
 static const u8 *const OptionTextDescription(void)
@@ -317,10 +342,14 @@ static const u8 *const OptionTextDescription(void)
     switch (sOptions->submenu)
     {
     case MENU_MAIN:
-        selection = sOptions->sel[menuItem];  
+        selection = sOptions->sel[menuItem];
+        if (menuItem == MENUITEM_MAIN_TEXTSPEED || menuItem == MENUITEM_MAIN_FRAMETYPE)
+            selection = 0;
         return sOptionMenuItemDescriptionsMain[menuItem][selection];
     case MENU_CUSTOM:
         selection = sOptions->sel_custom[menuItem];
+        if (menuItem == MENUITEM_CUSTOM_HP_BAR || menuItem == MENUITEM_CUSTOM_EXP_BAR)
+            selection = 0;
         return sOptionMenuItemDescriptionsCustom[menuItem][selection];
     }
 }
