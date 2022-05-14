@@ -213,7 +213,6 @@ struct // MENU_CUSTOM
     int (*processInput)(int selection);
 } static const sItemFunctionsCustom[MENUITEM_CUSTOM_COUNT] =
 {
-    [MENUITEM_MAIN_BUTTONMODE]   = {DrawChoices_ButtonMode,  ProcessInput_Options_Three},
     [MENUITEM_CUSTOM_HP_BAR]       = {DrawChoices_BarSpeed,    ProcessInput_Options_Eleven},
     [MENUITEM_CUSTOM_EXP_BAR]      = {DrawChoices_BarSpeed,    ProcessInput_Options_Eleven},
     [MENUITEM_CUSTOM_FONT]         = {DrawChoices_Font,        ProcessInput_Options_Two}, 
@@ -597,7 +596,7 @@ void CB2_InitOptionMenu(void)
         
         sOptions->arrowTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 240 / 2, 20, 110, MENUITEM_MAIN_COUNT - 1, 110, 110, 0);
 
-        for (i = 0; i < OPTIONS_ON_SCREEN; i++)
+        for (i = 0; i < min(OPTIONS_ON_SCREEN, MenuItemCount()); i++)
             DrawChoices(i, i * Y_DIFF);
 
         HighlightOptionMenuItem();
@@ -625,7 +624,8 @@ static void Task_OptionMenuFadeIn(u8 taskId)
 
 static void Task_OptionMenuProcessInput(u8 taskId)
 {
-    int i, scrollCount = 0, itemsToRedraw;
+    int i = 0;
+    u8 optionsToDraw = min(OPTIONS_ON_SCREEN , MenuItemCount());
     if (JOY_NEW(A_BUTTON))
     {
         if (sOptions->menuCursor[sOptions->submenu] == MenuItemCancel())
@@ -648,9 +648,9 @@ static void Task_OptionMenuProcessInput(u8 taskId)
         {
             if (--sOptions->menuCursor[sOptions->submenu] < 0) // Scroll all the way to the bottom.
             {
-                sOptions->visibleCursor[sOptions->submenu] = sOptions->menuCursor[sOptions->submenu] = 3;
+                sOptions->visibleCursor[sOptions->submenu] = sOptions->menuCursor[sOptions->submenu] = optionsToDraw-2;
                 ScrollAll(0);
-                sOptions->visibleCursor[sOptions->submenu] = 4;
+                sOptions->visibleCursor[sOptions->submenu] = optionsToDraw-1;
                 sOptions->menuCursor[sOptions->submenu] = MenuItemCount() - 1;
             }
             else
@@ -663,7 +663,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
-        if (sOptions->visibleCursor[sOptions->submenu] == 3) // don't advance visible cursor until scrolled to the bottom
+        if (sOptions->visibleCursor[sOptions->submenu] == optionsToDraw-2) // don't advance visible cursor until scrolled to the bottom
         {
             if (++sOptions->menuCursor[sOptions->submenu] == MenuItemCount() - 1)
                 sOptions->visibleCursor[sOptions->submenu]++;
@@ -674,8 +674,8 @@ static void Task_OptionMenuProcessInput(u8 taskId)
         {
             if (++sOptions->menuCursor[sOptions->submenu] >= MenuItemCount()-1) // Scroll all the way to the top.
             {
-                sOptions->visibleCursor[sOptions->submenu] = 3;
-                sOptions->menuCursor[sOptions->submenu] = MenuItemCount() - 4;
+                sOptions->visibleCursor[sOptions->submenu] = optionsToDraw-2;
+                sOptions->menuCursor[sOptions->submenu] = MenuItemCount() - optionsToDraw-1;
                 ScrollAll(1);
                 sOptions->visibleCursor[sOptions->submenu] = sOptions->menuCursor[sOptions->submenu] = 0;
             }
@@ -779,9 +779,10 @@ static void Task_OptionMenuFadeOut(u8 taskId)
 static void ScrollMenu(int direction)
 {
     int menuItem, pos;
+    u8 optionsToDraw = min(OPTIONS_ON_SCREEN, MenuItemCount());
 
     if (direction == 0) // scroll down
-        menuItem = sOptions->menuCursor[sOptions->submenu] + NUM_OPTIONS_FROM_BORDER, pos = OPTIONS_ON_SCREEN - 1;
+        menuItem = sOptions->menuCursor[sOptions->submenu] + NUM_OPTIONS_FROM_BORDER, pos = optionsToDraw - 1;
     else
         menuItem = sOptions->menuCursor[sOptions->submenu] - NUM_OPTIONS_FROM_BORDER, pos = 0;
 
@@ -798,8 +799,9 @@ static void ScrollAll(int direction) // to bottom or top
 {
     int i, y, menuItem, pos;
     int scrollCount;
+    u8 optionsToDraw = min(OPTIONS_ON_SCREEN, MenuItemCount());
 
-    scrollCount = MenuItemCount() - OPTIONS_ON_SCREEN;
+    scrollCount = MenuItemCount() - optionsToDraw;
 
     // Move items up/down
     ScrollWindow(WIN_OPTIONS, direction, Y_DIFF * scrollCount, PIXEL_FILL(1));
@@ -807,9 +809,9 @@ static void ScrollAll(int direction) // to bottom or top
     // Clear moved items
     if (direction == 0)
     {
-        y = OPTIONS_ON_SCREEN - scrollCount;
+        y = optionsToDraw - scrollCount;
         if (y < 0)
-            y = OPTIONS_ON_SCREEN;
+            y = optionsToDraw;
         y *= Y_DIFF;
     }
     else
@@ -822,7 +824,7 @@ static void ScrollAll(int direction) // to bottom or top
     for (i = 0; i < scrollCount; i++)
     {
         if (direction == 0) // From top to bottom
-            menuItem = MenuItemCount() - 1 - i, pos = OPTIONS_ON_SCREEN - 1 - i;
+            menuItem = MenuItemCount() - 1 - i, pos = optionsToDraw - 1 - i;
         else // From bottom to top
             menuItem = i, pos = i;
         DrawChoices(menuItem, pos * Y_DIFF);
@@ -954,8 +956,9 @@ static void ReDrawAll(void)
 {
     u8 menuItem = sOptions->menuCursor[sOptions->submenu] - sOptions->visibleCursor[sOptions->submenu];
     u8 i;
+    u8 optionsToDraw = min(OPTIONS_ON_SCREEN, MenuItemCount());
 
-    if (MenuItemCount() <= 5) // Draw or delete the scrolling arrows based on options in the menu
+    if (MenuItemCount() <= OPTIONS_ON_SCREEN) // Draw or delete the scrolling arrows based on options in the menu
     {
         if (sOptions->arrowTaskId != TASK_NONE)
         {
@@ -971,7 +974,7 @@ static void ReDrawAll(void)
     }
 
     FillWindowPixelBuffer(WIN_OPTIONS, PIXEL_FILL(1));
-    for (i = 0; i < OPTIONS_ON_SCREEN; i++)
+    for (i = 0; i < optionsToDraw; i++)
     {
         DrawChoices(menuItem+i, i * Y_DIFF);
         DrawLeftSideOptionText(menuItem+i, (i * Y_DIFF) + 1);
