@@ -1,94 +1,6 @@
 #ifndef GUARD_CONSTANTS_BATTLE_CONFIG_H
 #define GUARD_CONSTANTS_BATTLE_CONFIG_H
 
-#include "constants/expansion_branches.h"
-
-// Species with peculiar battle effects.
-#ifndef POKEMON_EXPANSION
-    #define SPECIES_DIALGA                           0
-    #define SPECIES_PALKIA                           0
-    #define SPECIES_GIRATINA                         0
-    #define SPECIES_CHERRIM                          0
-    #define SPECIES_ARCEUS                           0
-    #define SPECIES_SILVALLY                         0
-    #define SPECIES_GENESECT                         0
-    #define SPECIES_AEGISLASH                        0
-    #define SPECIES_AEGISLASH_BLADE                  10000
-    #define SPECIES_MIMIKYU                          0
-    #define SPECIES_MIMIKYU_BUSTED                   10001
-    #define SPECIES_DARMANITAN                       0
-    #define SPECIES_DARMANITAN_ZEN_MODE              10002
-    #define SPECIES_MINIOR_CORE_RED                  0
-    #define SPECIES_MINIOR                           10003
-    #define SPECIES_MINIOR_CORE_BLUE                 0
-    #define SPECIES_MINIOR_METEOR_BLUE               10004
-    #define SPECIES_MINIOR_CORE_GREEN                0
-    #define SPECIES_MINIOR_METEOR_GREEN              10005
-    #define SPECIES_MINIOR_CORE_INDIGO               0
-    #define SPECIES_MINIOR_METEOR_INDIGO             10006
-    #define SPECIES_MINIOR_CORE_ORANGE               0
-    #define SPECIES_MINIOR_METEOR_ORANGE             10007
-    #define SPECIES_MINIOR_CORE_VIOLET               0
-    #define SPECIES_MINIOR_METEOR_VIOLET             10008
-    #define SPECIES_MINIOR_CORE_YELLOW               0
-    #define SPECIES_MINIOR_METEOR_YELLOW             10009
-    #define SPECIES_WISHIWASHI                       0
-    #define SPECIES_WISHIWASHI_SCHOOL                10010
-    #define SPECIES_ZYGARDE                          0     // 50%
-    #define SPECIES_ZYGARDE_10                       10011 // 10 %
-    #define SPECIES_ZYGARDE_COMPLETE                 10012 // 100 %
-    #define SPECIES_BURMY                            0
-    #define SPECIES_BURMY_SANDY_CLOAK                10013
-    #define SPECIES_BURMY_TRASH_CLOAK                10014
-    #define SPECIES_CRAMORANT                        0
-    #define SPECIES_CRAMORANT_GORGING                10015
-    #define SPECIES_CRAMORANT_GULPING                10016
-    #define SPECIES_GRENINJA_BATTLE_BOND             0
-    #define SPECIES_GRENINJA_ASH                     10017
-    #define SPECIES_HOOPA                            0
-    #define SPECIES_HOOPA_UNBOUND                    10018
-    #define SPECIES_MELOETTA                         0
-    #define SPECIES_MELOETTA_PIROUETTE               10019
-    #define SPECIES_MORPEKO                          0
-    #define SPECIES_MORPEKO_HANGRY                   10020
-    #define SPECIES_SIRFETCHD                        10021
-    #define SPECIES_DARMANITAN_GALARIAN              0
-    #define SPECIES_DARMANITAN_ZEN_MODE_GALARIAN     10022
-    #define SPECIES_HEATMOR                          0
-    #define SPECIES_DURANT                           0
-    #define SPECIES_CARBINK                          0
-    #define SPECIES_MAREANIE                         0
-#endif
-
-// Items with peculiar battle effects.
-#ifndef ITEM_EXPANSION
-    #define ITEM_CHOPLE_BERRY   177
-    #define ITEM_KEBIA_BERRY    178
-    #define ITEM_SHUCA_BERRY    179
-    #define ITEM_COBA_BERRY     180
-    #define ITEM_PAYAPA_BERRY   181
-    #define ITEM_TANGA_BERRY    182
-    #define ITEM_CHARTI_BERRY   183
-    #define ITEM_KASIB_BERRY    184
-    #define ITEM_HABAN_BERRY    185
-    #define ITEM_COLBUR_BERRY   186
-    #define ITEM_BABIRI_BERRY   187
-    #define ITEM_CHILAN_BERRY   188
-    #define ITEM_ROSELI_BERRY   189
-    #define ITEM_MICLE_BERRY    197
-    #define ITEM_CUSTAP_BERRY   199
-    #define ITEM_JABOCA_BERRY   200
-    #define ITEM_ROWAP_BERRY    201
-    #define ITEM_KEE_BERRY      202
-    #define ITEM_MARANGA_BERRY  203
-    #define ITEM_OCCA_BERRY     204
-    #define ITEM_PASSHO_BERRY   205
-    #define ITEM_WACAN_BERRY    206
-    #define ITEM_RINDO_BERRY    207
-    #define ITEM_YACHE_BERRY    208
-    #define ITEM_GRISEOUS_ORB   369
-#endif
-
 #ifndef GEN_3
     #define GEN_3 0
     #define GEN_4 1
@@ -99,11 +11,12 @@
 #endif
 
 // Calculation settings
-#define B_CRIT_CHANCE               GEN_7 // Chances of a critical hit landing. See CalcCritChanceStage.
+#define B_CRIT_CHANCE               GEN_7 // Chances of a critical hit landing. See CalcCritChanceStage. Gen6+ chances guarantee that Farfetch'd and Sirfetch'd always get critical hits while holding a Leek and using high-crit ratio moves.
 #define B_CRIT_MULTIPLIER           GEN_7 // In Gen6+, critical hits multiply damage by 1.5 instead of 2.
 #define B_PARALYSIS_SPEED           GEN_7 // In Gen7+, Speed is decreased by 50% instead of 75%.
 #define B_CONFUSION_SELF_DMG_CHANCE GEN_7 // In Gen7+, confusion has a 33.3% of self-damage, instead of 50%.
 #define B_MULTI_HIT_CHANCE          GEN_7 // In Gen5+, multi-hit moves have different %. See Cmd_setmultihitcounter for values.
+#define B_WHITEOUT_MONEY            GEN_7 // In Gen4+, the amount of money lost by losing a battle is determined by the amount of badges earned. Previously, it would cut the current money by half. (While this change was also in FRLG, for the sake of simplicity, setting this to GEN_3 will result in RSE behavior.)
 
 // Exp and stat settings
 #define B_EXP_CATCH                 GEN_7 // In Gen6+, Pokémon get experience from catching.
@@ -116,6 +29,7 @@
 
 // Damage settings
 #define B_BURN_DAMAGE               GEN_7 // In Gen7+, burn damage is 1/16th of max HP instead of 1/8th.
+#define B_BURN_FACADE_DMG           GEN_7 // In Gen6+, burn's effect of lowering the Attack stat no longer applies to Facade.
 #define B_BINDING_DAMAGE            GEN_7 // In Gen6+, binding damage is 1/8 of max HP instead of 1/16. (With Binding Band, 1/6 and 1/8 respectively.)
 #define B_PSYWAVE_DMG               GEN_7 // Psywave's damage formula. See Cmd_psywavedamageeffect.
 #define B_PAYBACK_SWITCH_BOOST      GEN_7 // In Gen5+, if the opponent switches out, Payback's damage will no longer be doubled.
@@ -123,6 +37,7 @@
 #define B_ROUGH_SKIN_DMG            GEN_7 // In Gen4+, Rough Skin contact damage is 1/8th of max HP instead of 1/16th. This will also affect Iron Barbs.
 #define B_KNOCK_OFF_DMG             GEN_8 // In Gen6+, Knock Off deals 50% more damage when knocking off an item.
 #define B_SPORT_DMG_REDUCTION       GEN_7 // In Gen5+, Water/Mud Sport reduce Fire/Electric Damage by 67% instead of 50%.
+#define B_EXPLOSION_DEFENSE         GEN_7 // In Gen5+, Self-Destruct and Explosion don't halve the targets' defense.
 
 // Type settings
 #define B_GHOSTS_ESCAPE             GEN_7 // In Gen6+, abilities like Shadow Tag or moves like Mean Look fail on Ghost-type Pokémon. They can also escape any Wild Battle.
@@ -142,26 +57,33 @@
 #define B_SPORT_TURNS               GEN_7 // In Gen6+, Water/Mud Sport last 5 turns, even if the user switches out.
 #define B_MEGA_EVO_TURN_ORDER       GEN_7 // In Gen7, a Pokémon's Speed after Mega Evolution is used to determine turn order, not its Speed before.
 #define B_RECALC_TURN_AFTER_ACTIONS GEN_8 // In Gen8, switching/using a move affects the current turn's order of actions.
+#define B_FAINT_SWITCH_IN           GEN_7 // In Gen4+, sending out a new Pokémon after the previous one fainted happens at the end of the turn. Before, it would happen after each action.
 
 // Move data settings
 #define B_UPDATED_MOVE_DATA         GEN_8 // Updates move data in gBattleMoves, including Power, Accuracy, PP, stat changes, targets, chances of secondary effects, etc.
 #define B_PHYSICAL_SPECIAL_SPLIT    GEN_7 // In Gen3, the move's type determines if it will do physical or special damage. The split icon in the summary will reflect this.
-#define B_FELL_STINGER_STAT_RAISE   GEN_7 // In Gen7+, it raises Atk by 3 stages instead of 2 if it causes the target to faint.
-#define B_KINGS_SHIELD_LOWER_ATK    GEN_7 // In Gen7+, it lowers Atk by 1 stage instead of 2 of oponents that hit it.
-#define B_SPEED_BUFFING_RAPID_SPIN  GEN_8 // In Gen8, Rapid Spin raises the user's Speed by 1 stage.
 #define B_RECOIL_IF_MISS_DMG        GEN_7 // In Gen5+, Jump Kick and High Jump Kick will always do half of the user's max HP when missing.
 #define B_KLUTZ_FLING_INTERACTION   GEN_7 // In Gen5+, Pokémon with the Klutz ability can't use Fling.
 #define B_UPDATED_CONVERSION        GEN_7 // In Gen6+, Conversion changes the user's type to match their first move's. Before, it would choose a move at random.
+#define B_PP_REDUCED_BY_SPITE       GEN_7 // In Gen4+, Spite reduces the foe's last move's PP by 4, instead of 2 to 5.
 
 // Move accuracy settings
 #define B_TOXIC_NEVER_MISS          GEN_7 // In Gen6+, if Toxic is used by a Poison-type Pokémon, it will never miss.
 #define B_MINIMIZE_DMG_ACC          GEN_7 // In Gen6+, moves that causes double damage to minimized Pokémon will also skip accuracy checks.
 #define B_BLIZZARD_HAIL             GEN_7 // In Gen4+, Blizzard bypasses accuracy checks if it's hailing.
+#define B_SHEER_COLD_ACC            GEN_7 // In Gen7+, Sheer Cold's base chance of hitting is reduced to 20% if the user isn't Ice-typed.
+
+// Move stat change settings
+#define B_FELL_STINGER_STAT_RAISE   GEN_7 // In Gen7+, it raises Atk by 3 stages instead of 2 if it causes the target to faint.
+#define B_KINGS_SHIELD_LOWER_ATK    GEN_7 // In Gen7+, it lowers Atk by 1 stage instead of 2 of oponents that hit it.
+#define B_SPEED_BUFFING_RAPID_SPIN  GEN_8 // In Gen8, Rapid Spin raises the user's Speed by 1 stage.
+#define B_CHARGE_SPDEF_RAISE        GEN_7 // In Gen5+, Charge raises the user's Special Defense by 1 stage.
+#define B_MINIMIZE_EVASION          GEN_7 // In Gen5+, Minimize raises evasion by 2 stages instead of 1.
+#define B_GROWTH_STAT_RAISE         GEN_7 // In Gen5+, Growth raises Attack in addition to Special Attack by 1 stage each. Under the effects of the sun, it raises them by 2 stages each instead.
 
 // Other move settings
 #define B_SOUND_SUBSTITUTE          GEN_7 // In Gen6+, sound moves bypass Substitute.
 #define B_INCINERATE_GEMS           GEN_7 // In Gen6+, Incinerate can destroy Gems.
-#define B_PP_REDUCED_BY_SPITE       GEN_7 // In Gen4+, Spite reduces the foe's last move's PP by 4, instead of 2 to 5.
 #define B_CAN_SPITE_FAIL            GEN_7 // In Gen4+, Spite can no longer fail if the foe's last move only has 1 remaining PP.
 #define B_CRASH_IF_TARGET_IMMUNE    GEN_7 // In Gen4+, The user of Jump Kick or High Jump Kick will "keep going and crash" if it attacks a target that is immune to the move.
 #define B_MEMENTO_FAIL              GEN_7 // In Gen4+, Memento fails if there is no target or if the target is protected or behind substitute. But not if Atk/Sp. Atk are at -6.
@@ -170,6 +92,9 @@
 #define B_BRICK_BREAK               GEN_7 // In Gen4+, you can destroy your own side's screens. In Gen 5+, screens are not removed if the target is immune.
 #define B_WISH_HP_SOURCE            GEN_7 // In Gen5+, Wish heals half of the user's max HP instead of the target's.
 #define B_RAMPAGE_CANCELLING        GEN_7 // In Gen5+, a failed Thrash, etc, will cancel except on its last turn.
+#define B_HEAL_BLOCKING             GEN_7 // In Gen5+, Heal Block prevents healing by Black Sludge, Leftovers, Shell Bell. Affected Pokémon will not consume held HP-restoring Berries or Berry Juice.
+                                          // Draining abilities will not heal but will prevent damage. In Gen6+, Heal Block prevents the use of most HP-draining moves.
+#define B_ROOTED_GROUNDING          GEN_7 // In Gen4+, Ingrain causes the affected Pokémon to become grounded.
 
 // Ability settings
 #define B_EXPANDED_ABILITY_NAMES    TRUE  // If TRUE, ability names are increased from 12 characters to 16 characters.
@@ -181,11 +106,16 @@
 #define B_FLASH_FIRE_FROZEN         GEN_7 // In Gen5+, Flash Fire can trigger even when frozen, when it couldn't before.
 #define B_SYNCHRONIZE_NATURE        GEN_8 // In Gen8, if a Pokémon with Synchronize is leading the party, it's 100% guaranteed that wild Pokémon will have the same ability, as opposed to 50% previously.
 #define B_SYNCHRONIZE_TOXIC         GEN_8 // In Gen5+, if a Pokémon with Synchronize is badly poisoned, the opponent will also become badly poisoned. Previously, the opponent would become regular poisoned.
-#define B_UPDATED_INTIMIDATE        GEN_8 // In Gen8, Intimidate doesn't work on opponents with the Inner Focus, Scrappy, Own Tempo or Oblivious abilities.
+#define B_UPDATED_INTIMIDATE        GEN_8 // In Gen8, Intimidate doesn't work on opponents with the Inner Focus, Scrappy, Own Tempo or Oblivious abilities. It also activates Rattled.
+#define B_OBLIVIOUS_TAUNT           GEN_7 // In Gen6+, Pokémon with Oblivious can't be taunted.
+#define B_STURDY                    GEN_7 // In Gen5+, Sturdy causes the Pokémon to have 1 HP remaining if another Pokémon's attack or confusion damage would have brought it from full health to 0 HP.
+#define B_PLUS_MINUS_INTERACTION    GEN_7 // In Gen5+, Plus and Minus can be activated with themselves and the opposite ability. Before, only the opposing ability could activate it.
 
 // Item settings
 #define B_HP_BERRIES                GEN_7 // In Gen4+, berries which restore hp activate immediately after HP drops to half. In Gen3, the effect occurs at the end of the turn.
 #define B_BERRIES_INSTANT           GEN_7 // In Gen4+, most berries activate on battle start/switch-in if applicable. In Gen3, they only activate either at the move end or turn end.
+#define B_CONFUSE_BERRIES_HEAL      GEN_8 // Before Gen7, Figy and similar berries restore 1/8th of HP and trigger at half HP. In Gen7 they restore half HP, triggering at 25% HP. In Gen8 they heal 1/3rd of HP.
+                                          // Requires using Item Expansion or manually editing the holdEffectParam of Figy, Wiki, Mago, Aguav and Iapapa berries.
 #define B_X_ITEMS_BUFF              GEN_7 // In Gen7+, the X Items raise a stat by 2 stages instead of 1.
 #define B_MENTAL_HERB               GEN_5 // In Gen5+, the Mental Herb cures Infatuation, Taunt, Encore, Torment, Heal Block, and Disable
 #define B_TRAINERS_KNOCK_OFF_ITEMS  TRUE  // If TRUE, trainers can steal/swap your items (non-berries are restored after battle). In vanilla games trainers cannot steal items.
@@ -201,7 +131,6 @@
 #define B_HEAVY_BALL_MODIFIER       GEN_7 // In Gen7+, Heavy Ball's ranges change. See Cmd_handleballthrow.
 #define B_DREAM_BALL_MODIFIER       GEN_8 // In Gen8, Dream Ball's catch multiplier is x4 when the target is asleep or has the ability Comatose.
 #define B_SERENE_GRACE_BOOST        GEN_7 // In Gen5+, Serene Grace boosts the added flinch chance of King's Rock and Razor Fang.
-#define B_LEEK_ALWAYS_CRIT          GEN_7 // In Gen6+, if a Farfetch'd or Sirfetch'd holding a Leek use a move with increased Critical Hit ratio, it will always result in a Critical Hit.
 
 // Flag settings
 // To use the following features in scripting, replace the 0s with the flag ID you're assigning it to.
@@ -232,6 +161,7 @@
 #define B_SHOW_TARGETS              TRUE  // If set to TRUE, all available targets, for moves hitting 2 or 3 Pokémon, will be shown before selecting a move.
 #define B_SHOW_SPLIT_ICON           TRUE  // If set to TRUE, it will show an icon in the summary showing the move's category split.
 #define B_HIDE_HEALTHBOX_IN_ANIMS   TRUE  // If set to TRUE, hides healthboxes during move animations.
+#define B_EXPANDED_MOVE_NAMES       FALSE // If set to TRUE, move names are increased from 12 characters to 16 characters.
 
 // Catching settings
 #define B_SEMI_INVULNERABLE_CATCH   GEN_7    // In Gen4+, you cannot throw a ball against a Pokemon that is in a semi-invulnerable state (dig/fly/etc)
@@ -243,7 +173,9 @@
 // Other settings
 #define B_DOUBLE_WILD_CHANCE        0     // % chance of encountering two Pokémon in a Wild Encounter.
 #define B_MULTI_BATTLE_WHITEOUT     GEN_8 // In Gen4+, multi battles end when the Player and also their Partner don't have any more Pokémon to fight.
+#define B_EVOLUTION_AFTER_WHITEOUT  GEN_6 // In Gen6+, Pokemon that qualify for evolution after battle will evolve even if the player loses.
 #define B_WILD_NATURAL_ENEMIES      TRUE  // If set to TRUE, certain wild mon species will attack other species when partnered in double wild battles (eg. Zangoose vs Seviper)
+#define B_AFFECTION_MECHANICS       FALSE // In Gen6+, there's a stat called affection that can trigger different effects in battle. From LGPE onwards, those effects use friendship instead.
 
 // Animation Settings
 #define B_NEW_SWORD_PARTICLE            FALSE    // If set to TRUE, it updates Swords Dance's particle.

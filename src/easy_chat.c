@@ -932,7 +932,7 @@ static const struct OamData sOamData_TriangleCursor = {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(8x8),
     .x = 0,
@@ -958,7 +958,7 @@ static const struct OamData sOamData_RectangleCursor = {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x32),
     .x = 0,
@@ -1019,7 +1019,7 @@ static const struct OamData sOamData_ModeWindow = {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x32),
     .x = 0,
@@ -1089,7 +1089,7 @@ static const struct OamData sOamData_ButtonWindow = {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(64x64),
     .x = 0,
@@ -1115,7 +1115,7 @@ static const struct OamData sOamData_StartSelectButton = {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(32x8),
     .x = 0,
@@ -1131,7 +1131,7 @@ static const struct OamData sOamData_ScrollIndicator = {
     .y = 0,
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_NORMAL,
-    .mosaic = 0,
+    .mosaic = FALSE,
     .bpp = ST_OAM_4BPP,
     .shape = SPRITE_SHAPE(16x16),
     .x = 0,
@@ -1492,7 +1492,7 @@ void ShowEasyChatScreen(void)
         displayedPersonType = EASY_CHAT_PERSON_REPORTER_MALE;
         break;
     case EASY_CHAT_TYPE_BATTLE_TOWER_INTERVIEW:
-        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].fanclubOpinions.words18;
+        words = gSaveBlock1Ptr->tvShows[gSpecialVar_0x8005].bravoTrainerTower.words;
         displayedPersonType = EASY_CHAT_PERSON_REPORTER_FEMALE;
         break;
     case EASY_CHAT_TYPE_GOOD_SAYING:
@@ -1672,8 +1672,7 @@ static bool8 InitEasyChatScreenStruct(u8 type, u16 *words, u8 displayedPersonTyp
 
 static void FreeEasyChatScreenStruct(void)
 {
-    if (sEasyChatScreen != NULL)
-        FREE_AND_SET_NULL(sEasyChatScreen);
+    TRY_FREE_AND_SET_NULL(sEasyChatScreen);
 }
 
 // Returns the function ID of the action to take as a result of player's input.
@@ -3075,8 +3074,7 @@ static bool8 LoadEasyChatScreen(void)
 
 static void FreeEasyChatScreenControl(void)
 {
-    if (sScreenControl)
-        FREE_AND_SET_NULL(sScreenControl);
+    TRY_FREE_AND_SET_NULL(sScreenControl);
 }
 
 static void StartEasyChatFunction(u16 funcId)
@@ -5573,8 +5571,7 @@ static bool8 InitEasyChatScreenWordData(void)
 
 static void FreeEasyChatScreenWordData(void)
 {
-    if (sWordData)
-        FREE_AND_SET_NULL(sWordData);
+    TRY_FREE_AND_SET_NULL(sWordData);
 }
 
 static void SetUnlockedEasyChatGroups(void)
