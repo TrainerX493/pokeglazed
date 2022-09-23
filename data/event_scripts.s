@@ -1130,3 +1130,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/TemporalTower/scripts.inc"
 
 	.include "data/maps/SohealsStrait/scripts.inc"
+
+	.include "data/maps/OverSeasBridge/scripts.inc"

@@ -28,6 +28,7 @@
 #define MAP_TEMPORAL_SEA     (19 | (0 << 8))
 #define MAP_TEMPORAL_TOWER   (20 | (0 << 8))
 #define MAP_SOHEALS_STRAIT   (21 | (0 << 8))
+#define MAP_OVER_SEAS_BRIDGE (22 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

@@ -4770,6 +4770,16 @@
       "secondary_tileset": "gTileset_seaspray",
       "border_filepath": "data/layouts/SohealsStrait/border.bin",
       "blockdata_filepath": "data/layouts/SohealsStrait/map.bin"
+    },
+    {
+      "id": "LAYOUT_OVER_SEAS_BRIDGE",
+      "name": "OverSeasBridge_Layout",
+      "width": 20,
+      "height": 60,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/OverSeasBridge/border.bin",
+      "blockdata_filepath": "data/layouts/OverSeasBridge/map.bin"
     }
   ]
 }
