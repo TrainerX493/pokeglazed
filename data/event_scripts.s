@@ -1100,3 +1100,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/OceanviewCity_House3/scripts.inc"
 
 	.include "data/maps/OceanviewCity_BedAndBreakfast/scripts.inc"
+
+	.include "data/maps/NorthCoastTown/scripts.inc"

@@ -4620,6 +4620,16 @@
       "secondary_tileset": "gTileset_town1",
       "border_filepath": "data/layouts/OceanviewCity_BedAndBreakfast/border.bin",
       "blockdata_filepath": "data/layouts/OceanviewCity_BedAndBreakfast/map.bin"
+    },
+    {
+      "id": "LAYOUT_NORTH_COAST_TOWN",
+      "name": "NorthCoastTown_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_northcoast",
+      "border_filepath": "data/layouts/NorthCoastTown/border.bin",
+      "blockdata_filepath": "data/layouts/NorthCoastTown/map.bin"
     }
   ]
 }
