@@ -1112,3 +1112,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/CapeAzure/scripts.inc"
 
 	.include "data/maps/PalmTreeResort/scripts.inc"
+
+	.include "data/maps/DarkWoodTown/scripts.inc"

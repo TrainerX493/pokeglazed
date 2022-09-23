@@ -4680,6 +4680,16 @@
       "secondary_tileset": "gTileset_palmtree",
       "border_filepath": "data/layouts/PalmTreeResort/border.bin",
       "blockdata_filepath": "data/layouts/PalmTreeResort/map.bin"
+    },
+    {
+      "id": "LAYOUT_DARK_WOOD_TOWN",
+      "name": "DarkWoodTown_Layout",
+      "width": 55,
+      "height": 26,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_darkwood",
+      "border_filepath": "data/layouts/DarkWoodTown/border.bin",
+      "blockdata_filepath": "data/layouts/DarkWoodTown/map.bin"
     }
   ]
 }
