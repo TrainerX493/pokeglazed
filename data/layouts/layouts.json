@@ -4750,6 +4750,16 @@
       "secondary_tileset": "gTileset_serenity",
       "border_filepath": "data/layouts/TemporalSea/border.bin",
       "blockdata_filepath": "data/layouts/TemporalSea/map.bin"
+    },
+    {
+      "id": "LAYOUT_TEMPORAL_TOWER",
+      "name": "TemporalTower_Layout",
+      "width": 20,
+      "height": 34,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_league_outside",
+      "border_filepath": "data/layouts/TemporalTower/border.bin",
+      "blockdata_filepath": "data/layouts/TemporalTower/map.bin"
     }
   ]
 }
