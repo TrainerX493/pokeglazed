@@ -4760,6 +4760,16 @@
       "secondary_tileset": "gTileset_league_outside",
       "border_filepath": "data/layouts/TemporalTower/border.bin",
       "blockdata_filepath": "data/layouts/TemporalTower/map.bin"
+    },
+    {
+      "id": "LAYOUT_SOHEALS_STRAIT",
+      "name": "SohealsStrait_Layout",
+      "width": 40,
+      "height": 100,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/SohealsStrait/border.bin",
+      "blockdata_filepath": "data/layouts/SohealsStrait/map.bin"
     }
   ]
 }
