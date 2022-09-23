@@ -1114,3 +1114,7 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/PalmTreeResort/scripts.inc"
 
 	.include "data/maps/DarkWoodTown/scripts.inc"
+
+	.include "data/maps/TunodLeauge/scripts.inc"
+
+	.include "data/maps/StormyCity/scripts.inc"

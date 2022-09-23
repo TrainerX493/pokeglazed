@@ -54,7 +54,9 @@
     "SerenityIsle",
     "CapeAzure",
     "PalmTreeResort",
-    "DarkWoodTown"
+    "DarkWoodTown",
+    "TunodLeauge",
+    "StormyCity"
   ],
   "gMapGroup_IndoorGlenwoodTown": [
     "GlenwoodTown_PlayersHouse",

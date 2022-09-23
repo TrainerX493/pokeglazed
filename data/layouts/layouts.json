@@ -4690,6 +4690,26 @@
       "secondary_tileset": "gTileset_darkwood",
       "border_filepath": "data/layouts/DarkWoodTown/border.bin",
       "blockdata_filepath": "data/layouts/DarkWoodTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_TUNOD_LEAUGE",
+      "name": "TunodLeauge_Layout",
+      "width": 30,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_league_outside",
+      "border_filepath": "data/layouts/TunodLeauge/border.bin",
+      "blockdata_filepath": "data/layouts/TunodLeauge/map.bin"
+    },
+    {
+      "id": "LAYOUT_STORMY_CITY",
+      "name": "StormyCity_Layout",
+      "width": 40,
+      "height": 42,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_stormy",
+      "border_filepath": "data/layouts/StormyCity/border.bin",
+      "blockdata_filepath": "data/layouts/StormyCity/map.bin"
     }
   ]
 }
