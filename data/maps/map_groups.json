@@ -40,7 +40,7 @@
     "gMapGroup_IndoorRoute119",
     "gMapGroup_IndoorRoute124"
   ],
-  "gMapGroup_GlazedTownsAndRoutes":[
+  "gMapGroup_GlazedTownsAndRoutes": [
     "NorthCoastTown",
     "GlenwoodTown",
     "ForestPass",
@@ -48,16 +48,16 @@
     "MilkshakeSwamp",
     "GreenSwamp",
     "OceanviewPark",
-    "OceanviewCity"
-    
+    "OceanviewCity",
+    "SutherlyCity"
   ],
-  "gMapGroup_IndoorGlenwoodTown":[
+  "gMapGroup_IndoorGlenwoodTown": [
     "GlenwoodTown_PlayersHouse",
     "GlenwoodTown_House1",
     "GlenwoodTown_House2",
     "GlenwoodTown_Lab"
   ],
-  "gMapGroup_IndoorChoccoTown":[
+  "gMapGroup_IndoorChoccoTown": [
     "ChoccoTown_House1",
     "ChoccoTown_House2",
     "ChoccoTown_House3",
@@ -65,7 +65,7 @@
     "ChoccoTown_PokemonCenter",
     "ChoccoTown_Mart"
   ],
-  "gMapGroup_IndoorOceanViewCity":[
+  "gMapGroup_IndoorOceanViewCity": [
     "OceanviewCity_House1",
     "OceanviewCity_House2",
     "OceanviewCity_House3",

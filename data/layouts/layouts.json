@@ -4630,6 +4630,16 @@
       "secondary_tileset": "gTileset_northcoast",
       "border_filepath": "data/layouts/NorthCoastTown/border.bin",
       "blockdata_filepath": "data/layouts/NorthCoastTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_SUTHERLY_CITY",
+      "name": "SutherlyCity_Layout",
+      "width": 40,
+      "height": 60,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/SutherlyCity/border.bin",
+      "blockdata_filepath": "data/layouts/SutherlyCity/map.bin"
     }
   ]
 }
