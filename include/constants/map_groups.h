@@ -24,6 +24,7 @@
 #define MAP_STORMY_CITY      (15 | (0 << 8))
 #define MAP_GEMINITE_CITY    (16 | (0 << 8))
 #define MAP_FORLORN_CAPE     (17 | (0 << 8))
+#define MAP_TURQUOISE_BAY    (18 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

@@ -4730,6 +4730,16 @@
       "secondary_tileset": "gTileset_serenity",
       "border_filepath": "data/layouts/ForlornCape/border.bin",
       "blockdata_filepath": "data/layouts/ForlornCape/map.bin"
+    },
+    {
+      "id": "LAYOUT_TURQUOISE_BAY",
+      "name": "TurquoiseBay_Layout",
+      "width": 30,
+      "height": 60,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_serenity",
+      "border_filepath": "data/layouts/TurquoiseBay/border.bin",
+      "blockdata_filepath": "data/layouts/TurquoiseBay/map.bin"
     }
   ]
 }
