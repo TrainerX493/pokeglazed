@@ -1106,3 +1106,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/SutherlyCity/scripts.inc"
 
 	.include "data/maps/SeaSprayTown/scripts.inc"
+
+	.include "data/maps/SerenityIsle/scripts.inc"
