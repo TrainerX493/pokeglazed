@@ -4640,6 +4640,16 @@
       "secondary_tileset": "gTileset_cape_azure",
       "border_filepath": "data/layouts/SutherlyCity/border.bin",
       "blockdata_filepath": "data/layouts/SutherlyCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEA_SPRAY_TOWN",
+      "name": "SeaSprayTown_Layout",
+      "width": 42,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/SeaSprayTown/border.bin",
+      "blockdata_filepath": "data/layouts/SeaSprayTown/map.bin"
     }
   ]
 }

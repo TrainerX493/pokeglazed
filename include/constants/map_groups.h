@@ -15,6 +15,7 @@
 #define MAP_OCEANVIEW_PARK   (6 | (0 << 8))
 #define MAP_OCEANVIEW_CITY   (7 | (0 << 8))
 #define MAP_SUTHERLY_CITY    (8 | (0 << 8))
+#define MAP_SEA_SPRAY_TOWN   (9 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))
