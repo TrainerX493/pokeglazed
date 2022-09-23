@@ -4660,6 +4660,16 @@
       "secondary_tileset": "gTileset_serenity",
       "border_filepath": "data/layouts/SerenityIsle/border.bin",
       "blockdata_filepath": "data/layouts/SerenityIsle/map.bin"
+    },
+    {
+      "id": "LAYOUT_CAPE_AZURE",
+      "name": "CapeAzure_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/CapeAzure/border.bin",
+      "blockdata_filepath": "data/layouts/CapeAzure/map.bin"
     }
   ]
 }
