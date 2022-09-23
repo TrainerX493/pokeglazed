@@ -18,6 +18,7 @@
 #define MAP_SEA_SPRAY_TOWN   (9 | (0 << 8))
 #define MAP_SERENITY_ISLE    (10 | (0 << 8))
 #define MAP_CAPE_AZURE       (11 | (0 << 8))
+#define MAP_PALM_TREE_RESORT (12 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

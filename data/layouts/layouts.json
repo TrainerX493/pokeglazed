@@ -4670,6 +4670,16 @@
       "secondary_tileset": "gTileset_cape_azure",
       "border_filepath": "data/layouts/CapeAzure/border.bin",
       "blockdata_filepath": "data/layouts/CapeAzure/map.bin"
+    },
+    {
+      "id": "LAYOUT_PALM_TREE_RESORT",
+      "name": "PalmTreeResort_Layout",
+      "width": 40,
+      "height": 30,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/PalmTreeResort/border.bin",
+      "blockdata_filepath": "data/layouts/PalmTreeResort/map.bin"
     }
   ]
 }
