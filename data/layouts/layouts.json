@@ -4740,6 +4740,16 @@
       "secondary_tileset": "gTileset_serenity",
       "border_filepath": "data/layouts/TurquoiseBay/border.bin",
       "blockdata_filepath": "data/layouts/TurquoiseBay/map.bin"
+    },
+    {
+      "id": "LAYOUT_TEMPORAL_SEA",
+      "name": "TemporalSea_Layout",
+      "width": 70,
+      "height": 34,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_serenity",
+      "border_filepath": "data/layouts/TemporalSea/border.bin",
+      "blockdata_filepath": "data/layouts/TemporalSea/map.bin"
     }
   ]
 }

@@ -1124,3 +1124,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/ForlornCape/scripts.inc"
 
 	.include "data/maps/TurquoiseBay/scripts.inc"
+
+	.include "data/maps/TemporalSea/scripts.inc"
