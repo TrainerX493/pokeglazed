@@ -1,6 +1,10 @@
 {
   "layouts_table_label": "gMapLayouts",
   "group_order": [
+    "gMapGroup_GlazedTownsAndRoutes",
+    "gMapGroup_IndoorGlenwoodTown",
+    "gMapGroup_IndoorChoccoTown",
+    "gMapGroup_IndoorOceanViewCity",
     "gMapGroup_TownsAndRoutes",
     "gMapGroup_IndoorLittleroot",
     "gMapGroup_IndoorOldale",
@@ -35,6 +39,37 @@
     "gMapGroup_IndoorRoute123",
     "gMapGroup_IndoorRoute119",
     "gMapGroup_IndoorRoute124"
+  ],
+  "gMapGroup_GlazedTownsAndRoutes":[
+    "NorthCoastTown",
+    "GlenwoodTown",
+    "ForestPass",
+    "ChoccoTown",
+    "MilkshakeSwamp",
+    "GreenSwamp",
+    "OceanviewPark",
+    "OceanviewCity"
+    
+  ],
+  "gMapGroup_IndoorGlenwoodTown":[
+    "GlenwoodTown_PlayersHouse",
+    "GlenwoodTown_House1",
+    "GlenwoodTown_House2",
+    "GlenwoodTown_Lab"
+  ],
+  "gMapGroup_IndoorChoccoTown":[
+    "ChoccoTown_House1",
+    "ChoccoTown_House2",
+    "ChoccoTown_House3",
+    "ChoccoTown_Lab",
+    "ChoccoTown_PokemonCenter",
+    "ChoccoTown_Mart"
+  ],
+  "gMapGroup_IndoorOceanViewCity":[
+    "OceanviewCity_House1",
+    "OceanviewCity_House2",
+    "OceanviewCity_House3",
+    "OceanviewCity_BedAndBreakfast"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -93,41 +128,21 @@
     "Underwater_Route128",
     "Underwater_Route129",
     "Underwater_Route105",
-    "Underwater_Route125",
-    "NorthCoastTown"
+    "Underwater_Route125"
   ],
   "gMapGroup_IndoorLittleroot": [
     "LittlerootTown_BrendansHouse_1F",
     "LittlerootTown_BrendansHouse_2F",
     "LittlerootTown_MaysHouse_1F",
     "LittlerootTown_MaysHouse_2F",
-    "LittlerootTown_ProfessorBirchsLab",
-    "GlenwoodTown",
-    "ForestPass",
-    "ChoccoTown",
-    "MilkshakeSwamp",
-    "GreenSwamp",
-    "OceanviewPark",
-    "OceanviewCity"
+    "LittlerootTown_ProfessorBirchsLab"
   ],
   "gMapGroup_IndoorOldale": [
     "OldaleTown_House1",
     "OldaleTown_House2",
     "OldaleTown_PokemonCenter_1F",
     "OldaleTown_PokemonCenter_2F",
-    "OldaleTown_Mart",
-    "GlenwoodTown_PlayersHouse",
-    "GlenwoodTown_House1",
-    "GlenwoodTown_House2",
-    "GlenwoodTown_Lab",
-    "ChoccoTown_House1",
-    "ChoccoTown_House2",
-    "ChoccoTown_House3",
-    "ChoccoTown_Lab",
-    "OceanviewCity_House1",
-    "OceanviewCity_House2",
-    "OceanviewCity_House3",
-    "OceanviewCity_BedAndBreakfast"
+    "OldaleTown_Mart"
   ],
   "gMapGroup_IndoorDewford": [
     "DewfordTown_House1",
@@ -144,8 +159,7 @@
     "LavaridgeTown_House",
     "LavaridgeTown_Mart",
     "LavaridgeTown_PokemonCenter_1F",
-    "LavaridgeTown_PokemonCenter_2F",
-    "ChoccoTown_PokemonCenter"
+    "LavaridgeTown_PokemonCenter_2F"
   ],
   "gMapGroup_IndoorFallarbor": [
     "FallarborTown_Mart",
@@ -155,8 +169,7 @@
     "FallarborTown_PokemonCenter_1F",
     "FallarborTown_PokemonCenter_2F",
     "FallarborTown_CozmosHouse",
-    "FallarborTown_MoveRelearnersHouse",
-    "ChoccoTown_Mart"
+    "FallarborTown_MoveRelearnersHouse"
   ],
   "gMapGroup_IndoorVerdanturf": [
     "VerdanturfTown_BattleTentLobby",
