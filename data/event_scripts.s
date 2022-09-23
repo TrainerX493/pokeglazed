@@ -1120,3 +1120,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/StormyCity/scripts.inc"
 
 	.include "data/maps/GeminiteCity/scripts.inc"
+
+	.include "data/maps/ForlornCape/scripts.inc"

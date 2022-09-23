@@ -4720,6 +4720,16 @@
       "secondary_tileset": "gTileset_stormy",
       "border_filepath": "data/layouts/GeminiteCity/border.bin",
       "blockdata_filepath": "data/layouts/GeminiteCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_FORLORN_CAPE",
+      "name": "ForlornCape_Layout",
+      "width": 28,
+      "height": 22,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_serenity",
+      "border_filepath": "data/layouts/ForlornCape/border.bin",
+      "blockdata_filepath": "data/layouts/ForlornCape/map.bin"
     }
   ]
 }
