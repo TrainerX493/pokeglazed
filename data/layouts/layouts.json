@@ -4880,6 +4880,16 @@
       "secondary_tileset": "gTileset_seaspray",
       "border_filepath": "data/layouts/SeaSprayDam/border.bin",
       "blockdata_filepath": "data/layouts/SeaSprayDam/map.bin"
+    },
+    {
+      "id": "LAYOUT_TUNOD_SAFARI_ZONE",
+      "name": "TunodSafariZone_Layout",
+      "width": 40,
+      "height": 22,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/TunodSafariZone/border.bin",
+      "blockdata_filepath": "data/layouts/TunodSafariZone/map.bin"
     }
   ]
 }
