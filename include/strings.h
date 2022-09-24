@@ -300,6 +300,8 @@ extern const u8 gText_BattleSceneOn[];
 extern const u8 gText_BattleSceneOff[];
 extern const u8 gText_BattleStyleShift[];
 extern const u8 gText_BattleStyleSet[];
+extern const u8 gText_UnitSystemMetric[];   //tx_optionsPlus
+extern const u8 gText_UnitSystemImperial[]; //tx_optionsPlus
 extern const u8 gText_SoundMono[];
 extern const u8 gText_SoundStereo[];
 extern const u8 gText_FrameTypeNumber[];
@@ -314,7 +316,11 @@ extern const u8 gText_BattleScene[];
 extern const u8 gText_BattleStyle[];
 extern const u8 gText_Sound[];
 extern const u8 gText_Frame[];
-extern const u8 gText_OptionMenuCancel[];
+extern const u8 gText_Font[];               //tx_optionsPlus
+extern const u8 gText_OptionFontFireRed[];  //tx_optionsPlus
+extern const u8 gText_OptionFontEmerald[];  //tx_optionsPlus
+extern const u8 gText_OptionMatchCalls[];   //tx_optionsPlus
+extern const u8 gText_OptionMenuSave[];
 extern const u8 gText_ButtonMode[];
 
 extern const u8 gText_MaleSymbol[];
@@ -414,6 +420,7 @@ extern const u8 gText_BerryTag[];
 extern const u8 gText_NumberVar1Var2[];
 extern const u8 gText_SizeSlash[];
 extern const u8 gText_Var1DotVar2[];
+extern const u8 gText_Var1DotVar2_Metric[];
 extern const u8 gText_ThreeMarks[];
 extern const u8 gText_FirmSlash[];
 

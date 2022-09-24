@@ -1347,7 +1347,7 @@
 	@ The specified id can be used to refer to the sprite again later with turnvobject.
 	.macro createvobject graphicsId:req, id:req, x:req, y:req, elevation=3, direction=DIR_SOUTH
 	.byte 0xaa
-	.2byte \graphicsId
+	.byte \graphicsId
 	.byte \id
 	.2byte \x
 	.2byte \y
@@ -1682,9 +1682,11 @@
 
 	@ Equivalent to fadescreen but copies gPlttBufferUnfaded to gPaletteDecompressionBuffer on the fade out
 	@ and the reverse on the fade in, in effect saving gPlttBufferUnfaded to restore it.
-	.macro fadescreenswapbuffers mode:req
+  @ If nowait set, does not wait for the fade to complete
+	.macro fadescreenswapbuffers mode:req, nowait=0
 	.byte 0xdc
 	.byte \mode
+  .byte \nowait
 	.endm
 
 	@ Buffers the specified trainer's class name to the given string var.
@@ -1735,6 +1737,128 @@
 	.2byte \quantity
 	.endm
 
+  @ Like callnative, but function expects a ctx
+  .macro callfunc func:req
+  .byte 0xe3
+  .4byte \func
+  .endm
+
+.macro givecustommon species:req, level:req, item, ball, nature, abilityNum, hpEv, atkEv, defEv, speedEv, spAtkEv, spDefEv, hpIv, atkIv, defIv, speedIv, spAtkIv, spDefIv, move1, move2, move3, move4, isShiny
+    .byte 0xe3
+    .2byte \species
+    .byte \level
+    .ifb \item
+        .2byte ITEM_NONE
+    .else
+        .2byte \item
+    .endif
+    .ifb \ball
+        .byte 0
+    .else
+        .byte \ball
+    .endif
+    .ifb \nature
+        .byte NUM_NATURES
+    .else
+        .byte \nature
+    .endif
+    .ifb \abilityNum
+        .byte 3
+    .else
+        .byte \abilityNum
+    .endif
+    @evs
+    .ifb \hpEv
+        .byte 0
+    .else
+        .byte \hpEv
+    .endif
+    .ifb \atkEv
+        .byte 0
+    .else
+        .byte \atkEv
+    .endif
+    .ifb \defEv
+        .byte 0
+    .else
+        .byte \defEv
+    .endif
+    .ifb \speedEv
+        .byte 0
+    .else
+        .byte \speedEv
+    .endif
+    .ifb \spAtkEv
+        .byte 0
+    .else
+        .byte \spAtkEv
+    .endif
+    .ifb \spDefEv
+        .byte 0
+    .else
+        .byte \spDefEv
+    .endif
+    @ivs
+    .ifb \hpIv
+        .byte 32
+    .else
+        .byte \hpIv
+    .endif
+    .ifb \atkIv
+        .byte 32
+    .else
+        .byte \atkIv
+    .endif
+    .ifb \defIv
+        .byte 32
+    .else
+        .byte \defIv
+    .endif
+    .ifb \speedIv
+        .byte 32
+    .else
+        .byte \speedIv
+    .endif
+    .ifb \spAtkIv
+        .byte 32
+    .else
+        .byte \spAtkIv
+    .endif
+    .ifb \spDefIv
+        .byte 32
+    .else
+        .byte \spDefIv
+    .endif
+    .ifb \move1
+        .2byte 0
+    .else
+        .2byte \move1
+    .endif
+    .ifb \move2
+        .2byte 0
+    .else
+        .2byte \move2
+    .endif
+    .ifb \move3
+        .2byte 0
+    .else
+        .2byte \move3
+    .endif
+    .ifb \move4
+        .2byte 0
+    .else
+        .2byte \move4
+    .endif
+    .ifb \isShiny
+        .byte 0
+    .else
+        .byte \isShiny
+    .endif
+    .endm
+    
+    .macro givemonmoves species:req, level:req, move1:req, move2:req, move3:req, move4:req
+    customgivemon \species, \level, 0, 0, NUM_NATURES, 0xFF, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \move1, \move2, \move3, \move4, 0
+    .endm
 
 @ Supplementary
 
@@ -1944,6 +2068,17 @@
 	setvar VAR_0x8005, \level
 	setvar VAR_0x8006, \item
 	special CreateEventLegalEnemyMon
+	.endm
+
+    @ Adds unit system string to the respective stringvar.
+	@ texttype values:
+	@ UNIT_TEXT_LENGTH_SMALL_SINGLE,  UNIT_TEXT_LENGTH_SMALL_PLURAL,  UNIT_TEXT_LENGTH_SMALL_SYMBOL.
+	@ UNIT_TEXT_LENGTH_MEDIUM_SINGLE, UNIT_TEXT_LENGTH_MEDIUM_PLURAL, UNIT_TEXT_LENGTH_MEDIUM_SYMBOL.
+	@ UNIT_TEXT_WEIGHT_SINGLE,        UNIT_TEXT_WEIGHT_PLURAL,        UNIT_TEXT_WEIGHT_SYMBOL.
+	.macro bufferunitsystemtext texttype:req, stringvarnumber=1
+	setvar VAR_0x8000, \texttype
+	setvar VAR_0x8001, \stringvarnumber
+	special BufferUnitSystemText
 	.endm
 
 	@ Set up a totem boost for the next battle.
