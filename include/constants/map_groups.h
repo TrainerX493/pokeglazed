@@ -33,6 +33,7 @@
 #define MAP_HAUNTED_SEAWAY   (24 | (0 << 8))
 #define MAP_TRAINER_ISLE     (25 | (0 << 8))
 #define MAP_NITCHSIDE_COVE   (26 | (0 << 8))
+#define MAP_NEW_PORT_RITCHEY (27 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))
