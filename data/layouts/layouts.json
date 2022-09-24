@@ -4850,6 +4850,16 @@
       "secondary_tileset": "gTileset_league_outside",
       "border_filepath": "data/layouts/PathofVictory/border.bin",
       "blockdata_filepath": "data/layouts/PathofVictory/map.bin"
+    },
+    {
+      "id": "LAYOUT_ICE_BOUND_CHASM",
+      "name": "IceBoundChasm_Layout",
+      "width": 20,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_northcoast",
+      "border_filepath": "data/layouts/IceBoundChasm/border.bin",
+      "blockdata_filepath": "data/layouts/IceBoundChasm/map.bin"
     }
   ]
 }

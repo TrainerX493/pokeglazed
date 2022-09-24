@@ -1146,3 +1146,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/SeaSprayBay/scripts.inc"
 
 	.include "data/maps/PathofVictory/scripts.inc"
+
+	.include "data/maps/IceBoundChasm/scripts.inc"
