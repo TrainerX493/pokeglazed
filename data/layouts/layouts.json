@@ -4930,6 +4930,16 @@
       "secondary_tileset": "gTileset_palmtree",
       "border_filepath": "data/layouts/SpatialSea/border.bin",
       "blockdata_filepath": "data/layouts/SpatialSea/map.bin"
+    },
+    {
+      "id": "LAYOUT_WATERFALL_GEORGE",
+      "name": "WaterfallGeorge_Layout",
+      "width": 120,
+      "height": 30,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_darkwood",
+      "border_filepath": "data/layouts/WaterfallGeorge/border.bin",
+      "blockdata_filepath": "data/layouts/WaterfallGeorge/map.bin"
     }
   ]
 }
