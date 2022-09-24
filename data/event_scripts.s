@@ -1136,3 +1136,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/HauntedIsle/scripts.inc"
 
 	.include "data/maps/HauntedSeaway/scripts.inc"
+
+	.include "data/maps/TrainerIsle/scripts.inc"

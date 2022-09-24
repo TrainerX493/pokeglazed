@@ -4800,6 +4800,16 @@
       "secondary_tileset": "gTileset_serenity",
       "border_filepath": "data/layouts/HauntedSeaway/border.bin",
       "blockdata_filepath": "data/layouts/HauntedSeaway/map.bin"
+    },
+    {
+      "id": "LAYOUT_TRAINER_ISLE",
+      "name": "TrainerIsle_Layout",
+      "width": 32,
+      "height": 32,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/TrainerIsle/border.bin",
+      "blockdata_filepath": "data/layouts/TrainerIsle/map.bin"
     }
   ]
 }
