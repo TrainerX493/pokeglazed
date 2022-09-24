@@ -4950,6 +4950,16 @@
       "secondary_tileset": "gTileset_new_bark",
       "border_filepath": "data/layouts/NewBarkTown/border.bin",
       "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHERRY_GROVE_CITY",
+      "name": "CherryGroveCity_Layout",
+      "width": 40,
+      "height": 30,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/CherryGroveCity/border.bin",
+      "blockdata_filepath": "data/layouts/CherryGroveCity/map.bin"
     }
   ]
 }
