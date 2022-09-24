@@ -38,6 +38,7 @@
 #define MAP_PATHOF_VICTORY   (29 | (0 << 8))
 #define MAP_ICE_BOUND_CHASM  (30 | (0 << 8))
 #define MAP_BLIZZARD_SLOPES  (31 | (0 << 8))
+#define MAP_SEA_SPRAY_DAM    (32 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

@@ -4870,6 +4870,16 @@
       "secondary_tileset": "gTileset_northcoast",
       "border_filepath": "data/layouts/BlizzardSlopes/border.bin",
       "blockdata_filepath": "data/layouts/BlizzardSlopes/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEA_SPRAY_DAM",
+      "name": "SeaSprayDam_Layout",
+      "width": 40,
+      "height": 42,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/SeaSprayDam/border.bin",
+      "blockdata_filepath": "data/layouts/SeaSprayDam/map.bin"
     }
   ]
 }
