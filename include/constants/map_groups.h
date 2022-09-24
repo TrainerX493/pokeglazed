@@ -40,6 +40,7 @@
 #define MAP_BLIZZARD_SLOPES   (31 | (0 << 8))
 #define MAP_SEA_SPRAY_DAM     (32 | (0 << 8))
 #define MAP_TUNOD_SAFARI_ZONE (33 | (0 << 8))
+#define MAP_ESPO_CLEARING     (34 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

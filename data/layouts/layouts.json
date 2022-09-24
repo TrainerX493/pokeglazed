@@ -4890,6 +4890,16 @@
       "secondary_tileset": "gTileset_cape_azure",
       "border_filepath": "data/layouts/TunodSafariZone/border.bin",
       "blockdata_filepath": "data/layouts/TunodSafariZone/map.bin"
+    },
+    {
+      "id": "LAYOUT_ESPO_CLEARING",
+      "name": "EspoClearing_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/EspoClearing/border.bin",
+      "blockdata_filepath": "data/layouts/EspoClearing/map.bin"
     }
   ]
 }
