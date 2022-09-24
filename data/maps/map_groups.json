@@ -62,7 +62,13 @@
     "TurquoiseBay",
     "TemporalSea",
     "TemporalTower",
-    "SohealsStrait"
+    "SohealsStrait",
+    "OverSeasBridge",
+    "HauntedIsle",
+    "HauntedSeaway",
+    "TrainerIsle",
+    "NitchsideCove",
+    "NewPortRitchey"
   ],
   "gMapGroup_IndoorGlenwoodTown": [
     "GlenwoodTown_PlayersHouse",

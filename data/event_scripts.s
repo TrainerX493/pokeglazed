@@ -1130,3 +1130,15 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/TemporalTower/scripts.inc"
 
 	.include "data/maps/SohealsStrait/scripts.inc"
+
+	.include "data/maps/OverSeasBridge/scripts.inc"
+
+	.include "data/maps/HauntedIsle/scripts.inc"
+
+	.include "data/maps/HauntedSeaway/scripts.inc"
+
+	.include "data/maps/TrainerIsle/scripts.inc"
+
+	.include "data/maps/NitchsideCove/scripts.inc"
+
+	.include "data/maps/NewPortRitchey/scripts.inc"
