@@ -4900,6 +4900,16 @@
       "secondary_tileset": "gTileset_cape_azure",
       "border_filepath": "data/layouts/EspoClearing/border.bin",
       "blockdata_filepath": "data/layouts/EspoClearing/map.bin"
+    },
+    {
+      "id": "LAYOUT_PALTREE_PARK",
+      "name": "PaltreePark_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/PaltreePark/border.bin",
+      "blockdata_filepath": "data/layouts/PaltreePark/map.bin"
     }
   ]
 }

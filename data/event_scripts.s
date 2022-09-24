@@ -1156,3 +1156,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/TunodSafariZone/scripts.inc"
 
 	.include "data/maps/EspoClearing/scripts.inc"
+
+	.include "data/maps/PaltreePark/scripts.inc"
