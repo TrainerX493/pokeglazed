@@ -1170,3 +1170,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/CherryGroveCity/scripts.inc"
 
 	.include "data/maps/VioletCity/scripts.inc"
+
+	.include "data/maps/Route29/scripts.inc"
