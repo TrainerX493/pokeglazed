@@ -4910,6 +4910,16 @@
       "secondary_tileset": "gTileset_palmtree",
       "border_filepath": "data/layouts/PaltreePark/border.bin",
       "blockdata_filepath": "data/layouts/PaltreePark/map.bin"
+    },
+    {
+      "id": "LAYOUT_SUN_SHORE_BEACH",
+      "name": "SunShoreBeach_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/SunShoreBeach/border.bin",
+      "blockdata_filepath": "data/layouts/SunShoreBeach/map.bin"
     }
   ]
 }

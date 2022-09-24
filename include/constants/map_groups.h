@@ -42,6 +42,7 @@
 #define MAP_TUNOD_SAFARI_ZONE (33 | (0 << 8))
 #define MAP_ESPO_CLEARING     (34 | (0 << 8))
 #define MAP_PALTREE_PARK      (35 | (0 << 8))
+#define MAP_SUN_SHORE_BEACH   (36 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))
