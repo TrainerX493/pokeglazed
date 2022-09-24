@@ -1168,6 +1168,9 @@ static void SetNamesAndTextSpeed(struct BerryCrushGame *game)
     case OPTIONS_TEXT_SPEED_FAST:
         game->textSpeed = 1;
         break;
+    case OPTIONS_TEXT_SPEED_FASTER:
+        game->textSpeed = 1;
+        break;
     }
 }
 
@@ -3428,7 +3431,7 @@ static u32 Cmd_CloseLink(struct BerryCrushGame *game, u8 *args)
         SetCloseLinkCallback();
         break;
     case 2:
-        if (gReceivedRemoteLinkPlayers != 0)
+        if (gReceivedRemoteLinkPlayers)
             return 0;
         game->nextCmd = CMD_QUIT;
         RunOrScheduleCommand(CMD_HIDE_GAME, SCHEDULE_CMD, NULL);

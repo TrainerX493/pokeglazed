@@ -5020,6 +5020,56 @@
       "secondary_tileset": "gTileset_seafloor",
       "border_filepath": "data/layouts/JohtoSeaFloor1/border.bin",
       "blockdata_filepath": "data/layouts/JohtoSeaFloor1/map.bin"
+    },
+    {
+      "id": "LAYOUT_JOHTO_SEA_FLOOR2",
+      "name": "JohtoSeaFloor2_Layout",
+      "width": 28,
+      "height": 80,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seafloor",
+      "border_filepath": "data/layouts/JohtoSeaFloor2/border.bin",
+      "blockdata_filepath": "data/layouts/JohtoSeaFloor2/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE46",
+      "name": "Route46_Layout",
+      "width": 24,
+      "height": 36,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route46/border.bin",
+      "blockdata_filepath": "data/layouts/Route46/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE45",
+      "name": "Route45_Layout",
+      "width": 22,
+      "height": 32,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route45/border.bin",
+      "blockdata_filepath": "data/layouts/Route45/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE27",
+      "name": "Route27_Layout",
+      "width": 24,
+      "height": 24,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route27/border.bin",
+      "blockdata_filepath": "data/layouts/Route27/map.bin"
+    },
+    {
+      "id": "LAYOUT_ECRUTEAK_CITY",
+      "name": "EcruteakCity_Layout",
+      "width": 52,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_violet",
+      "border_filepath": "data/layouts/EcruteakCity/border.bin",
+      "blockdata_filepath": "data/layouts/EcruteakCity/map.bin"
     }
   ]
 }

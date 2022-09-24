@@ -41,6 +41,7 @@
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 #include "constants/pokemon.h"
+#include "constants/pokemon_size_record.h"
 #include "constants/roulette.h"
 #include "constants/script_menu.h"
 #include "constants/secret_bases.h"
@@ -1180,3 +1181,13 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/TunodSeaFloor/scripts.inc"
 
 	.include "data/maps/JohtoSeaFloor1/scripts.inc"
+
+	.include "data/maps/JohtoSeaFloor2/scripts.inc"
+
+	.include "data/maps/Route46/scripts.inc"
+
+	.include "data/maps/Route45/scripts.inc"
+
+	.include "data/maps/Route27/scripts.inc"
+
+	.include "data/maps/EcruteakCity/scripts.inc"
