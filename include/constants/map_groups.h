@@ -54,6 +54,7 @@
 #define MAP_TUNOD_SEA_FLOOR   (45 | (0 << 8))
 #define MAP_JOHTO_SEA_FLOOR1  (46 | (0 << 8))
 #define MAP_JOHTO_SEA_FLOOR2  (47 | (0 << 8))
+#define MAP_ROUTE46           (48 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

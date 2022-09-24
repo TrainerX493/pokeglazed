@@ -5030,6 +5030,16 @@
       "secondary_tileset": "gTileset_seafloor",
       "border_filepath": "data/layouts/JohtoSeaFloor2/border.bin",
       "blockdata_filepath": "data/layouts/JohtoSeaFloor2/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE46",
+      "name": "Route46_Layout",
+      "width": 24,
+      "height": 36,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route46/border.bin",
+      "blockdata_filepath": "data/layouts/Route46/map.bin"
     }
   ]
 }
