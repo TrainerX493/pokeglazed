@@ -87,7 +87,8 @@
     "Route30",
     "Route31",
     "TunodSeaFloor",
-    "JohtoSeaFloor1"
+    "JohtoSeaFloor1",
+    "JohtoSeaFloor2"
   ],
   "gMapGroup_IndoorGlenwoodTown": [
     "GlenwoodTown_PlayersHouse",
