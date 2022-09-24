@@ -1168,3 +1168,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/NewBarkTown/scripts.inc"
 
 	.include "data/maps/CherryGroveCity/scripts.inc"
+
+	.include "data/maps/VioletCity/scripts.inc"

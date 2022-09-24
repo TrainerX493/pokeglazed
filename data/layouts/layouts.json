@@ -4960,6 +4960,16 @@
       "secondary_tileset": "gTileset_new_bark",
       "border_filepath": "data/layouts/CherryGroveCity/border.bin",
       "blockdata_filepath": "data/layouts/CherryGroveCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_VIOLET_CITY",
+      "name": "VioletCity_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_violet",
+      "border_filepath": "data/layouts/VioletCity/border.bin",
+      "blockdata_filepath": "data/layouts/VioletCity/map.bin"
     }
   ]
 }
