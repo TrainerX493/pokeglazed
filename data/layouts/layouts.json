@@ -4940,6 +4940,16 @@
       "secondary_tileset": "gTileset_darkwood",
       "border_filepath": "data/layouts/WaterfallGeorge/border.bin",
       "blockdata_filepath": "data/layouts/WaterfallGeorge/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEW_BARK_TOWN",
+      "name": "NewBarkTown_Layout",
+      "width": 30,
+      "height": 24,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/NewBarkTown/border.bin",
+      "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
     }
   ]
 }

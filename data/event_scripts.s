@@ -1164,3 +1164,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/SpatialSea/scripts.inc"
 
 	.include "data/maps/WaterfallGeorge/scripts.inc"
+
+	.include "data/maps/NewBarkTown/scripts.inc"

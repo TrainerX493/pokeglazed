@@ -45,6 +45,7 @@
 #define MAP_SUN_SHORE_BEACH   (36 | (0 << 8))
 #define MAP_SPATIAL_SEA       (37 | (0 << 8))
 #define MAP_WATERFALL_GEORGE  (38 | (0 << 8))
+#define MAP_NEW_BARK_TOWN     (39 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))
