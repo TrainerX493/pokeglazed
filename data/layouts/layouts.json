@@ -4830,6 +4830,16 @@
       "secondary_tileset": "gTileset_seaspray",
       "border_filepath": "data/layouts/NewPortRitchey/border.bin",
       "blockdata_filepath": "data/layouts/NewPortRitchey/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEA_SPRAY_BAY",
+      "name": "SeaSprayBay_Layout",
+      "width": 80,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/SeaSprayBay/border.bin",
+      "blockdata_filepath": "data/layouts/SeaSprayBay/map.bin"
     }
   ]
 }
