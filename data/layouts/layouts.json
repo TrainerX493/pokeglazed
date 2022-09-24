@@ -4757,7 +4757,7 @@
       "width": 20,
       "height": 34,
       "primary_tileset": "gTileset_glazed_general",
-      "secondary_tileset": "gTileset_league_outside",
+      "secondary_tileset": "gTileset_stratus_peak",
       "border_filepath": "data/layouts/TemporalTower/border.bin",
       "blockdata_filepath": "data/layouts/TemporalTower/map.bin"
     },
