@@ -35,6 +35,7 @@
 #define MAP_NITCHSIDE_COVE   (26 | (0 << 8))
 #define MAP_NEW_PORT_RITCHEY (27 | (0 << 8))
 #define MAP_SEA_SPRAY_BAY    (28 | (0 << 8))
+#define MAP_PATHOF_VICTORY   (29 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

@@ -4840,6 +4840,16 @@
       "secondary_tileset": "gTileset_seaspray",
       "border_filepath": "data/layouts/SeaSprayBay/border.bin",
       "blockdata_filepath": "data/layouts/SeaSprayBay/map.bin"
+    },
+    {
+      "id": "LAYOUT_PATHOF_VICTORY",
+      "name": "PathofVictory_Layout",
+      "width": 40,
+      "height": 120,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_league_outside",
+      "border_filepath": "data/layouts/PathofVictory/border.bin",
+      "blockdata_filepath": "data/layouts/PathofVictory/map.bin"
     }
   ]
 }

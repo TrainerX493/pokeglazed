@@ -1144,3 +1144,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/NewPortRitchey/scripts.inc"
 
 	.include "data/maps/SeaSprayBay/scripts.inc"
+
+	.include "data/maps/PathofVictory/scripts.inc"
