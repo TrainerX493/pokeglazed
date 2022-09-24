@@ -4830,6 +4830,196 @@
       "secondary_tileset": "gTileset_seaspray",
       "border_filepath": "data/layouts/NewPortRitchey/border.bin",
       "blockdata_filepath": "data/layouts/NewPortRitchey/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEA_SPRAY_BAY",
+      "name": "SeaSprayBay_Layout",
+      "width": 80,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/SeaSprayBay/border.bin",
+      "blockdata_filepath": "data/layouts/SeaSprayBay/map.bin"
+    },
+    {
+      "id": "LAYOUT_PATHOF_VICTORY",
+      "name": "PathofVictory_Layout",
+      "width": 40,
+      "height": 120,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_league_outside",
+      "border_filepath": "data/layouts/PathofVictory/border.bin",
+      "blockdata_filepath": "data/layouts/PathofVictory/map.bin"
+    },
+    {
+      "id": "LAYOUT_ICE_BOUND_CHASM",
+      "name": "IceBoundChasm_Layout",
+      "width": 20,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_northcoast",
+      "border_filepath": "data/layouts/IceBoundChasm/border.bin",
+      "blockdata_filepath": "data/layouts/IceBoundChasm/map.bin"
+    },
+    {
+      "id": "LAYOUT_BLIZZARD_SLOPES",
+      "name": "BlizzardSlopes_Layout",
+      "width": 40,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_northcoast",
+      "border_filepath": "data/layouts/BlizzardSlopes/border.bin",
+      "blockdata_filepath": "data/layouts/BlizzardSlopes/map.bin"
+    },
+    {
+      "id": "LAYOUT_SEA_SPRAY_DAM",
+      "name": "SeaSprayDam_Layout",
+      "width": 40,
+      "height": 42,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/SeaSprayDam/border.bin",
+      "blockdata_filepath": "data/layouts/SeaSprayDam/map.bin"
+    },
+    {
+      "id": "LAYOUT_TUNOD_SAFARI_ZONE",
+      "name": "TunodSafariZone_Layout",
+      "width": 40,
+      "height": 22,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/TunodSafariZone/border.bin",
+      "blockdata_filepath": "data/layouts/TunodSafariZone/map.bin"
+    },
+    {
+      "id": "LAYOUT_ESPO_CLEARING",
+      "name": "EspoClearing_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_cape_azure",
+      "border_filepath": "data/layouts/EspoClearing/border.bin",
+      "blockdata_filepath": "data/layouts/EspoClearing/map.bin"
+    },
+    {
+      "id": "LAYOUT_PALTREE_PARK",
+      "name": "PaltreePark_Layout",
+      "width": 20,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/PaltreePark/border.bin",
+      "blockdata_filepath": "data/layouts/PaltreePark/map.bin"
+    },
+    {
+      "id": "LAYOUT_SUN_SHORE_BEACH",
+      "name": "SunShoreBeach_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/SunShoreBeach/border.bin",
+      "blockdata_filepath": "data/layouts/SunShoreBeach/map.bin"
+    },
+    {
+      "id": "LAYOUT_SPATIAL_SEA",
+      "name": "SpatialSea_Layout",
+      "width": 80,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/SpatialSea/border.bin",
+      "blockdata_filepath": "data/layouts/SpatialSea/map.bin"
+    },
+    {
+      "id": "LAYOUT_WATERFALL_GEORGE",
+      "name": "WaterfallGeorge_Layout",
+      "width": 120,
+      "height": 30,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_darkwood",
+      "border_filepath": "data/layouts/WaterfallGeorge/border.bin",
+      "blockdata_filepath": "data/layouts/WaterfallGeorge/map.bin"
+    },
+    {
+      "id": "LAYOUT_NEW_BARK_TOWN",
+      "name": "NewBarkTown_Layout",
+      "width": 30,
+      "height": 24,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/NewBarkTown/border.bin",
+      "blockdata_filepath": "data/layouts/NewBarkTown/map.bin"
+    },
+    {
+      "id": "LAYOUT_CHERRY_GROVE_CITY",
+      "name": "CherryGroveCity_Layout",
+      "width": 40,
+      "height": 30,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/CherryGroveCity/border.bin",
+      "blockdata_filepath": "data/layouts/CherryGroveCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_VIOLET_CITY",
+      "name": "VioletCity_Layout",
+      "width": 40,
+      "height": 40,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_violet",
+      "border_filepath": "data/layouts/VioletCity/border.bin",
+      "blockdata_filepath": "data/layouts/VioletCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE29",
+      "name": "Route29_Layout",
+      "width": 60,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route29/border.bin",
+      "blockdata_filepath": "data/layouts/Route29/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE30",
+      "name": "Route30_Layout",
+      "width": 24,
+      "height": 54,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route30/border.bin",
+      "blockdata_filepath": "data/layouts/Route30/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE31",
+      "name": "Route31_Layout",
+      "width": 44,
+      "height": 24,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_violet",
+      "border_filepath": "data/layouts/Route31/border.bin",
+      "blockdata_filepath": "data/layouts/Route31/map.bin"
+    },
+    {
+      "id": "LAYOUT_TUNOD_SEA_FLOOR",
+      "name": "TunodSeaFloor_Layout",
+      "width": 80,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seafloor",
+      "border_filepath": "data/layouts/TunodSeaFloor/border.bin",
+      "blockdata_filepath": "data/layouts/TunodSeaFloor/map.bin"
+    },
+    {
+      "id": "LAYOUT_JOHTO_SEA_FLOOR1",
+      "name": "JohtoSeaFloor1_Layout",
+      "width": 50,
+      "height": 80,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seafloor",
+      "border_filepath": "data/layouts/JohtoSeaFloor1/border.bin",
+      "blockdata_filepath": "data/layouts/JohtoSeaFloor1/map.bin"
     }
   ]
 }

@@ -1142,3 +1142,41 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/NitchsideCove/scripts.inc"
 
 	.include "data/maps/NewPortRitchey/scripts.inc"
+
+	.include "data/maps/SeaSprayBay/scripts.inc"
+
+	.include "data/maps/PathofVictory/scripts.inc"
+
+	.include "data/maps/IceBoundChasm/scripts.inc"
+
+	.include "data/maps/BlizzardSlopes/scripts.inc"
+
+	.include "data/maps/SeaSprayDam/scripts.inc"
+
+	.include "data/maps/TunodSafariZone/scripts.inc"
+
+	.include "data/maps/EspoClearing/scripts.inc"
+
+	.include "data/maps/PaltreePark/scripts.inc"
+
+	.include "data/maps/SunShoreBeach/scripts.inc"
+
+	.include "data/maps/SpatialSea/scripts.inc"
+
+	.include "data/maps/WaterfallGeorge/scripts.inc"
+
+	.include "data/maps/NewBarkTown/scripts.inc"
+
+	.include "data/maps/CherryGroveCity/scripts.inc"
+
+	.include "data/maps/VioletCity/scripts.inc"
+
+	.include "data/maps/Route29/scripts.inc"
+
+	.include "data/maps/Route30/scripts.inc"
+
+	.include "data/maps/Route31/scripts.inc"
+
+	.include "data/maps/TunodSeaFloor/scripts.inc"
+
+	.include "data/maps/JohtoSeaFloor1/scripts.inc"
