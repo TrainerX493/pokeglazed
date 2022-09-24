@@ -1160,3 +1160,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/PaltreePark/scripts.inc"
 
 	.include "data/maps/SunShoreBeach/scripts.inc"
+
+	.include "data/maps/SpatialSea/scripts.inc"

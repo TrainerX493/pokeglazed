@@ -4920,6 +4920,16 @@
       "secondary_tileset": "gTileset_palmtree",
       "border_filepath": "data/layouts/SunShoreBeach/border.bin",
       "blockdata_filepath": "data/layouts/SunShoreBeach/map.bin"
+    },
+    {
+      "id": "LAYOUT_SPATIAL_SEA",
+      "name": "SpatialSea_Layout",
+      "width": 80,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_palmtree",
+      "border_filepath": "data/layouts/SpatialSea/border.bin",
+      "blockdata_filepath": "data/layouts/SpatialSea/map.bin"
     }
   ]
 }
