@@ -4810,6 +4810,16 @@
       "secondary_tileset": "gTileset_palmtree",
       "border_filepath": "data/layouts/TrainerIsle/border.bin",
       "blockdata_filepath": "data/layouts/TrainerIsle/map.bin"
+    },
+    {
+      "id": "LAYOUT_NITCHSIDE_COVE",
+      "name": "NitchsideCove_Layout",
+      "width": 40,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_serenity",
+      "border_filepath": "data/layouts/NitchsideCove/border.bin",
+      "blockdata_filepath": "data/layouts/NitchsideCove/map.bin"
     }
   ]
 }
