@@ -1148,3 +1148,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/PathofVictory/scripts.inc"
 
 	.include "data/maps/IceBoundChasm/scripts.inc"
+
+	.include "data/maps/BlizzardSlopes/scripts.inc"

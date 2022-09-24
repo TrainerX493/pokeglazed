@@ -4860,6 +4860,16 @@
       "secondary_tileset": "gTileset_northcoast",
       "border_filepath": "data/layouts/IceBoundChasm/border.bin",
       "blockdata_filepath": "data/layouts/IceBoundChasm/map.bin"
+    },
+    {
+      "id": "LAYOUT_BLIZZARD_SLOPES",
+      "name": "BlizzardSlopes_Layout",
+      "width": 40,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_northcoast",
+      "border_filepath": "data/layouts/BlizzardSlopes/border.bin",
+      "blockdata_filepath": "data/layouts/BlizzardSlopes/map.bin"
     }
   ]
 }
