@@ -57,6 +57,7 @@
 #define MAP_ROUTE46           (48 | (0 << 8))
 #define MAP_ROUTE45           (49 | (0 << 8))
 #define MAP_ROUTE27           (50 | (0 << 8))
+#define MAP_ECRUTEAK_CITY     (51 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

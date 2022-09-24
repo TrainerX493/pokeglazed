@@ -1188,3 +1188,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/Route45/scripts.inc"
 
 	.include "data/maps/Route27/scripts.inc"
+
+	.include "data/maps/EcruteakCity/scripts.inc"
