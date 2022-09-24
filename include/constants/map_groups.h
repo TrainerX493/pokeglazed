@@ -51,6 +51,7 @@
 #define MAP_ROUTE29           (42 | (0 << 8))
 #define MAP_ROUTE30           (43 | (0 << 8))
 #define MAP_ROUTE31           (44 | (0 << 8))
+#define MAP_TUNOD_SEA_FLOOR   (45 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))

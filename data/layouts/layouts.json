@@ -5000,6 +5000,16 @@
       "secondary_tileset": "gTileset_violet",
       "border_filepath": "data/layouts/Route31/border.bin",
       "blockdata_filepath": "data/layouts/Route31/map.bin"
+    },
+    {
+      "id": "LAYOUT_TUNOD_SEA_FLOOR",
+      "name": "TunodSeaFloor_Layout",
+      "width": 80,
+      "height": 20,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seafloor",
+      "border_filepath": "data/layouts/TunodSeaFloor/border.bin",
+      "blockdata_filepath": "data/layouts/TunodSeaFloor/map.bin"
     }
   ]
 }
