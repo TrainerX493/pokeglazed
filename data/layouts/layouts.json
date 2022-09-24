@@ -4980,6 +4980,16 @@
       "secondary_tileset": "gTileset_new_bark",
       "border_filepath": "data/layouts/Route29/border.bin",
       "blockdata_filepath": "data/layouts/Route29/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE30",
+      "name": "Route30_Layout",
+      "width": 24,
+      "height": 54,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_new_bark",
+      "border_filepath": "data/layouts/Route30/border.bin",
+      "blockdata_filepath": "data/layouts/Route30/map.bin"
     }
   ]
 }

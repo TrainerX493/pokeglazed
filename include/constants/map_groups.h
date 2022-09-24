@@ -49,6 +49,7 @@
 #define MAP_CHERRY_GROVE_CITY (40 | (0 << 8))
 #define MAP_VIOLET_CITY       (41 | (0 << 8))
 #define MAP_ROUTE29           (42 | (0 << 8))
+#define MAP_ROUTE30           (43 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))
