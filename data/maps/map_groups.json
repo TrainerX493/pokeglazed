@@ -64,7 +64,8 @@
     "TemporalTower",
     "SohealsStrait",
     "OverSeasBridge",
-    "HauntedIsle"
+    "HauntedIsle",
+    "HauntedSeaway"
   ],
   "gMapGroup_IndoorGlenwoodTown": [
     "GlenwoodTown_PlayersHouse",

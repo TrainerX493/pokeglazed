@@ -4790,6 +4790,16 @@
       "secondary_tileset": "gTileset_serenity",
       "border_filepath": "data/layouts/HauntedIsle/border.bin",
       "blockdata_filepath": "data/layouts/HauntedIsle/map.bin"
+    },
+    {
+      "id": "LAYOUT_HAUNTED_SEAWAY",
+      "name": "HauntedSeaway_Layout",
+      "width": 40,
+      "height": 22,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_serenity",
+      "border_filepath": "data/layouts/HauntedSeaway/border.bin",
+      "blockdata_filepath": "data/layouts/HauntedSeaway/map.bin"
     }
   ]
 }
