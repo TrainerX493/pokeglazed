@@ -1,7 +1,7 @@
 {
-  "id": "MAP_TUNOD_SEA_FLOOR",
-  "name": "TunodSeaFloor",
-  "layout": "LAYOUT_TUNOD_SEA_FLOOR",
+  "id": "MAP_JOHTO_SEA_FLOOR1",
+  "name": "JohtoSeaFloor1",
+  "layout": "LAYOUT_JOHTO_SEA_FLOOR1",
   "music": "MUS_ABANDONED_SHIP",
   "region_map_section": "MAPSEC_LITTLEROOT_TOWN",
   "requires_flash": false,

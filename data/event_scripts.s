@@ -1178,3 +1178,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/Route31/scripts.inc"
 
 	.include "data/maps/TunodSeaFloor/scripts.inc"
+
+	.include "data/maps/JohtoSeaFloor1/scripts.inc"
