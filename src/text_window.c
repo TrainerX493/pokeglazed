@@ -5,6 +5,7 @@
 #include "palette.h"
 #include "bg.h"
 #include "graphics.h"
+#include "menu.h"
 
 const u8 gTextWindowFrame1_Gfx[] = INCBIN_U8("graphics/text_window/1.4bpp");
 static const u8 sTextWindowFrame2_Gfx[] = INCBIN_U8("graphics/text_window/2.4bpp");
@@ -194,4 +195,12 @@ void LoadUserWindowBorderGfxOnBg(u8 bg, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(bg, sWindowFrames[gSaveBlock2Ptr->optionsWindowFrameType].tiles, 0x120, destOffset);
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, palOffset, 0x20);
+}
+
+void LoadSignPostWindowFrameGfx(void)
+{
+    // TODO signpost msgbox frames
+    //LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gUnknown_8470B0C, 0x260, destOffset);
+    //LoadPalette(GetWindowFrameTilesPal(1), palIdx, 32);
+    LoadMessageBoxAndBorderGfx();
 }
