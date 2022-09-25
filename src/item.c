@@ -57,6 +57,11 @@ void ApplyNewEncryptionKeyToBagItems(u32 newKey)
     }
 }
 
+void ItemId_GetHoldEffectParam_Script()
+{
+    VarSet(VAR_RESULT, ItemId_GetHoldEffectParam(VarGet(VAR_0x8004)));
+}
+
 void ApplyNewEncryptionKeyToBagItems_(u32 newKey) // really GF?
 {
     ApplyNewEncryptionKeyToBagItems(newKey);
