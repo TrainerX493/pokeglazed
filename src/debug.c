@@ -2928,8 +2928,8 @@ static void DebugAction_Sound_MUS_SelectId(u8 taskId)
         if (gMain.newKeys & DPAD_UP)
         {
             gTasks[taskId].data[3] += sPowersOfTen[gTasks[taskId].data[4]];
-            if (gTasks[taskId].data[3] > END_MUS)
-                gTasks[taskId].data[3] = END_MUS;
+            if (gTasks[taskId].data[3] > RG_MUSIC_END)
+                gTasks[taskId].data[3] = RG_MUSIC_END;
         }
         if (gMain.newKeys & DPAD_DOWN)
         {
