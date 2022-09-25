@@ -17,6 +17,11 @@
       "direction": "left",
       "offset": 10,
       "map": "MAP_FOREST_PASS"
+    },
+    {
+      "direction": "right",
+      "offset": 12,
+      "map": "MAP_TEMPORAL_SEA"
     }
   ],
   "object_events": [
