@@ -1199,3 +1199,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/SpringSidePath/scripts.inc"
 
 	.include "data/maps/LoxlyChannel/scripts.inc"
+
+	.include "data/maps/GemeniteRiver/scripts.inc"

@@ -5090,6 +5090,16 @@
       "secondary_tileset": "gTileset_glenwood",
       "border_filepath": "data/layouts/LoxlyChannel/border.bin",
       "blockdata_filepath": "data/layouts/LoxlyChannel/map.bin"
+    },
+    {
+      "id": "LAYOUT_GEMENITE_RIVER",
+      "name": "GemeniteRiver_Layout",
+      "width": 40,
+      "height": 60,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/GemeniteRiver/border.bin",
+      "blockdata_filepath": "data/layouts/GemeniteRiver/map.bin"
     }
   ]
 }

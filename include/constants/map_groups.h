@@ -60,6 +60,7 @@
 #define MAP_ECRUTEAK_CITY     (51 | (0 << 8))
 #define MAP_SPRING_SIDE_PATH  (52 | (0 << 8))
 #define MAP_LOXLY_CHANNEL     (53 | (0 << 8))
+#define MAP_GEMENITE_RIVER    (54 | (0 << 8))
 
 // gMapGroup_IndoorGlenwoodTown
 #define MAP_GLENWOOD_TOWN_PLAYERS_HOUSE (0 | (1 << 8))
