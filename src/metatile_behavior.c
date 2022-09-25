@@ -131,6 +131,7 @@ static const u8 sTileBitAttributes[NUM_METATILE_BEHAVIORS] =
     [MB_VERTICAL_RAIL]                   = TILE_FLAG_UNUSED,
     [MB_HORIZONTAL_RAIL]                 = TILE_FLAG_UNUSED,
     [MB_SIGNPOST]                        = TILE_FLAG_UNUSED,
+    [MB_ROCK_CLIMB]                      = TILE_FLAG_UNUSED,
 };
 
 bool8 MetatileBehavior_IsATile(u8 metatileBehavior)
@@ -1526,4 +1527,12 @@ bool8 MetatileBehavior_IsDirectionalStairWarp(u8 metatileBehavior)
 bool8 MetatileBehavior_IsSignpost(u8 mb)
 {
     return (mb == MB_SIGNPOST);
+}
+
+bool8 MetatileBehavior_IsRockClimbable(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_ROCK_CLIMB)
+        return TRUE;
+    else
+        return FALSE;
 }
