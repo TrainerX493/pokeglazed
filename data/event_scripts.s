@@ -1197,3 +1197,5 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/EcruteakCity/scripts.inc"
 
 	.include "data/maps/SpringSidePath/scripts.inc"
+
+	.include "data/maps/LoxlyChannel/scripts.inc"
