@@ -17,6 +17,11 @@
       "direction": "up",
       "offset": -6,
       "map": "MAP_GLENWOOD_TOWN"
+    },
+    {
+      "direction": "down",
+      "offset": -7,
+      "map": "MAP_NITCHSIDE_COVE"
     }
   ],
   "object_events": [

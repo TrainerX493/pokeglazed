@@ -12,7 +12,23 @@
   "allow_running": true,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": [
+    {
+      "direction": "right",
+      "offset": -21,
+      "map": "MAP_SUN_SHORE_BEACH"
+    },
+    {
+      "direction": "left",
+      "offset": -1,
+      "map": "MAP_DARK_WOOD_TOWN"
+    },
+    {
+      "direction": "dive",
+      "offset": 0,
+      "map": "MAP_TUNOD_SEA_FLOOR"
+    }
+  ],
   "object_events": [
 
   ],
