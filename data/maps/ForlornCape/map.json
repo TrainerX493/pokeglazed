@@ -12,7 +12,18 @@
   "allow_running": true,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": [
+    {
+      "direction": "right",
+      "offset": -4,
+      "map": "MAP_SPRING_SIDE_PATH"
+    },
+    {
+      "direction": "up",
+      "offset": 0,
+      "map": "MAP_TURQUOISE_BAY"
+    }
+  ],
   "object_events": [
 
   ],
