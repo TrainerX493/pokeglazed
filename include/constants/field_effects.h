@@ -70,6 +70,7 @@
 #define FLDEFF_MOVE_DEOXYS_ROCK          66
 #define FLDEFF_USE_ROCK_CLIMB            67
 #define FLDEFF_ROCK_CLIMB_DUST           68
+#define FLDEFF_USE_HEADBUTT              69
 
 #define FLDEFFOBJ_SHADOW_S              0
 #define FLDEFFOBJ_SHADOW_M              1

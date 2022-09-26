@@ -22,7 +22,7 @@
 #include "constants/metatile_behaviors.h"
 #include "constants/metatile_labels.h"
 #include "constants/songs.h"
-
+#include "overworld.h"
 
 EWRAM_DATA struct MapPosition gPlayerFacingPosition = {0};
 
@@ -72,6 +72,9 @@ static const u16 sSecretPowerPlant_Pal[] = INCBIN_U16("graphics/field_effects/pa
 static const u8 sSandPillar0_Gfx[] = INCBIN_U8("graphics/field_effects/pics/sand_pillar/0.4bpp");
 static const u8 sSandPillar1_Gfx[] = INCBIN_U8("graphics/field_effects/pics/sand_pillar/1.4bpp");
 static const u8 sSandPillar2_Gfx[] = INCBIN_U8("graphics/field_effects/pics/sand_pillar/2.4bpp");
+
+static void FieldMove_Headbutt(void);
+static void FieldCallback_Headbutt(void);
 
 static const struct OamData sOam_SecretPower =
 {
@@ -1323,4 +1326,45 @@ void DestroyRecordMixingLights(void)
             DestroySprite(&gSprites[i]);
         }
     }
+}
+
+// The important part is handled by EventScript_Headbutt, but I'm following Rock Smash's lead :P
+static void FieldMove_Headbutt(void)
+{
+    PlaySE(SE_NOT_EFFECTIVE);
+    FieldEffectActiveListRemove(FLDEFF_USE_HEADBUTT);
+    ScriptContext_Enable();
+}
+
+bool8 FldEff_UseHeadbutt(void)
+{
+    u8 taskId = CreateFieldMoveTask();
+
+    gTasks[taskId].data[8] = (u32)FieldMove_Headbutt >> 16;
+    gTasks[taskId].data[9] = (u32)FieldMove_Headbutt;
+    IncrementGameStat(GAME_STAT_USED_HEADBUTT);
+    return FALSE;
+}
+
+// Called when Headbutt is used from the party menu
+// For interacting with a headbuttable tree in the field, see EventScript_Headbutt
+bool8 SetUpFieldMove_Headbutt(void)
+{
+    GetXYCoordsOneStepInFrontOfPlayer(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
+    if (MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y) == MB_HEADBUTT)
+    {
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_Headbutt;
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+
+static void FieldCallback_Headbutt(void)
+{
+    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    ScriptContext_SetupScript(EventScript_UseHeadbutt);
 }

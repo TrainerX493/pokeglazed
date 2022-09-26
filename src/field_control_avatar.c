@@ -492,6 +492,8 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_TrainerHillTimer;
     if (MetatileBehavior_IsRockClimbable(metatileBehavior) == TRUE && !IsRockClimbActive())
         return EventScript_UseRockClimb;
+    if (MetatileBehavior_IsHeadbuttTree(metatileBehavior))
+        return EventScript_Headbutt;
 
     elevation = position->elevation;
     if (elevation == MapGridGetElevationAt(position->x, position->y))

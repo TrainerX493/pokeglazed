@@ -132,6 +132,7 @@ static const u8 sTileBitAttributes[NUM_METATILE_BEHAVIORS] =
     [MB_HORIZONTAL_RAIL]                 = TILE_FLAG_UNUSED,
     [MB_SIGNPOST]                        = TILE_FLAG_UNUSED,
     [MB_ROCK_CLIMB]                      = TILE_FLAG_UNUSED,
+    [MB_HEADBUTT]                        = TILE_FLAG_UNUSED,
 };
 
 bool8 MetatileBehavior_IsATile(u8 metatileBehavior)
@@ -245,14 +246,6 @@ bool8 MetatileBehavior_IsEscalator(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_UP_ESCALATOR
      || metatileBehavior == MB_DOWN_ESCALATOR)
-        return TRUE;
-    else
-        return FALSE;
-}
-
-bool8 Unref_MetatileBehavior_IsUnused04(u8 metatileBehavior)
-{
-    if (metatileBehavior == MB_UNUSED_04)
         return TRUE;
     else
         return FALSE;
@@ -1532,6 +1525,14 @@ bool8 MetatileBehavior_IsSignpost(u8 mb)
 bool8 MetatileBehavior_IsRockClimbable(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_ROCK_CLIMB)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsHeadbuttTree(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_HEADBUTT)
         return TRUE;
     else
         return FALSE;

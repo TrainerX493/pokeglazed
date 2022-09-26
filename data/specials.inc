@@ -537,3 +537,4 @@ gSpecials::
 	def_special SetTotemBoost
 	def_special TrySpecialOverworldEvo
 	def_special BufferUnitSystemText
+	def_special HeadbuttWildEncounter
