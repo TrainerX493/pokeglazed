@@ -1,7 +1,6 @@
 const struct Trainer gTrainers[] = {
     [TRAINER_NONE] =
     {
-        .partyFlags = 0,
         .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
         .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_MALE,
         .trainerPic = TRAINER_PIC_HIKER,
@@ -10,7 +9,7 @@ const struct Trainer gTrainers[] = {
         .doubleBattle = FALSE,
         .aiFlags = 0,
         .partySize = 0,
-        .party = {.NoItemDefaultMoves = NULL},
+        .party = {.TrainerMon = NULL},
     },
 
     [TRAINER_SAWYER_1] =
