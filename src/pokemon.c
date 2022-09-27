@@ -60,6 +60,7 @@ struct SpeciesItem
     u16 item;
 };
 
+static void ShuffleStatArray(u8* statArray);
 static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon);
 static union PokemonSubstruct *GetSubstruct(struct BoxPokemon *boxMon, u32 personality, u8 substructType);
 static void EncryptBoxMon(struct BoxPokemon *boxMon);
@@ -3272,6 +3273,8 @@ void CreateMon(struct Pokemon *mon, u16 species, u8 level, u8 fixedIV, u8 hasFix
 
 void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
 {
+    u8 maxIV = MAX_IV_MASK;
+    u8 statIDs[] = {0, 1, 2, 3, 4, 5};
     u8 speciesName[POKEMON_NAME_LENGTH + 1];
     u32 personality;
     u32 value;
@@ -3372,6 +3375,14 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
         iv = (value & (MAX_IV_MASK << 10)) >> 10;
         SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
+
+        // Set three random IVs to 31
+        ShuffleStatArray(statIDs);
+
+        for (i = 0; i < 3; i++)
+        {
+            SetBoxMonData(boxMon, MON_DATA_HP_IV + statIDs[i], &maxIV);
+        }
 
     #if P_LEGENDARY_PERFECT_IVS >= GEN_6
         if (gBaseStats[species].flags & (FLAG_LEGENDARY | FLAG_MYTHICAL | FLAG_ULTRA_BEAST))
@@ -8526,5 +8537,18 @@ void TryToSetBattleFormChangeMoves(struct Pokemon *mon)
             SetMonData(mon, MON_DATA_PP_BONUSES, &ppBonuses);
             break;
         }
+    }
+}
+
+static void ShuffleStatArray(u8* statArray)
+{
+    int i;
+
+    // Shuffle the stats array using a Fisher-Yates shuffle
+    for (i = NUM_STATS - 1; i > 0; i--)
+    {
+        u8 temp;
+        int j = Random() % (i + 1);
+        SWAP(statArray[i], statArray[j], temp);
     }
 }
