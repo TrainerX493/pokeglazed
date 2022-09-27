@@ -12,7 +12,18 @@
   "allow_running": true,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": 0,
+  "connections": [
+    {
+      "direction": "left",
+      "offset": 20,
+      "map": "MAP_ESPO_CLEARING"
+    },
+    {
+      "direction": "up",
+      "offset": 20,
+      "map": "MAP_OVER_SEAS_BRIDGE"
+    }
+  ],
   "object_events": [
 
   ],

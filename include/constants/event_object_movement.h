@@ -242,6 +242,16 @@
 #define MOVEMENT_ACTION_FIGURE_8                        0x9B
 #define MOVEMENT_ACTION_FLY_UP                          0x9C
 #define MOVEMENT_ACTION_FLY_DOWN                        0x9D
+// slow running
+#define MOVEMENT_ACTION_RUN_DOWN_SLOW                   0x9E
+#define MOVEMENT_ACTION_RUN_UP_SLOW                     0x9F
+#define MOVEMENT_ACTION_RUN_LEFT_SLOW                   0xA0
+#define MOVEMENT_ACTION_RUN_RIGHT_SLOW                  0xA1
+//fast diagonal movement
+#define MOVEMENT_ACTION_WALK_FAST_DIAGONAL_UP_LEFT      0xA2
+#define MOVEMENT_ACTION_WALK_FAST_DIAGONAL_UP_RIGHT     0xA3
+#define MOVEMENT_ACTION_WALK_FAST_DIAGONAL_DOWN_LEFT    0xA4
+#define MOVEMENT_ACTION_WALK_FAST_DIAGONAL_DOWN_RIGHT   0xA5
 
 #define MOVEMENT_ACTION_STEP_END 0xFE
 #define MOVEMENT_ACTION_NONE     0xFF

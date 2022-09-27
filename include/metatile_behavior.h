@@ -148,5 +148,23 @@ bool8 MetatileBehavior_IsQuestionnaire(u8);
 bool8 MetatileBehavior_IsLongGrass_Duplicate(u8);
 bool8 MetatileBehavior_IsLongGrassSouthEdge(u8);
 bool8 MetatileBehavior_IsTrainerHillTimer(u8);
+bool8 MetatileBehavior_IsRockClimbable(u8 metatileBehavior);
+bool8 MetatileBehavior_IsSignpost(u8 mb);
+bool8 MetatileBehavior_IsDirectionalUpRightStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalUpLeftStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalDownRightStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalDownLeftStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsRockStairs(u8);
+//sideways stairs
+bool8 MetatileBehavior_IsSidewaysStairsRightSide(u8);
+bool8 MetatileBehavior_IsSidewaysStairsLeftSide(u8);
+bool8 MetatileBehavior_IsSidewaysStairsRightSideTop(u8 metatileBehavior);
+bool8 MetatileBehavior_IsSidewaysStairsLeftSideTop(u8 metatileBehavior);
+bool8 MetatileBehavior_IsSidewaysStairsRightSideBottom(u8 metatileBehavior);
+bool8 MetatileBehavior_IsSidewaysStairsLeftSideBottom(u8 metatileBehavior);
+bool8 MetatileBehavior_IsSidewaysStairsRightSideAny(u8 metatileBehavior);
+bool8 MetatileBehavior_IsSidewaysStairsLeftSideAny(u8 metatileBehavior);
+bool8 MetatileBehavior_IsHeadbuttTree(u8);
 
 #endif // GUARD_METATILE_BEHAVIOR_H

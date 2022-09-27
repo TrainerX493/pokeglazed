@@ -10,6 +10,8 @@
 #include "event_scripts.h"
 #include "fieldmap.h"
 #include "field_control_avatar.h"
+#include "field_effect.h"
+#include "field_message_box.h"
 #include "field_player_avatar.h"
 #include "field_poison.h"
 #include "field_screen_effect.h"
@@ -41,6 +43,13 @@ static EWRAM_DATA u16 sPreviousPlayerMetatileBehavior = 0;
 
 u8 gSelectedObjectEvent;
 
+#define SIGNPOST_POKECENTER     0
+#define SIGNPOST_POKEMART       1
+#define SIGNPOST_INDIGO_1       2
+#define SIGNPOST_INDIGO_2       3
+#define SIGNPOST_SCRIPTED       240
+#define SIGNPOST_NA             255
+
 static void GetPlayerPosition(struct MapPosition *);
 static void GetInFrontOfPlayerPosition(struct MapPosition *);
 static u16 GetPlayerCurMetatileBehavior(int);
@@ -69,6 +78,10 @@ static bool8 TryStartMiscWalkingScripts(u16);
 static bool8 TryStartStepCountScript(u16);
 static void UpdateFriendshipStepCounter(void);
 static bool8 UpdatePoisonStepCounter(void);
+static bool8 TrySetUpWalkIntoSignpostScript(struct MapPosition * position, u16 metatileBehavior, u8 playerDirection);
+static void SetUpWalkIntoSignScript(const u8 *script, u8 playerDirection);
+static u8 GetFacingSignpostType(u16 metatileBehvaior, u8 direction);
+static const u8 *GetSignpostScriptAtMapPosition(struct MapPosition * position);
 
 void FieldClearPlayerInput(struct FieldInput *input)
 {
@@ -148,6 +161,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     gSpecialVar_LastTalked = 0;
     gSelectedObjectEvent = 0;
+    ResetFacingNpcOrSignPostVars();
 
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
@@ -168,6 +182,18 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         if (TryStartStepBasedScript(&position, metatileBehavior, playerDirection) == TRUE)
             return TRUE;
     }
+    if (input->checkStandardWildEncounter)
+    {
+        if (input->dpadDirection == 0 || input->dpadDirection == playerDirection)
+        {
+            GetInFrontOfPlayerPosition(&position);
+            metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+            if (TrySetUpWalkIntoSignpostScript(&position, metatileBehavior, playerDirection) == TRUE)
+                return TRUE;
+            GetPlayerPosition(&position);
+            metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+        }
+    }
     if (input->checkStandardWildEncounter && CheckStandardWildEncounter(metatileBehavior) == TRUE)
         return TRUE;
     if (input->heldDirection && input->dpadDirection == playerDirection)
@@ -178,6 +204,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     GetInFrontOfPlayerPosition(&position);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+    if (input->heldDirection && input->dpadDirection == playerDirection)
+    {
+        if (TrySetUpWalkIntoSignpostScript(&position, metatileBehavior, playerDirection) == TRUE)
+            return TRUE;
+    }
     if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
         return TRUE;
 
@@ -307,7 +338,39 @@ static const u8 *GetInteractedObjectEventScript(struct MapPosition *position, u8
     u8 objectEventId;
     const u8 *script;
 
-    objectEventId = GetObjectEventIdByPosition(position->x, position->y, position->elevation);
+    s16 currX = gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x;
+    s16 currY = gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y;
+    u8 currBehavior = MapGridGetMetatileBehaviorAt(currX, currY);
+
+    switch (direction)
+    {
+    case DIR_EAST:
+        if (MetatileBehavior_IsSidewaysStairsLeftSideAny(metatileBehavior))
+            // sideways stairs left-side to your right -> check northeast
+            objectEventId = GetObjectEventIdByPosition(currX + 1, currY - 1, position->elevation);
+        else if (MetatileBehavior_IsSidewaysStairsRightSideAny(currBehavior))
+            // on top of right-side stairs -> check southeast
+            objectEventId = GetObjectEventIdByPosition(currX + 1, currY + 1, position->elevation);
+        else
+            // check in front of player
+            objectEventId = GetObjectEventIdByPosition(position->x, position->y, position->elevation);
+        break;
+    case DIR_WEST:
+        if (MetatileBehavior_IsSidewaysStairsRightSideAny(metatileBehavior))
+            // facing sideways stairs right side -> check northwest
+            objectEventId = GetObjectEventIdByPosition(currX - 1, currY - 1, position->elevation);
+        else if (MetatileBehavior_IsSidewaysStairsLeftSideAny(currBehavior))
+            // on top of left-side stairs -> check southwest
+            objectEventId = GetObjectEventIdByPosition(currX - 1, currY + 1, position->elevation);
+        else
+            // check in front of player
+            objectEventId = GetObjectEventIdByPosition(position->x, position->y, position->elevation);
+        break;
+    default:
+        objectEventId = GetObjectEventIdByPosition(position->x, position->y, position->elevation);
+        break;
+    }
+
     if (objectEventId == OBJECT_EVENTS_COUNT || gObjectEvents[objectEventId].localId == OBJ_EVENT_ID_PLAYER)
     {
         if (MetatileBehavior_IsCounter(metatileBehavior) != TRUE)
@@ -427,6 +490,10 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_Questionnaire;
     if (MetatileBehavior_IsTrainerHillTimer(metatileBehavior) == TRUE)
         return EventScript_TrainerHillTimer;
+    if (MetatileBehavior_IsRockClimbable(metatileBehavior) == TRUE && !IsRockClimbActive())
+        return EventScript_UseRockClimb;
+    if (MetatileBehavior_IsHeadbuttTree(metatileBehavior))
+        return EventScript_Headbutt;
 
     elevation = position->elevation;
     if (elevation == MapGridGetElevationAt(position->x, position->y))
@@ -711,13 +778,31 @@ static bool8 CheckStandardWildEncounter(u16 metatileBehavior)
 static bool8 TryArrowWarp(struct MapPosition *position, u16 metatileBehavior, u8 direction)
 {
     s8 warpEventId = GetWarpEventAtMapPosition(&gMapHeader, position);
+    u16 delay;
 
-    if (IsArrowWarpMetatileBehavior(metatileBehavior, direction) == TRUE && warpEventId != WARP_ID_NONE)
+    if (warpEventId != WARP_ID_NONE)
     {
-        StoreInitialPlayerAvatarState();
-        SetupWarp(&gMapHeader, warpEventId, position);
-        DoWarp();
-        return TRUE;
+        if (IsArrowWarpMetatileBehavior(metatileBehavior, direction) == TRUE)
+        {
+            StoreInitialPlayerAvatarState();
+            SetupWarp(&gMapHeader, warpEventId, position);
+            DoWarp();
+            return TRUE;
+        }
+        else if (IsDirectionalStairWarpMetatileBehavior(metatileBehavior, direction) == TRUE)
+        {
+            delay = 0;
+            if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+            {
+                SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ON_FOOT);
+                delay = 12;
+            }
+
+            StoreInitialPlayerAvatarState();
+            SetupWarp(&gMapHeader, warpEventId, position);
+            DoStairWarp(metatileBehavior, delay);
+            return TRUE;
+        }
     }
     return FALSE;
 }
@@ -1024,4 +1109,92 @@ int SetCableClubWarp(void)
     MapGridGetMetatileBehaviorAt(position.x, position.y);  //unnecessary
     SetupWarp(&gMapHeader, GetWarpEventAtMapPosition(&gMapHeader, &position), &position);
     return 0;
+}
+
+// auto read signposts
+// signposts
+static bool8 TrySetUpWalkIntoSignpostScript(struct MapPosition *position, u16 metatileBehavior, u8 playerDirection)
+{
+    u8 signpostType;
+    const u8 *script;
+
+    if (JOY_HELD(DPAD_LEFT | DPAD_RIGHT))
+        return FALSE;
+    if (playerDirection != DIR_NORTH)
+        return FALSE;
+
+    switch (GetFacingSignpostType(metatileBehavior, playerDirection))
+    {
+    /* leaving this commented out for examples of custom signpost types
+    case SIGNPOST_POKECENTER:
+        SetUpWalkIntoSignScript(EventScript_PokecenterSign, playerDirection);
+        return TRUE;
+    case SIGNPOST_POKEMART:
+        SetUpWalkIntoSignScript(EventScript_PokemartSign, playerDirection);
+        return TRUE;*/
+    case SIGNPOST_SCRIPTED:
+        script = GetSignpostScriptAtMapPosition(position);
+        if (script == NULL)
+            return FALSE;
+        SetUpWalkIntoSignScript(script, playerDirection);
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+static u8 GetFacingSignpostType(u16 metatileBehavior, u8 playerDirection)
+{
+    /*if (MetatileBehavior_IsPlayerFacingPokemonCenterSign(metatileBehavior, playerDirection) == TRUE)
+        return SIGNPOST_POKECENTER;
+    if (MetatileBehavior_IsPlayerFacingPokeMartSign(metatileBehavior, playerDirection) == TRUE)
+        return SIGNPOST_POKEMART;*/
+
+    if (MetatileBehavior_IsSignpost(metatileBehavior) == TRUE)
+        return SIGNPOST_SCRIPTED;
+
+    return SIGNPOST_NA;
+}
+
+static void SetUpWalkIntoSignScript(const u8 *script, u8 playerDirection)
+{
+    gSpecialVar_Facing = playerDirection;
+    ScriptContext_SetupScript(script);
+    SetWalkingIntoSignVars();
+    MsgSetSignPost();
+}
+
+static const u8 *GetSignpostScriptAtMapPosition(struct MapPosition *position)
+{
+    const struct BgEvent *event = GetBackgroundEventAtPosition(&gMapHeader, position->x - 7, position->y - 7,  position->elevation);
+    if (event == NULL)
+        return NULL;
+    if (event->bgUnion.script != NULL)
+        return event->bgUnion.script;
+    return EventScript_TestSignpostMsg;
+}
+
+void FieldInput_HandleCancelSignpost(struct FieldInput *input)
+{
+    if (ScriptContext_IsEnabled() == TRUE)
+    {
+        if (gWalkAwayFromSignInhibitTimer != 0)
+        {
+            gWalkAwayFromSignInhibitTimer--;
+        }
+        else if (CanWalkAwayToCancelMsgBox() == TRUE)
+        {
+            //ClearMsgBoxCancelableState();
+            if (input->dpadDirection != 0 && GetPlayerFacingDirection() != input->dpadDirection)
+            {
+                ScriptContext_SetupScript(EventScript_CancelMessageBox);
+                LockPlayerFieldControls();
+            }
+            else if (input->pressedStartButton)
+            {
+                ScriptContext_SetupScript(EventScript_CancelMessageBox);
+                LockPlayerFieldControls();
+            }
+        }
+    }
 }

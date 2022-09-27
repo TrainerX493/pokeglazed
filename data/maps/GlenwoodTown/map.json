@@ -17,6 +17,16 @@
       "direction": "right",
       "offset": 0,
       "map": "MAP_FOREST_PASS"
+    },
+    {
+      "direction": "down",
+      "offset": 6,
+      "map": "MAP_LOXLY_CHANNEL"
+    },
+    {
+      "direction": "left",
+      "offset": -4,
+      "map": "MAP_SPRING_SIDE_PATH"
     }
   ],
   "object_events": [

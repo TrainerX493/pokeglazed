@@ -691,6 +691,10 @@ EventScript_BackupMrBrineyLocation::
 	.include "data/scripts/rival_graphics.inc"
 	.include "data/scripts/set_gym_trainers.inc"
 
+EventScript_CancelMessageBox::
+	release
+	end
+
 Common_EventScript_ShowBagIsFull::
 	msgbox gText_TooBadBagIsFull, MSGBOX_DEFAULT
 	release
@@ -1191,3 +1195,9 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/maps/Route27/scripts.inc"
 
 	.include "data/maps/EcruteakCity/scripts.inc"
+
+	.include "data/maps/SpringSidePath/scripts.inc"
+
+	.include "data/maps/LoxlyChannel/scripts.inc"
+
+	.include "data/maps/GemeniteRiver/scripts.inc"

@@ -5070,6 +5070,36 @@
       "secondary_tileset": "gTileset_violet",
       "border_filepath": "data/layouts/EcruteakCity/border.bin",
       "blockdata_filepath": "data/layouts/EcruteakCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_SPRING_SIDE_PATH",
+      "name": "SpringSidePath_Layout",
+      "width": 48,
+      "height": 26,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_glenwood",
+      "border_filepath": "data/layouts/SpringSidePath/border.bin",
+      "blockdata_filepath": "data/layouts/SpringSidePath/map.bin"
+    },
+    {
+      "id": "LAYOUT_LOXLY_CHANNEL",
+      "name": "LoxlyChannel_Layout",
+      "width": 24,
+      "height": 76,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_glenwood",
+      "border_filepath": "data/layouts/LoxlyChannel/border.bin",
+      "blockdata_filepath": "data/layouts/LoxlyChannel/map.bin"
+    },
+    {
+      "id": "LAYOUT_GEMENITE_RIVER",
+      "name": "GemeniteRiver_Layout",
+      "width": 40,
+      "height": 60,
+      "primary_tileset": "gTileset_glazed_general",
+      "secondary_tileset": "gTileset_seaspray",
+      "border_filepath": "data/layouts/GemeniteRiver/border.bin",
+      "blockdata_filepath": "data/layouts/GemeniteRiver/map.bin"
     }
   ]
 }

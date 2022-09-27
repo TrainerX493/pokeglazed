@@ -27,7 +27,7 @@ EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
 #include "data/items.h"
 
 // code
-static u16 GetBagItemQuantity(u16 *quantity)
+u16 GetBagItemQuantity(u16 *quantity)
 {
     return gSaveBlock2Ptr->encryptionKey ^ *quantity;
 }
@@ -55,6 +55,11 @@ void ApplyNewEncryptionKeyToBagItems(u32 newKey)
         for (item = 0; item < gBagPockets[pocket].capacity; item++)
             ApplyNewEncryptionKeyToHword(&(gBagPockets[pocket].itemSlots[item].quantity), newKey);
     }
+}
+
+void ItemId_GetHoldEffectParam_Script()
+{
+    VarSet(VAR_RESULT, ItemId_GetHoldEffectParam(VarGet(VAR_0x8004)));
 }
 
 void ApplyNewEncryptionKeyToBagItems_(u32 newKey) // really GF?
@@ -85,21 +90,16 @@ void CopyItemName(u16 itemId, u8 *dst)
     StringCopy(dst, ItemId_GetName(itemId));
 }
 
+static const u8 sText_s[] = _("S");
 void CopyItemNameHandlePlural(u16 itemId, u8 *dst, u32 quantity)
 {
-    if (itemId == ITEM_POKE_BALL)
+    StringCopy(dst, ItemId_GetName(itemId));
+    if (quantity > 1)
     {
-        if (quantity < 2)
-            StringCopy(dst, ItemId_GetName(ITEM_POKE_BALL));
+        if (ItemId_GetPocket(itemId) == POCKET_BERRIES)
+            GetBerryCountString(dst, gBerries[itemId - ITEM_CHERI_BERRY].name, quantity);
         else
-            StringCopy(dst, gText_PokeBalls);
-    }
-    else
-    {
-        if (itemId >= FIRST_BERRY_INDEX && itemId <= LAST_BERRY_INDEX)
-            GetBerryCountString(dst, gBerries[itemId - FIRST_BERRY_INDEX].name, quantity);
-        else
-            StringCopy(dst, ItemId_GetName(itemId));
+            StringAppend(dst, sText_s);
     }
 }
 
@@ -267,6 +267,12 @@ bool8 AddBagItem(u16 itemId, u16 count)
             slotCapacity = MAX_BAG_ITEM_CAPACITY;
         else
             slotCapacity = MAX_BERRY_CAPACITY;
+
+        if (pocket == TMHM_POCKET)
+        {
+            if (!CheckBagHasItem(ITEM_TM_CASE, 1))
+                AddBagItem(ITEM_TM_CASE, 1);
+        }
 
         for (i = 0; i < itemPocket->capacity; i++)
         {
