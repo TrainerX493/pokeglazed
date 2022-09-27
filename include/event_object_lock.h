@@ -9,5 +9,6 @@ void FreezeForApproachingTrainers(void);
 bool8 IsFreezeObjectAndPlayerFinished(void);
 void ScriptUnfreezeObjectEvents(void);
 void UnionRoom_UnlockPlayerAndChatPartner(void);
+void ScriptFreezeTargetObjectEvent(void);
 
 #endif // GUARD_EVENT_OBJECT_LOCK_H
