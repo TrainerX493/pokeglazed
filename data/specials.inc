@@ -538,3 +538,7 @@ gSpecials::
 	def_special TrySpecialOverworldEvo
 	def_special BufferUnitSystemText
 	def_special HeadbuttWildEncounter
+	def_special GetSeenMon
+	def_special GetCaughtMon
+	def_special SetSeenMon
+	def_special SetCaughtMon
