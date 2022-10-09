@@ -2105,24 +2105,23 @@ void TryToRevertMimicry(void)
     }
 }
 
-u32 GetMonFriendshipScore(struct Pokemon *pokemon)
+u32 GetBattlerFriendshipScore(u8 battlerId)
 {
-    u32 friendshipScore = GetMonData(pokemon, MON_DATA_FRIENDSHIP);
+    u8 side = GetBattlerSide(battlerId);
+    struct Pokemon *party = (side == B_SIDE_PLAYER) ? gPlayerParty : gEnemyParty;
+    u16 species = GetMonData(&party[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
 
-    if (friendshipScore == MAX_FRIENDSHIP)
-        return FRIENDSHIP_MAX;
-    if (friendshipScore >= 200)
-        return FRIENDSHIP_200_TO_254;
-    if (friendshipScore >= 150)
-        return FRIENDSHIP_150_TO_199;
-    if (friendshipScore >= 100)
-        return FRIENDSHIP_100_TO_149;
-    if (friendshipScore >= 50)
-        return FRIENDSHIP_50_TO_99;
-    if (friendshipScore >= 1)
-        return FRIENDSHIP_1_TO_49;
+    if (side != B_SIDE_PLAYER)
+        return FRIENDSHIP_NONE;
+    else if (gBaseStats[species].flags & SPECIES_FLAG_MEGA_EVOLUTION
+          || (gBattleTypeFlags & (BATTLE_TYPE_EREADER_TRAINER
+                                | BATTLE_TYPE_FRONTIER
+                                | BATTLE_TYPE_LINK
+                                | BATTLE_TYPE_RECORDED_LINK
+                                | BATTLE_TYPE_SECRET_BASE)))
+        return FRIENDSHIP_NONE;
 
-    return FRIENDSHIP_NONE;
+    return GetMonFriendshipScore(&party[gBattlerPartyIndexes[battlerId]]);
 }
 
 enum
@@ -2611,7 +2610,7 @@ u8 DoFieldEndTurnEffects(void)
             {
             #if B_AFFECTION_MECHANICS == TRUE
                 if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER
-                 && GetMonFriendshipScore(&gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]]) >= FRIENDSHIP_150_TO_199
+                 && GetBattlerFriendshipScore(gBattlerAttacker) >= FRIENDSHIP_150_TO_199
                  && (Random() % 100 < 20))
                 {
                     gBattleCommunication[MULTISTRING_CHOOSER] = 1;
@@ -4224,7 +4223,7 @@ static u8 ForewarnChooseMove(u32 battler)
         u16 moveId;
     };
     u32 i, j, bestId, count;
-    struct Forewarn *data = malloc(sizeof(struct Forewarn) * MAX_BATTLERS_COUNT * MAX_MON_MOVES);
+    struct Forewarn *data = Alloc(sizeof(struct Forewarn) * MAX_BATTLERS_COUNT * MAX_MON_MOVES);
 
     // Put all moves
     for (count = 0, i = 0; i < MAX_BATTLERS_COUNT; i++)
@@ -4271,7 +4270,7 @@ static u8 ForewarnChooseMove(u32 battler)
     PREPARE_MOVE_BUFFER(gBattleTextBuff1, data[bestId].moveId)
     RecordKnownMove(gBattlerTarget, data[bestId].moveId);
 
-    free(data);
+    Free(data);
 }
 
 u8 AbilityBattleEffects(u8 caseID, u8 battler, u16 ability, u8 special, u16 moveArg)
@@ -5218,7 +5217,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u16 ability, u8 special, u16 move
              && TARGET_TURN_DAMAGED
              && IsBattlerAlive(battler)
             // Had more than half of hp before, now has less
-             && gBattleStruct->hpBefore[battler] > gBattleMons[battler].maxHP / 2
+             && gBattleStruct->hpBefore[battler] >= gBattleMons[battler].maxHP / 2
              && gBattleMons[battler].hp < gBattleMons[battler].maxHP / 2
              && (gMultiHitCounter == 0 || gMultiHitCounter == 1)
              && !(TestSheerForceFlag(gBattlerAttacker, gCurrentMove))
@@ -8241,7 +8240,7 @@ static u16 CalcMoveBasePower(u16 move, u8 battlerAtk, u8 battlerDef)
         basePower = gBattleStruct->presentBasePower;
         break;
     case EFFECT_TRIPLE_KICK:
-        basePower += gBattleScripting.tripleKickPower;
+        basePower *= (4 - gMultiHitCounter);
         break;
     case EFFECT_SPIT_UP:
         basePower = 100 * gDisableStructs[battlerAtk].stockpileCounter;

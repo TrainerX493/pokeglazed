@@ -1760,7 +1760,7 @@ u32 GetTotalAccuracy(u32 battlerAtk, u32 battlerDef, u32 move, u32 atkAbility, u
 #if B_AFFECTION_MECHANICS == TRUE
     // With high affection/friendship there's a chance to evade a move by substracting 10% of its accuracy.
     // I can't find exact information about that chance, so I'm just gonna write it as a 20% chance for now.
-    if (GetMonFriendshipScore(&gPlayerParty[gBattlerPartyIndexes[battlerDef]]) >= FRIENDSHIP_150_TO_199 && (Random() % 100) <= 20)
+    if (GetBattlerFriendshipScore(battlerDef) >= FRIENDSHIP_150_TO_199 && (Random() % 100) <= 20)
         calc = (calc * 90) / 100;
 #endif
 
@@ -1933,7 +1933,7 @@ s32 CalcCritChanceStage(u8 battlerAtk, u8 battlerDef, u32 move, bool32 recordAbi
                     + 2 * (holdEffectAtk == HOLD_EFFECT_LUCKY_PUNCH && gBattleMons[gBattlerAttacker].species == SPECIES_CHANSEY)
                     + 2 * BENEFITS_FROM_LEEK(battlerAtk, holdEffectAtk)
                 #if B_AFFECTION_MECHANICS == TRUE
-                    + 2 * (GetMonFriendshipScore(&gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]]) >= FRIENDSHIP_200_TO_254)
+                    + 2 * (GetBattlerFriendshipScore(gBattlerAttacker) >= FRIENDSHIP_200_TO_254)
                 #endif
                     + (abilityAtk == ABILITY_SUPER_LUCK);
 
@@ -2003,7 +2003,7 @@ static void Cmd_adjustdamage(void)
 {
     u8 holdEffect, param;
     u32 moveType;
-    u32 friendshipScore = GetMonFriendshipScore(&gPlayerParty[gBattlerPartyIndexes[gBattlerTarget]]);
+    u32 friendshipScore = GetBattlerFriendshipScore(gBattlerTarget);
     u32 rand = Random() % 100;
 
     GET_MOVE_TYPE(gCurrentMove, moveType);
@@ -4113,7 +4113,7 @@ static void Cmd_getexp(void)
                     }
                 #endif
                 #if B_AFFECTION_MECHANICS == TRUE
-                    if (GetMonFriendshipScore(&gPlayerParty[gBattleStruct->expGetterMonId]) >= FRIENDSHIP_50_TO_99)
+                    if (GetBattlerFriendshipScore(gBattleStruct->expGetterMonId) >= FRIENDSHIP_50_TO_99)
                         gBattleMoveDamage = (gBattleMoveDamage * 120) / 100;
                 #endif
 
@@ -13849,7 +13849,7 @@ u8 GetCatchingBattler(void)
 
 static void Cmd_handleballthrow(void)
 {
-    u8 ballMultiplier = 10;
+    u16 ballMultiplier = 100;
     s8 ballAddition = 0;
 
     if (gBattleControllerExecFlags)
@@ -13881,33 +13881,33 @@ static void Cmd_handleballthrow(void)
         else
             catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
 
-        if (gBaseStats[gBattleMons[gBattlerTarget].species].flags & FLAG_ULTRA_BEAST)
+        if (gBaseStats[gBattleMons[gBattlerTarget].species].flags & SPECIES_FLAG_ULTRA_BEAST)
         {
             if (gLastUsedItem == ITEM_BEAST_BALL)
-                ballMultiplier = 50;
+                ballMultiplier = 500;
             else
-                ballMultiplier = 1;
+                ballMultiplier = 10;
         }
         else
         {
             switch (gLastUsedItem)
             {
             case ITEM_ULTRA_BALL:
-                ballMultiplier = 20;
+                ballMultiplier = 200;
                 break;
         #if B_SPORT_BALL_MODIFIER <= GEN_7
             case ITEM_SPORT_BALL:
         #endif
             case ITEM_GREAT_BALL:
             case ITEM_SAFARI_BALL:
-                ballMultiplier = 15;
+                ballMultiplier = 150;
                 break;
             case ITEM_NET_BALL:
                 if (IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_WATER) || IS_BATTLER_OF_TYPE(gBattlerTarget, TYPE_BUG))
                 #if B_NET_BALL_MODIFIER >= GEN_7
-                    ballMultiplier = 35;
+                    ballMultiplier = 350;
                 #else
-                    ballMultiplier = 30;
+                    ballMultiplier = 300;
                 #endif
                 break;
             case ITEM_DIVE_BALL:
@@ -13916,75 +13916,75 @@ static void Cmd_handleballthrow(void)
                     || gIsFishingEncounter || gIsSurfingEncounter
                 #endif
                 )
-                    ballMultiplier = 35;
+                    ballMultiplier = 350;
                 break;
             case ITEM_NEST_BALL:
             #if B_NEST_BALL_MODIFIER >= GEN_6
                 //((41 - Pokémon's level) ÷ 10)× if Pokémon's level is between 1 and 29, 1× otherwise.
                 if (gBattleMons[gBattlerTarget].level < 30)
-                    ballMultiplier = 41 - gBattleMons[gBattlerTarget].level;
+                    ballMultiplier = 410 - (gBattleMons[gBattlerTarget].level * 10);
             #elif B_NEST_BALL_MODIFIER == GEN_5
                 //((41 - Pokémon's level) ÷ 10)×, minimum 1×
                 if (gBattleMons[gBattlerTarget].level < 31)
-                    ballMultiplier = 41 - gBattleMons[gBattlerTarget].level;
+                    ballMultiplier = 410 - (gBattleMons[gBattlerTarget].level * 10);
             #else
                 //((40 - Pokémon's level) ÷ 10)×, minimum 1×
                 if (gBattleMons[gBattlerTarget].level < 40)
                 {
-                    ballMultiplier = 40 - gBattleMons[gBattlerTarget].level;
-                    if (ballMultiplier <= 9)
-                        ballMultiplier = 10;
+                    ballMultiplier = 400 - (gBattleMons[gBattlerTarget].level * 10);
+                    if (ballMultiplier <= 90)
+                        ballMultiplier = 100;
                 }
             #endif
                 break;
             case ITEM_REPEAT_BALL:
             if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), FLAG_GET_CAUGHT))
                 #if B_REPEAT_BALL_MODIFIER >= GEN_7
-                    ballMultiplier = 35;
+                    ballMultiplier = 350;
                 #else
-                    ballMultiplier = 30;
+                    ballMultiplier = 300;
                 #endif
             break;
             case ITEM_TIMER_BALL:
             #if B_TIMER_BALL_MODIFIER >= GEN_5
-                ballMultiplier = (gBattleResults.battleTurnCounter * 3) + 10;
+                ballMultiplier = (gBattleResults.battleTurnCounter * 30) + 100;
             #else
-                ballMultiplier = gBattleResults.battleTurnCounter + 10;
+                ballMultiplier = (gBattleResults.battleTurnCounter * 10) + 100;
             #endif
-                if (ballMultiplier > 40)
-                    ballMultiplier = 40;
+                if (ballMultiplier > 400)
+                    ballMultiplier = 400;
                 break;
             case ITEM_DUSK_BALL:
                 RtcCalcLocalTime();
                 if ((gLocalTime.hours >= 20 && gLocalTime.hours <= 3) || gMapHeader.cave || gMapHeader.mapType == MAP_TYPE_UNDERGROUND)
                 #if B_DUSK_BALL_MODIFIER >= GEN_7
-                    ballMultiplier = 30;
+                    ballMultiplier = 300;
                 #else
-                    ballMultiplier = 35;
+                    ballMultiplier = 350;
                 #endif
                 break;
             case ITEM_QUICK_BALL:
                 if (gBattleResults.battleTurnCounter == 0)
                 #if B_QUICK_BALL_MODIFIER >= GEN_5
-                    ballMultiplier = 50;
+                    ballMultiplier = 500;
                 #else
-                    ballMultiplier = 40;
+                    ballMultiplier = 400;
                 #endif
                 break;
             case ITEM_LEVEL_BALL:
                 if (gBattleMons[gBattlerAttacker].level >= 4 * gBattleMons[gBattlerTarget].level)
-                    ballMultiplier = 80;
+                    ballMultiplier = 800;
                 else if (gBattleMons[gBattlerAttacker].level > 2 * gBattleMons[gBattlerTarget].level)
-                    ballMultiplier = 40;
+                    ballMultiplier = 400;
                 else if (gBattleMons[gBattlerAttacker].level > gBattleMons[gBattlerTarget].level)
-                    ballMultiplier = 20;
+                    ballMultiplier = 200;
                 break;
             case ITEM_LURE_BALL:
                 if (gIsFishingEncounter)
                 #if B_LURE_BALL_MODIFIER >= GEN_7
-                    ballMultiplier = 50;
+                    ballMultiplier = 500;
                 #else
-                    ballMultiplier = 30;
+                    ballMultiplier = 300;
                 #endif
                 break;
             case ITEM_MOON_BALL:
@@ -13992,7 +13992,7 @@ static void Cmd_handleballthrow(void)
                 {
                     if (gEvolutionTable[gBattleMons[gBattlerTarget].species][i].method == EVO_ITEM
                         && gEvolutionTable[gBattleMons[gBattlerTarget].species][i].param == ITEM_MOON_STONE)
-                        ballMultiplier = 40;
+                        ballMultiplier = 400;
                 }
                 break;
             case ITEM_LOVE_BALL:
@@ -14002,12 +14002,12 @@ static void Cmd_handleballthrow(void)
                     u8 gender2 = GetMonGender(&gPlayerParty[gBattlerPartyIndexes[gBattlerAttacker]]);
 
                     if (gender1 != gender2 && gender1 != MON_GENDERLESS && gender2 != MON_GENDERLESS)
-                        ballMultiplier = 80;
+                        ballMultiplier = 800;
                 }
                 break;
             case ITEM_FAST_BALL:
                 if (gBaseStats[gBattleMons[gBattlerTarget].species].baseSpeed >= 100)
-                    ballMultiplier = 40;
+                    ballMultiplier = 400;
                 break;
             case ITEM_HEAVY_BALL:
                 i = GetPokedexHeightWeight(SpeciesToNationalPokedexNum(gBattleMons[gBattlerTarget].species), 1);
@@ -14045,13 +14045,13 @@ static void Cmd_handleballthrow(void)
             case ITEM_DREAM_BALL:
             #if B_DREAM_BALL_MODIFIER >= GEN_8
                 if (gBattleMons[gBattlerTarget].status1 & STATUS1_SLEEP || GetBattlerAbility(gBattlerTarget) == ABILITY_COMATOSE)
-                    ballMultiplier = 40;
+                    ballMultiplier = 400;
             #else
-                ballMultiplier = 10;
+                ballMultiplier = 100;
             #endif
                 break;
             case ITEM_BEAST_BALL:
-                ballMultiplier = 1;
+                ballMultiplier = 10;
                 break;
             }
         }
@@ -14062,7 +14062,7 @@ static void Cmd_handleballthrow(void)
         else
             catchRate = catchRate + ballAddition;
 
-        odds = (catchRate * ballMultiplier / 10)
+        odds = (catchRate * ballMultiplier / 100)
             * (gBattleMons[gBattlerTarget].maxHP * 3 - gBattleMons[gBattlerTarget].hp * 2)
             / (3 * gBattleMons[gBattlerTarget].maxHP);
 
