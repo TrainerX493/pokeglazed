@@ -245,6 +245,13 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Giddy;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldMan1;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldMan2;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantNormal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantBike;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantSki;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantSurfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantUnderwater;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantDecorating;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantLighthouse;
 
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
@@ -488,6 +495,13 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_LUGIA] =                    &gObjectEventGraphicsInfo_Lugia,
     [OBJ_EVENT_GFX_HOOH] =                     &gObjectEventGraphicsInfo_HoOh,
     [OBJ_EVENT_GFX_BRANT_NORMAL] =             &gObjectEventGraphicsInfo_BrantNormal,
+    [OBJ_EVENT_GFX_BRANT_BIKE] =               &gObjectEventGraphicsInfo_BrantBike,
+    [OBJ_EVENT_GFX_BRANT_SKI] =                &gObjectEventGraphicsInfo_BrantSki,
+    [OBJ_EVENT_GFX_BRANT_SURFING] =            &gObjectEventGraphicsInfo_BrantSurfing,
+    [OBJ_EVENT_GFX_BRANT_FIELD_MOVE] =         &gObjectEventGraphicsInfo_BrantFieldMove,
+    [OBJ_EVENT_GFX_BRANT_UNDERWATER] =         &gObjectEventGraphicsInfo_BrantUnderwater,
+    [OBJ_EVENT_GFX_BRANT_DECORATING] =         &gObjectEventGraphicsInfo_BrantDecorating,
+    [OBJ_EVENT_GFX_BRANT_LIGHTHOUSE] =         &gObjectEventGraphicsInfo_BrantLighthouse,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {
