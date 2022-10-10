@@ -252,7 +252,14 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantFieldM
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantUnderwater;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantDecorating;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BrantLighthouse;
-
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaNormal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaBike;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaSki;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaSurfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaUnderwater;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaDecorating;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AlexaLighthouse;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -502,6 +509,14 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_BRANT_UNDERWATER] =         &gObjectEventGraphicsInfo_BrantUnderwater,
     [OBJ_EVENT_GFX_BRANT_DECORATING] =         &gObjectEventGraphicsInfo_BrantDecorating,
     [OBJ_EVENT_GFX_BRANT_LIGHTHOUSE] =         &gObjectEventGraphicsInfo_BrantLighthouse,
+    [OBJ_EVENT_GFX_ALEXA_NORMAL] =             &gObjectEventGraphicsInfo_AlexaNormal,
+    [OBJ_EVENT_GFX_ALEXA_BIKE] =               &gObjectEventGraphicsInfo_AlexaBike,
+    [OBJ_EVENT_GFX_ALEXA_SKI] =                &gObjectEventGraphicsInfo_AlexaSki,
+    [OBJ_EVENT_GFX_ALEXA_SURFING] =            &gObjectEventGraphicsInfo_AlexaSurfing,
+    [OBJ_EVENT_GFX_ALEXA_FIELD_MOVE] =         &gObjectEventGraphicsInfo_AlexaFieldMove,
+    [OBJ_EVENT_GFX_ALEXA_UNDERWATER] =         &gObjectEventGraphicsInfo_AlexaUnderwater,
+    [OBJ_EVENT_GFX_ALEXA_DECORATING] =         &gObjectEventGraphicsInfo_AlexaDecorating,
+    [OBJ_EVENT_GFX_ALEXA_LIGHTHOUSE] =         &gObjectEventGraphicsInfo_AlexaLighthouse,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

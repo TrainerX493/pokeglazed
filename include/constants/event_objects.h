@@ -248,6 +248,14 @@
 #define OBJ_EVENT_GFX_BRANT_UNDERWATER           244
 #define OBJ_EVENT_GFX_BRANT_DECORATING           245
 #define OBJ_EVENT_GFX_BRANT_LIGHTHOUSE           246
+#define OBJ_EVENT_GFX_ALEXA_NORMAL               247
+#define OBJ_EVENT_GFX_ALEXA_BIKE                 248
+#define OBJ_EVENT_GFX_ALEXA_SKI                  249
+#define OBJ_EVENT_GFX_ALEXA_SURFING              250
+#define OBJ_EVENT_GFX_ALEXA_FIELD_MOVE           251
+#define OBJ_EVENT_GFX_ALEXA_UNDERWATER           252
+#define OBJ_EVENT_GFX_ALEXA_DECORATING           253
+#define OBJ_EVENT_GFX_ALEXA_LIGHTHOUSE           254
 
 // NOTE: By default, the max value for NUM_OBJ_EVENT_GFX is 239.
 //
@@ -258,7 +266,7 @@
 // object graphics that can be removed. If more graphics are needed, anything that
 // stores graphics ids will need to be increased in size. See wiki entry below:
 // https://github.com/pret/pokeemerald/wiki/Feature-Branches#overworld-expansion
-#define NUM_OBJ_EVENT_GFX                        247
+#define NUM_OBJ_EVENT_GFX                        255
 
 
 // These are dynamic object gfx ids.
