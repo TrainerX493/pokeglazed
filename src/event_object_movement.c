@@ -439,6 +439,11 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
 #define OBJ_EVENT_PAL_TAG_BRANT                   0x1124
 #define OBJ_EVENT_PAL_TAG_ALEXA                   0x1125
+#define OBJ_EVENT_PAL_TAG_GLAZED_1                0x1126
+#define OBJ_EVENT_PAL_TAG_GLAZED_2                0x1127
+#define OBJ_EVENT_PAL_TAG_GLAZED_3                0x1128
+#define OBJ_EVENT_PAL_TAG_GLAZED_4                0x1129
+#define OBJ_EVENT_PAL_TAG_GLAZED_5                0x1130
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/field_effects/field_effect_object_template_pointers.h"
@@ -487,6 +492,11 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
     {gObjectEventPal_Brant,                 OBJ_EVENT_PAL_TAG_BRANT},
     {gObjectEventPal_Alexa,                 OBJ_EVENT_PAL_TAG_ALEXA},
+    {gObjectEventPal_Glazed_1,              OBJ_EVENT_PAL_TAG_GLAZED_1},
+    {gObjectEventPal_Glazed_2,              OBJ_EVENT_PAL_TAG_GLAZED_2},
+    {gObjectEventPal_Glazed_3,              OBJ_EVENT_PAL_TAG_GLAZED_3},
+    {gObjectEventPal_Glazed_4,              OBJ_EVENT_PAL_TAG_GLAZED_4},
+    {gObjectEventPal_Glazed_5,              OBJ_EVENT_PAL_TAG_GLAZED_5},
     {},
 };
 
