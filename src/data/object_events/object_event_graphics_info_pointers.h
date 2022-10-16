@@ -277,6 +277,10 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zoroark;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegirockHGSS;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegiceHGSS;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegisteelHGSS;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Mewtwo;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Arcesu;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Shinx;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Slowpoke
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -551,6 +555,10 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_REGIROCK_HGSS] =            &gObjectEventGraphicsInfo_RegirockHGSS,
     [OBJ_EVENT_GFX_REGICE_HGSS] =              &gObjectEventGraphicsInfo_RegiceHGSS,
     [OBJ_EVENT_GFX_REGISTEEL_HGSS] =           &gObjectEventGraphicsInfo_RegisteelHGSS,
+    [OBJ_EVENT_GFX_MEWTWO] =                   &gObjectEventGraphicsInfo_Mewtwo
+    [OBJ_EVENT_GFX_ARCEUS] =                   &gObjectEventGraphicsInfo_Arceus
+    [OBJ_EVENT_GFX_SHINX] =                    &gObjectEventGraphicsInfo_Shinx
+    [OBJ_EVENT_GFX_SLOWPOKE] =                 &gObjectEventGraphicsInfo_Slowpoke
 
 };
 
