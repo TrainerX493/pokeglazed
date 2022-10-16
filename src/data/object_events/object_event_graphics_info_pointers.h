@@ -267,6 +267,16 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Cato;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tye;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Chelle;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Luke;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Cynthia;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Rosaline;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Magnus;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tanya;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gray;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Plane;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zoroark;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegirockHGSS;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegiceHGSS;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegisteelHGSS;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -531,6 +541,16 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_TYE] =                      &gObjectEventGraphicsInfo_Tye,
     [OBJ_EVENT_GFX_CHELLE] =                   &gObjectEventGraphicsInfo_Chelle,
     [OBJ_EVENT_GFX_LUKE] =                     &gObjectEventGraphicsInfo_Luke,
+    [OBJ_EVENT_GFX_CYNTHIA] =                  &gObjectEventGraphicsInfo_Cynthia,
+    [OBJ_EVENT_GFX_ROSALINE] =                 &gObjectEventGraphicsInfo_Rosaline,
+    [OBJ_EVENT_GFX_MAGNUS] =                   &gObjectEventGraphicsInfo_Magnus,
+    [OBJ_EVENT_GFX_TANYA] =                    &gObjectEventGraphicsInfo_Tanya,
+    [OBJ_EVENT_GFX_GRAY] =                     &gObjectEventGraphicsInfo_Gray,
+    [OBJ_EVENT_GFX_PLANE] =                    &gObjectEventGraphicsInfo_Plane,
+    [OBJ_EVENT_GFX_ZOROARK] =                  &gObjectEventGraphicsInfo_Zoroark,
+    [OBJ_EVENT_GFX_REGIROCK_HGSS] =            &gObjectEventGraphicsInfo_RegirockHGSS,
+    [OBJ_EVENT_GFX_REGICE_HGSS] =              &gObjectEventGraphicsInfo_RegiceHGSS,
+    [OBJ_EVENT_GFX_REGISTEEL_HGSS] =           &gObjectEventGraphicsInfo_RegisteelHGSS,
 
 };
 

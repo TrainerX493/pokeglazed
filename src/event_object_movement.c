@@ -444,6 +444,12 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_GLAZED_3                0x1128
 #define OBJ_EVENT_PAL_TAG_GLAZED_4                0x1129
 #define OBJ_EVENT_PAL_TAG_GLAZED_5                0x1130
+#define OBJ_EVENT_PAL_TAG_GLAZED_6                0x1131
+#define OBJ_EVENT_PAL_TAG_GLAZED_7                0x1132
+#define OBJ_EVENT_PAL_TAG_GLAZED_8                0x1133
+#define OBJ_EVENT_PAL_TAG_GLAZED_9                0x1134
+#define OBJ_EVENT_PAL_TAG_GLAZED_10               0x1135
+#define OBJ_EVENT_PAL_TAG_GLAZED_11               0x1136
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/field_effects/field_effect_object_template_pointers.h"
@@ -492,11 +498,17 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_RubySapphireMay,       OBJ_EVENT_PAL_TAG_RS_MAY},
     {gObjectEventPal_Brant,                 OBJ_EVENT_PAL_TAG_BRANT},
     {gObjectEventPal_Alexa,                 OBJ_EVENT_PAL_TAG_ALEXA},
-    {gObjectEventPal_Glazed_1,              OBJ_EVENT_PAL_TAG_GLAZED_1},
-    {gObjectEventPal_Glazed_2,              OBJ_EVENT_PAL_TAG_GLAZED_2},
-    {gObjectEventPal_Glazed_3,              OBJ_EVENT_PAL_TAG_GLAZED_3},
-    {gObjectEventPal_Glazed_4,              OBJ_EVENT_PAL_TAG_GLAZED_4},
-    {gObjectEventPal_Glazed_5,              OBJ_EVENT_PAL_TAG_GLAZED_5},
+    {gObjectEventPal_Glazed1,               OBJ_EVENT_PAL_TAG_GLAZED_1},
+    {gObjectEventPal_Glazed2,               OBJ_EVENT_PAL_TAG_GLAZED_2},
+    {gObjectEventPal_Glazed3,               OBJ_EVENT_PAL_TAG_GLAZED_3},
+    {gObjectEventPal_Glazed4,               OBJ_EVENT_PAL_TAG_GLAZED_4},
+    {gObjectEventPal_Glazed5,               OBJ_EVENT_PAL_TAG_GLAZED_5},
+    {gObjectEventPal_Glazed6,               OBJ_EVENT_PAL_TAG_GLAZED_6},
+    {gObjectEventPal_Glazed7,               OBJ_EVENT_PAL_TAG_GLAZED_7},
+    {gObjectEventPal_Glazed8,               OBJ_EVENT_PAL_TAG_GLAZED_8},
+    {gObjectEventPal_Glazed9,               OBJ_EVENT_PAL_TAG_GLAZED_9},
+    {gObjectEventPal_Glazed10,              OBJ_EVENT_PAL_TAG_GLAZED_10},
+    {gObjectEventPal_Glazed11,              OBJ_EVENT_PAL_TAG_GLAZED_11},
     {},
 };
 
