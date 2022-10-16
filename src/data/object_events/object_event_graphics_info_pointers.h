@@ -280,7 +280,15 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RegisteelHG
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Mewtwo;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Arcesu;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Shinx;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Slowpoke
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Slowpoke;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sparky;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Terry;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Flo;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Terry;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Irene;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Ernest;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Nicole;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tyson;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -555,10 +563,18 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_REGIROCK_HGSS] =            &gObjectEventGraphicsInfo_RegirockHGSS,
     [OBJ_EVENT_GFX_REGICE_HGSS] =              &gObjectEventGraphicsInfo_RegiceHGSS,
     [OBJ_EVENT_GFX_REGISTEEL_HGSS] =           &gObjectEventGraphicsInfo_RegisteelHGSS,
-    [OBJ_EVENT_GFX_MEWTWO] =                   &gObjectEventGraphicsInfo_Mewtwo
-    [OBJ_EVENT_GFX_ARCEUS] =                   &gObjectEventGraphicsInfo_Arceus
-    [OBJ_EVENT_GFX_SHINX] =                    &gObjectEventGraphicsInfo_Shinx
-    [OBJ_EVENT_GFX_SLOWPOKE] =                 &gObjectEventGraphicsInfo_Slowpoke
+    [OBJ_EVENT_GFX_MEWTWO] =                   &gObjectEventGraphicsInfo_Mewtwo,
+    [OBJ_EVENT_GFX_ARCEUS] =                   &gObjectEventGraphicsInfo_Arceus,
+    [OBJ_EVENT_GFX_SHINX] =                    &gObjectEventGraphicsInfo_Shinx,
+    [OBJ_EVENT_GFX_SLOWPOKE] =                 &gObjectEventGraphicsInfo_Slowpoke,
+    [OBJ_EVENT_GFX_SPARKY] =                   &gObjectEventGraphicsInfo_Sparky,
+    [OBJ_EVENT_GFX_TERRY] =                    &gObjectEventGraphicsInfo_Terry,
+    [OBJ_EVENT_GFX_FLO] =                      &gObjectEventGraphicsInfo_Flo,
+    [OBJ_EVENT_GFX_LIEF] =                     &gObjectEventGraphicsInfo_Lief,
+    [OBJ_EVENT_GFX_IRENE] =                    &gObjectEventGraphicsInfo_Irene,
+    [OBJ_EVENT_GFX_ERNEST] =                   &gObjectEventGraphicsInfo_Ernest,
+    [OBJ_EVENT_GFX_NICOLE] =                   &gObjectEventGraphicsInfo_Nicole,
+    [OBJ_EVENT_GFX_TYSON] =                    &gObjectEventGraphicsInfo_Tyson,
 
 };
 
