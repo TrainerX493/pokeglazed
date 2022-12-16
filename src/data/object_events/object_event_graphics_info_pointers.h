@@ -289,6 +289,14 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Irene;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Ernest;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Nicole;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tyson;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Bugsy;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Brian;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Clair;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Falkner;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Jasmine;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Morty;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Silver;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Simon;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -575,6 +583,14 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_ERNEST] =                   &gObjectEventGraphicsInfo_Ernest,
     [OBJ_EVENT_GFX_NICOLE] =                   &gObjectEventGraphicsInfo_Nicole,
     [OBJ_EVENT_GFX_TYSON] =                    &gObjectEventGraphicsInfo_Tyson,
+    [OBJ_EVENT_GFX_BUGSY] =                    &gObjectEventGraphicsInfo_Bugsy,
+    [OBJ_EVENT_GFX_BRIAN] =                    &gObjectEventGraphicsInfo_Brian,
+    [OBJ_EVENT_GFX_CLAIR] =                    &gObjectEventGraphicsInfo_Clair,
+    [OBJ_EVENT_GFX_FALKNER] =                  &gObjectEventGraphicsInfo_Falkner,
+    [OBJ_EVENT_GFX_JASMINE] =                  &gObjectEventGraphicsInfo_Jasmine,
+    [OBJ_EVENT_GFX_MORTY] =                    &gObjectEventGraphicsInfo_Morty,
+    [OBJ_EVENT_GFX_SILVER] =                   &gObjectEventGraphicsInfo_Silver,
+    [OBJ_EVENT_GFX_SIMON] =                    &gObjectEventGraphicsInfo_Simon,
 
 };
 
