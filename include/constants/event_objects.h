@@ -293,6 +293,27 @@
 #define OBJ_EVENT_GFX_MORTY                      289
 #define OBJ_EVENT_GFX_SILVER                     290
 #define OBJ_EVENT_GFX_SIMON                      291
+#define OBJ_EVENT_GFX_IVAN                       292
+#define OBJ_EVENT_GFX_WHITNEY                    293
+#define OBJ_EVENT_GFX_POWELL                     294
+#define OBJ_EVENT_GFX_EUSINE                     295
+#define OBJ_EVENT_GFX_THOR                       296
+#define OBJ_EVENT_GFX_RICKY                      297
+#define OBJ_EVENT_GFX_SORA                       298
+#define OBJ_EVENT_GFX_MAKUNOUSHI                 299
+#define OBJ_EVENT_GFX_BLAKE                      300
+#define OBJ_EVENT_GFX_RED_ALT                    301
+#define OBJ_EVENT_GFX_KRIS                       302
+#define OBJ_EVENT_GFX_STEVEN_ALT                 303
+#define OBJ_EVENT_GFX_WALLACE_ALT                304
+#define OBJ_EVENT_GFX_SOUL                       305
+#define OBJ_EVENT_GFX_FUSION_MEMBER              306
+#define OBJ_EVENT_GFX_FUSION_NEO_MEMBER_M        307
+#define OBJ_EVENT_GFX_FUSION_NEO_MEMBER_F        308
+#define OBJ_EVENT_GFX_MICHAEL                    309
+#define OBJ_EVENT_GFX_REGINA                     310
+#define OBJ_EVENT_GFX_DECON                      311
+#define OBJ_EVENT_GFX_PIUS                       312
 
 // NOTE: By default, the max value for NUM_OBJ_EVENT_GFX is 239.
 //
@@ -303,7 +324,7 @@
 // object graphics that can be removed. If more graphics are needed, anything that
 // stores graphics ids will need to be increased in size. See wiki entry below:
 // https://github.com/pret/pokeemerald/wiki/Feature-Branches#overworld-expansion
-#define NUM_OBJ_EVENT_GFX                        292
+#define NUM_OBJ_EVENT_GFX                        313
 
 
 // These are dynamic object gfx ids.

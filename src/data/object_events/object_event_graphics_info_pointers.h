@@ -297,7 +297,27 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Jasmine;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Morty;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Silver;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Simon;
-
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Ivan;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Whitney;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Powell;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Eusine;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Thor;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Ricky;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sora;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Makunoushi;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Blake;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedAlt;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Kris;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_WallaceAlt;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_StevenAlt;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Soul;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_FusionMember;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_FusionNeoMemberM;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_FusionNeoMemberF;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Michael;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Regina;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Decon;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Pius;
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
     [OBJ_EVENT_GFX_BRENDAN_MACH_BIKE] =        &gObjectEventGraphicsInfo_BrendanMachBike,
@@ -591,6 +611,27 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_MORTY] =                    &gObjectEventGraphicsInfo_Morty,
     [OBJ_EVENT_GFX_SILVER] =                   &gObjectEventGraphicsInfo_Silver,
     [OBJ_EVENT_GFX_SIMON] =                    &gObjectEventGraphicsInfo_Simon,
+    [OBJ_EVENT_GFX_IVAN] =                     &gObjectEventGraphicsInfo_Ivan,
+    [OBJ_EVENT_GFX_WHITNEY] =                  &gObjectEventGraphicsInfo_Whitney,
+    [OBJ_EVENT_GFX_POWELL] =                   &gObjectEventGraphicsInfo_Powell,
+    [OBJ_EVENT_GFX_EUSINE] =                   &gObjectEventGraphicsInfo_Eusine,
+    [OBJ_EVENT_GFX_THOR] =                     &gObjectEventGraphicsInfo_Thor,
+    [OBJ_EVENT_GFX_RICKY] =                    &gObjectEventGraphicsInfo_Ricky,
+    [OBJ_EVENT_GFX_SORA] =                     &gObjectEventGraphicsInfo_Sora,
+    [OBJ_EVENT_GFX_MAKUNOUSHI] =               &gObjectEventGraphicsInfo_Makunoushi,
+    [OBJ_EVENT_GFX_BLAKE] =                    &gObjectEventGraphicsInfo_Blake,
+    [OBJ_EVENT_GFX_RED_ALT] =                  &gObjectEventGraphicsInfo_RedAlt,
+    [OBJ_EVENT_GFX_KRIS] =                     &gObjectEventGraphicsInfo_Kris,
+    [OBJ_EVENT_GFX_STEVEN_ALT] =               &gObjectEventGraphicsInfo_StevenAlt,
+    [OBJ_EVENT_GFX_WALLACE_ALT] =              &gObjectEventGraphicsInfo_WallaceAlt,
+    [OBJ_EVENT_GFX_SOUL] =                     &gObjectEventGraphicsInfo_Soul,
+    [OBJ_EVENT_GFX_FUSION_MEMBER] =            &gObjectEventGraphicsInfo_FusionMember,
+    [OBJ_EVENT_GFX_FUSION_NEO_MEMBER_M] =      &gObjectEventGraphicsInfo_FusionNeoMemberM,
+    [OBJ_EVENT_GFX_FUSION_NEO_MEMBER_F] =      &gObjectEventGraphicsInfo_FusionNeoMemberF,
+    [OBJ_EVENT_GFX_MICHAEL] =                  &gObjectEventGraphicsInfo_Michael,
+    [OBJ_EVENT_GFX_REGINA] =                   &gObjectEventGraphicsInfo_Regina,
+    [OBJ_EVENT_GFX_DECON] =                    &gObjectEventGraphicsInfo_Decon,
+    [OBJ_EVENT_GFX_PIUS] =                     &gObjectEventGraphicsInfo_Pius,
 
 };
 
