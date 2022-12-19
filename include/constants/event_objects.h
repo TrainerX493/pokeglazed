@@ -314,6 +314,29 @@
 #define OBJ_EVENT_GFX_REGINA                     310
 #define OBJ_EVENT_GFX_DECON                      311
 #define OBJ_EVENT_GFX_PIUS                       312
+#define OBJ_EVENT_GFX_WILLOW                     313
+#define OBJ_EVENT_GFX_OAK_BROWN                  314
+#define OBJ_EVENT_GFX_GRAN                       315
+#define OBJ_EVENT_GFX_LANCE                      316
+#define OBJ_EVENT_GFX_PRYCE                      317
+#define OBJ_EVENT_GFX_SEAN                       318
+#define OBJ_EVENT_GFX_DAD_GLAZED                 319
+#define OBJ_EVENT_GFX_MOM_GLAZED                 320
+#define OBJ_EVENT_GFX_NURSE_GLAZED               321
+#define OBJ_EVENT_GFX_NURSE_FAKE                 322
+#define OBJ_EVENT_GFX_MART_EMPLOYEE_GLAZED       323
+#define OBJ_EVENT_GFX_RECEPTIONIST_GLAZED        324
+#define OBJ_EVENT_GFX_GUARD                      325
+#define OBJ_EVENT_GFX_MAN_6                      326
+#define OBJ_EVENT_GFX_MAN_7                      327
+#define OBJ_EVENT_GFX_MAN_8                      328
+#define OBJ_EVENT_GFX_MAN_9                      329
+#define OBJ_EVENT_GFX_MAN_10                     330
+#define OBJ_EVENT_GFX_WOMAN_6                    331
+#define OBJ_EVENT_GFX_SNOWBOADER                 332
+#define OBJ_EVENT_GFX_CYCLIST                    333
+#define OBJ_EVENT_GFX_EVERGREEN_RACE_M           334
+#define OBJ_EVENT_GFX_EVERGREEN_RACE_F           335
 
 // NOTE: By default, the max value for NUM_OBJ_EVENT_GFX is 239.
 //
@@ -324,7 +347,7 @@
 // object graphics that can be removed. If more graphics are needed, anything that
 // stores graphics ids will need to be increased in size. See wiki entry below:
 // https://github.com/pret/pokeemerald/wiki/Feature-Branches#overworld-expansion
-#define NUM_OBJ_EVENT_GFX                        313
+#define NUM_OBJ_EVENT_GFX                        336
 
 
 // These are dynamic object gfx ids.

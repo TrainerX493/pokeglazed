@@ -318,6 +318,29 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Michael;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Regina;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Decon;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Pius;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Willow;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OakBrown;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gran;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Lance;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Pryce;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sean;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DadGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MomGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_NurseGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_NurseFake;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MartEmployeeGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ReceptionistGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Guard;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Man6;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Man7;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Man8;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Man9;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Man10;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Woman6;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Cyclist;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Snowboader;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EvergreenRaceM;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_EvergreenRaceF;
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
     [OBJ_EVENT_GFX_BRENDAN_MACH_BIKE] =        &gObjectEventGraphicsInfo_BrendanMachBike,
@@ -632,6 +655,29 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_REGINA] =                   &gObjectEventGraphicsInfo_Regina,
     [OBJ_EVENT_GFX_DECON] =                    &gObjectEventGraphicsInfo_Decon,
     [OBJ_EVENT_GFX_PIUS] =                     &gObjectEventGraphicsInfo_Pius,
+    [OBJ_EVENT_GFX_WILLOW] =                   &gObjectEventGraphicsInfo_Willow,
+    [OBJ_EVENT_GFX_OAK_BROWN] =                &gObjectEventGraphicsInfo_OakBrown,
+    [OBJ_EVENT_GFX_GRAN] =                     &gObjectEventGraphicsInfo_Gran,
+    [OBJ_EVENT_GFX_LANCE] =                    &gObjectEventGraphicsInfo_Lance,
+    [OBJ_EVENT_GFX_PRYCE] =                    &gObjectEventGraphicsInfo_Pryce,
+    [OBJ_EVENT_GFX_SEAN] =                     &gObjectEventGraphicsInfo_Sean,
+    [OBJ_EVENT_GFX_DAD_GLAZED] =               &gObjectEventGraphicsInfo_DadGlazed,
+    [OBJ_EVENT_GFX_MOM_GLAZED] =               &gObjectEventGraphicsInfo_MomGlazed,
+    [OBJ_EVENT_GFX_NURSE_GLAZED] =             &gObjectEventGraphicsInfo_NurseGlazed,
+    [OBJ_EVENT_GFX_NURSE_FAKE] =               &gObjectEventGraphicsInfo_NurseFake,
+    [OBJ_EVENT_GFX_MART_EMPLOYEE_GLAZED] =     &gObjectEventGraphicsInfo_MartEmployeeGlazed,
+    [OBJ_EVENT_GFX_RECEPTIONIST_GLAZED] =      &gObjectEventGraphicsInfo_ReceptionistGlazed,
+    [OBJ_EVENT_GFX_GUARD] =                    &gObjectEventGraphicsInfo_Guard,
+    [OBJ_EVENT_GFX_MAN_6] =                    &gObjectEventGraphicsInfo_Man6,
+    [OBJ_EVENT_GFX_MAN_7] =                    &gObjectEventGraphicsInfo_Man7,
+    [OBJ_EVENT_GFX_MAN_8] =                    &gObjectEventGraphicsInfo_Man8,
+    [OBJ_EVENT_GFX_MAN_9] =                    &gObjectEventGraphicsInfo_Man9,
+    [OBJ_EVENT_GFX_MAN_10] =                   &gObjectEventGraphicsInfo_Man10,
+    [OBJ_EVENT_GFX_WOMAN_6] =                  &gObjectEventGraphicsInfo_Woman6,
+    [OBJ_EVENT_GFX_CYCLIST] =                  &gObjectEventGraphicsInfo_Cyclist,
+    [OBJ_EVENT_GFX_SNOWBOADER] =               &gObjectEventGraphicsInfo_Snowboader,
+    [OBJ_EVENT_GFX_EVERGREEN_RACE_M] =         &gObjectEventGraphicsInfo_EvergreenRaceM,
+    [OBJ_EVENT_GFX_EVERGREEN_RACE_F] =         &gObjectEventGraphicsInfo_EvergreenRaceF,
 
 };
 
