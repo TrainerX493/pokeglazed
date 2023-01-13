@@ -8,7 +8,7 @@ This is a port of Pokémon Glazed using the [pokeemerald](https://github.com/pre
 
 [HunarPG](https://github.com/HunarPG) - Programmer.
 
-[AVeryUncreativeUsername (Trooper)](https://github.com/AVeryUncreativeUsername) - Story and lore ideas, bug tester. 
+[AVeryUncreativeUsername (Trooper)](https://github.com/TheLazyWeasal) - Story and lore ideas, bug tester. 
 
 RedRiders180 (Lucbui) - Original creator of Glazed.
 
