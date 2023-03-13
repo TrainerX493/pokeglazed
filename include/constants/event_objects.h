@@ -337,6 +337,39 @@
 #define OBJ_EVENT_GFX_CYCLIST                    333
 #define OBJ_EVENT_GFX_EVERGREEN_RACE_M           334
 #define OBJ_EVENT_GFX_EVERGREEN_RACE_F           335
+#define OBJ_EVENT_GFX_ARTICUNO                   336
+#define OBJ_EVENT_GFX_AZELF                      337
+#define OBJ_EVENT_GFX_CELEBI                     338
+#define OBJ_EVENT_GFX_COBALION                   339
+#define OBJ_EVENT_GFX_CRESSELIA                  340
+#define OBJ_EVENT_GFX_DARKRAI                    341
+#define OBJ_EVENT_GFX_DIALGA                     342
+#define OBJ_EVENT_GFX_ENTEI                      343
+#define OBJ_EVENT_GFX_GIRATINA                   344
+#define OBJ_EVENT_GFX_HEATRAN                    345
+#define OBJ_EVENT_GFX_HO_OH_HGSS                 346
+#define OBJ_EVENT_GFX_JIRACHI                    347
+#define OBJ_EVENT_GFX_KELDEO                     348
+#define OBJ_EVENT_GFX_KYUREM                     349
+#define OBJ_EVENT_GFX_LATIAS_HGSS                350
+#define OBJ_EVENT_GFX_LATIOS_HGSS                351
+#define OBJ_EVENT_GFX_LUGIA_HGSS                 352
+#define OBJ_EVENT_GFX_MESPRIT                    353
+#define OBJ_EVENT_GFX_MANAPHY                    354
+#define OBJ_EVENT_GFX_MEW_GLAZED                 355
+#define OBJ_EVENT_GFX_MEW_RAGE                   356
+#define OBJ_EVENT_GFX_MOLTRES                    357
+#define OBJ_EVENT_GFX_PALKIA                     358
+#define OBJ_EVENT_GFX_RAIKOU                     359
+#define OBJ_EVENT_GFX_REGIGIGAS                  360
+#define OBJ_EVENT_GFX_RESHIRAM                   361
+#define OBJ_EVENT_GFX_SHAYMIN                    362
+#define OBJ_EVENT_GFX_SUICUNE                    363
+#define OBJ_EVENT_GFX_TERRAKION                  364
+#define OBJ_EVENT_GFX_UXIE                       365
+#define OBJ_EVENT_GFX_VIRIZION                   366
+#define OBJ_EVENT_GFX_ZAPDOS                     367
+#define OBJ_EVENT_GFX_ZEKROM                     368
 
 // NOTE: By default, the max value for NUM_OBJ_EVENT_GFX is 239.
 //
@@ -347,7 +380,7 @@
 // object graphics that can be removed. If more graphics are needed, anything that
 // stores graphics ids will need to be increased in size. See wiki entry below:
 // https://github.com/pret/pokeemerald/wiki/Feature-Branches#overworld-expansion
-#define NUM_OBJ_EVENT_GFX                        336
+#define NUM_OBJ_EVENT_GFX                        369
 
 
 // These are dynamic object gfx ids.
