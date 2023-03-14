@@ -356,20 +356,51 @@
 #define OBJ_EVENT_GFX_LUGIA_HGSS                 352
 #define OBJ_EVENT_GFX_MESPRIT                    353
 #define OBJ_EVENT_GFX_MANAPHY                    354
-#define OBJ_EVENT_GFX_MEW_GLAZED                 355
-#define OBJ_EVENT_GFX_MEW_RAGE                   356
-#define OBJ_EVENT_GFX_MOLTRES                    357
-#define OBJ_EVENT_GFX_PALKIA                     358
-#define OBJ_EVENT_GFX_RAIKOU                     359
-#define OBJ_EVENT_GFX_REGIGIGAS                  360
-#define OBJ_EVENT_GFX_RESHIRAM                   361
-#define OBJ_EVENT_GFX_SHAYMIN                    362
-#define OBJ_EVENT_GFX_SUICUNE                    363
-#define OBJ_EVENT_GFX_TERRAKION                  364
-#define OBJ_EVENT_GFX_UXIE                       365
-#define OBJ_EVENT_GFX_VIRIZION                   366
-#define OBJ_EVENT_GFX_ZAPDOS                     367
-#define OBJ_EVENT_GFX_ZEKROM                     368
+#define OBJ_EVENT_GFX_MEW_RAGE                   355
+#define OBJ_EVENT_GFX_MOLTRES                    356
+#define OBJ_EVENT_GFX_PALKIA                     357
+#define OBJ_EVENT_GFX_RAIKOU                     358
+#define OBJ_EVENT_GFX_REGIGIGAS                  359
+#define OBJ_EVENT_GFX_RESHIRAM                   360
+#define OBJ_EVENT_GFX_SHAYMIN                    361
+#define OBJ_EVENT_GFX_SUICUNE                    362
+#define OBJ_EVENT_GFX_TERRAKION                  363
+#define OBJ_EVENT_GFX_UXIE                       364
+#define OBJ_EVENT_GFX_VIRIZION                   365
+#define OBJ_EVENT_GFX_ZAPDOS                     366
+#define OBJ_EVENT_GFX_ZEKROM                     367
+#define OBJ_EVENT_GFX_ABSOL                      368
+#define OBJ_EVENT_GFX_AMPHAROS                   369
+#define OBJ_EVENT_GFX_BLISSEY                    370
+#define OBJ_EVENT_GFX_CHESPIN                    371
+#define OBJ_EVENT_GFX_CYNDAQUIL                  372
+#define OBJ_EVENT_GFX_DRAGONITE                  373
+#define OBJ_EVENT_GFX_DRAPION                    374
+#define OBJ_EVENT_GFX_EEVEE                      375
+#define OBJ_EVENT_GFX_EMPOLEON                   376
+#define OBJ_EVENT_GFX_ESPEON                     377
+#define OBJ_EVENT_GFX_FENNEKIN                   378
+#define OBJ_EVENT_GFX_FERALIGATR                 379
+#define OBJ_EVENT_GFX_FLAREON                    380
+#define OBJ_EVENT_GFX_FROAKIE                    381
+#define OBJ_EVENT_GFX_GARCHOMP                   382
+#define OBJ_EVENT_GFX_GROVYLE                    383
+#define OBJ_EVENT_GFX_HYDREIGON                  384
+#define OBJ_EVENT_GFX_JOLTEON                    385
+#define OBJ_EVENT_GFX_LAPRAS                     386
+#define OBJ_EVENT_GFX_LEAFEON                    387
+#define OBJ_EVENT_GFX_LUCARIO                    388
+#define OBJ_EVENT_GFX_MIENFOO                    389
+#define OBJ_EVENT_GFX_MILTANK                    390
+#define OBJ_EVENT_GFX_MUDKIP                     391
+#define OBJ_EVENT_GFX_PIKACHU_SCARFED            392
+#define OBJ_EVENT_GFX_QUILAVA                    393
+#define OBJ_EVENT_GFX_SENTRET                    394
+#define OBJ_EVENT_GFX_SEVIPER                    395
+#define OBJ_EVENT_GFX_SKARMORY                   396
+#define OBJ_EVENT_GFX_UMBREON                    397
+#define OBJ_EVENT_GFX_VAPOREON                   398
+#define OBJ_EVENT_GFX_ZANGOOSE                   399
 
 // NOTE: By default, the max value for NUM_OBJ_EVENT_GFX is 239.
 //
@@ -380,7 +411,7 @@
 // object graphics that can be removed. If more graphics are needed, anything that
 // stores graphics ids will need to be increased in size. See wiki entry below:
 // https://github.com/pret/pokeemerald/wiki/Feature-Branches#overworld-expansion
-#define NUM_OBJ_EVENT_GFX                        369
+#define NUM_OBJ_EVENT_GFX                        400
 
 
 // These are dynamic object gfx ids.
