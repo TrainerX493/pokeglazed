@@ -39,10 +39,10 @@ struct Tileset
 {
     /*0x00*/ bool8 isCompressed;
     /*0x01*/ bool8 isSecondary;
-    /*0x04*/ void *tiles;
-    /*0x08*/ void *palettes;
-    /*0x0c*/ u16 *metatiles;
-    /*0x10*/ u16 *metatileAttributes;
+    /*0x04*/ const u32 *tiles;
+    /*0x08*/ const u16 (*palettes)[16];
+    /*0x0C*/ const u16 *metatiles;
+    /*0x10*/ const u16 *metatileAttributes;
     /*0x14*/ TilesetCB callback;
 };
 
@@ -51,7 +51,7 @@ struct MapLayout
     /*0x00*/ s32 width;
     /*0x04*/ s32 height;
     /*0x08*/ u16 *border;
-    /*0x0c*/ u16 *map;
+    /*0x0C*/ u16 *map;
     /*0x10*/ struct Tileset *primaryTileset;
     /*0x14*/ struct Tileset *secondaryTileset;
 };
@@ -74,10 +74,12 @@ struct ObjectEventTemplate
     /*0x09*/ u8 movementType;
     /*0x0A*/ u16 movementRangeX:4;
              u16 movementRangeY:4;
+             //u16 padding2:8;
     /*0x0C*/ u16 trainerType;
     /*0x0E*/ u16 trainerRange_berryTreeId;
     /*0x10*/ const u8 *script;
     /*0x14*/ u16 flagId;
+    /*0x16*/ //u8 padding3[2];
 };
 
 struct WarpEvent
