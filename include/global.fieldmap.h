@@ -66,8 +66,9 @@ struct BackupMapLayout
 struct ObjectEventTemplate
 {
     /*0x00*/ u8 localId;
-    ///*0x01*/ u8 inConnection; // Leftover from FRLG
-    /*0x02*/ u16 graphicsId;
+    /*0x01*/ u16 graphicsId;
+    /*0x02*/ u8 kind; // Always OBJ_KIND_NORMAL in Emerald.
+    /*0x03*/ //u8 padding1;
     /*0x04*/ s16 x;
     /*0x06*/ s16 y;
     /*0x08*/ u8 elevation;
