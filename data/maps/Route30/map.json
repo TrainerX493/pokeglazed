@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "down",
+      "map": "MAP_CHERRY_GROVE_CITY",
       "offset": -8,
-      "map": "MAP_CHERRY_GROVE_CITY"
+      "direction": "down"
     },
     {
-      "direction": "up",
+      "map": "MAP_ROUTE31",
       "offset": -18,
-      "map": "MAP_ROUTE31"
+      "direction": "up"
     }
   ],
   "object_events": [

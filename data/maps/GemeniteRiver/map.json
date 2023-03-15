@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "up",
+      "map": "MAP_GEMINITE_CITY",
       "offset": -12,
-      "map": "MAP_GEMINITE_CITY"
+      "direction": "up"
     },
     {
-      "direction": "down",
+      "map": "MAP_STORMY_CITY",
       "offset": 0,
-      "map": "MAP_STORMY_CITY"
+      "direction": "down"
     }
   ],
   "object_events": [

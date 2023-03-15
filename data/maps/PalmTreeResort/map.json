@@ -14,9 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "down",
+      "map": "MAP_SUN_SHORE_BEACH",
       "offset": 0,
-      "map": "MAP_SUN_SHORE_BEACH"
+      "direction": "down"
+    },
+    {
+      "map": "MAP_PALTREE_PARK",
+      "offset": 0,
+      "direction": "right"
     }
   ],
   "object_events": [

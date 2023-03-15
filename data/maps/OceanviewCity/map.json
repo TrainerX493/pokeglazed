@@ -14,9 +14,9 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_OCEANVIEW_PARK",
       "offset": 0,
-      "map": "MAP_OCEANVIEW_PARK"
+      "direction": "right"
     }
   ],
   "object_events": [

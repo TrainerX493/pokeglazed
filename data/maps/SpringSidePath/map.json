@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_GLENWOOD_TOWN",
       "offset": 4,
-      "map": "MAP_GLENWOOD_TOWN"
+      "direction": "right"
     },
     {
-      "direction": "left",
+      "map": "MAP_FORLORN_CAPE",
       "offset": 4,
-      "map": "MAP_FORLORN_CAPE"
+      "direction": "left"
     }
   ],
   "object_events": [

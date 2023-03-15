@@ -14,9 +14,9 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "left",
+      "map": "MAP_NORTH_COAST_TOWN",
       "offset": 0,
-      "map": "MAP_NORTH_COAST_TOWN"
+      "direction": "left"
     }
   ],
   "object_events": [

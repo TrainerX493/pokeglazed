@@ -14,19 +14,19 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_FOREST_PASS",
       "offset": 0,
-      "map": "MAP_FOREST_PASS"
+      "direction": "right"
     },
     {
-      "direction": "down",
+      "map": "MAP_LOXLY_CHANNEL",
       "offset": 6,
-      "map": "MAP_LOXLY_CHANNEL"
+      "direction": "down"
     },
     {
-      "direction": "left",
+      "map": "MAP_SPRING_SIDE_PATH",
       "offset": -4,
-      "map": "MAP_SPRING_SIDE_PATH"
+      "direction": "left"
     }
   ],
   "object_events": [
@@ -115,35 +115,35 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_GLENWOOD_TOWN_PLAYERS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 7,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_GLENWOOD_TOWN_PLAYERS_HOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 9,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_GLENWOOD_TOWN_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 26,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_GLENWOOD_TOWN_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 25,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_GLENWOOD_TOWN_LAB",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

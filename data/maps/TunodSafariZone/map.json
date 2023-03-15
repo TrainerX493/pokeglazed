@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_OVER_SEAS_BRIDGE",
       "offset": 0,
-      "map": "MAP_OVER_SEAS_BRIDGE"
+      "direction": "right"
     },
     {
-      "direction": "up",
+      "map": "MAP_CAPE_AZURE",
       "offset": 22,
-      "map": "MAP_CAPE_AZURE"
+      "direction": "up"
     }
   ],
   "object_events": [

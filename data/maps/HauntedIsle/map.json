@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_HAUNTED_SEAWAY",
       "offset": 12,
-      "map": "MAP_HAUNTED_SEAWAY"
+      "direction": "right"
     },
     {
-      "direction": "left",
+      "map": "MAP_SEA_SPRAY_BAY",
       "offset": 18,
-      "map": "MAP_SEA_SPRAY_BAY"
+      "direction": "left"
     }
   ],
   "object_events": [

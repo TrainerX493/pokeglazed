@@ -14,9 +14,9 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "down",
+      "map": "MAP_TURQUOISE_BAY",
       "offset": -1,
-      "map": "MAP_TURQUOISE_BAY"
+      "direction": "down"
     }
   ],
   "object_events": [

@@ -14,19 +14,19 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_NEW_BARK_TOWN",
       "offset": 2,
-      "map": "MAP_NEW_BARK_TOWN"
+      "direction": "right"
     },
     {
-      "direction": "left",
-      "offset": 2,
-      "map": "MAP_CHERRY_GROVE_CITY"
-    },
-    {
-      "direction": "up",
+      "map": "MAP_ROUTE46",
       "offset": 16,
-      "map": "MAP_ROUTE46"
+      "direction": "up"
+    },
+    {
+      "map": "MAP_CHERRY_GROVE_CITY",
+      "offset": 2,
+      "direction": "left"
     }
   ],
   "object_events": [

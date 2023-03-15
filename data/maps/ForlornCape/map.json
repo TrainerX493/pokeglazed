@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "right",
+      "map": "MAP_SPRING_SIDE_PATH",
       "offset": -4,
-      "map": "MAP_SPRING_SIDE_PATH"
+      "direction": "right"
     },
     {
-      "direction": "up",
+      "map": "MAP_TURQUOISE_BAY",
       "offset": 0,
-      "map": "MAP_TURQUOISE_BAY"
+      "direction": "up"
     }
   ],
   "object_events": [

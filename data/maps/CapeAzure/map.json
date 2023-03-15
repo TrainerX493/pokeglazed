@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "down",
+      "map": "MAP_OVER_SEAS_BRIDGE",
       "offset": 18,
-      "map": "MAP_OVER_SEAS_BRIDGE"
+      "direction": "down"
     },
     {
-      "direction": "down",
+      "map": "MAP_TUNOD_SAFARI_ZONE",
       "offset": -22,
-      "map": "MAP_TUNOD_SAFARI_ZONE"
+      "direction": "down"
     }
   ],
   "object_events": [

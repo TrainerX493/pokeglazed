@@ -14,9 +14,9 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "up",
+      "map": "MAP_GEMENITE_RIVER",
       "offset": 0,
-      "map": "MAP_GEMENITE_RIVER"
+      "direction": "up"
     }
   ],
   "object_events": [

@@ -14,19 +14,19 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "down",
+      "map": "MAP_SUTHERLY_CITY",
       "offset": -20,
-      "map": "MAP_SUTHERLY_CITY"
+      "direction": "down"
     },
     {
-      "direction": "left",
+      "map": "MAP_TUNOD_SAFARI_ZONE",
       "offset": 0,
-      "map": "MAP_TUNOD_SAFARI_ZONE"
+      "direction": "left"
     },
     {
-      "direction": "up",
+      "map": "MAP_CAPE_AZURE",
       "offset": -18,
-      "map": "MAP_CAPE_AZURE"
+      "direction": "up"
     }
   ],
   "object_events": [

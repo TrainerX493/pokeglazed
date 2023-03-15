@@ -14,14 +14,14 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "left",
+      "map": "MAP_FOREST_PASS",
       "offset": 10,
-      "map": "MAP_FOREST_PASS"
+      "direction": "left"
     },
     {
-      "direction": "right",
+      "map": "MAP_TEMPORAL_SEA",
       "offset": 12,
-      "map": "MAP_TEMPORAL_SEA"
+      "direction": "right"
     }
   ],
   "object_events": [
@@ -33,14 +33,14 @@
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_MILKSHAKE_SWAMP",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 7,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_MILKSHAKE_SWAMP",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

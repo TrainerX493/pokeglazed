@@ -14,9 +14,9 @@
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
-      "direction": "up",
+      "map": "MAP_LOXLY_CHANNEL",
       "offset": 7,
-      "map": "MAP_LOXLY_CHANNEL"
+      "direction": "up"
     }
   ],
   "object_events": [
