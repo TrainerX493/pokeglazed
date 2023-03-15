@@ -17,6 +17,11 @@
       "map": "MAP_BLIZZARD_SLOPES",
       "offset": 0,
       "direction": "right"
+    },
+    {
+      "map": "MAP_ICE_BOUND_CHASM",
+      "offset": 0,
+      "direction": "left"
     }
   ],
   "object_events": [
