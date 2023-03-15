@@ -405,6 +405,29 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Skarmory;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Umbreon;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Vaporeon;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zangoose;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_FlygonShiny;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GardevoirShiny;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MachampShiny;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_NidokingShiny;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AuroraOrb;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Bamboo;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CarOrange;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CarYellow;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Egg;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreatBall;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GymFire;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeadbuttTree;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_IllusionRock;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ItemBallHGSS;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_JohtoBerries;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MineCart;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ShipGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SignThing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ThunderOrb;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Tombstone;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TreeSudo;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TruckGlazed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_VolcanoOrb;
 
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
@@ -808,6 +831,29 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_UMBREON] =                  &gObjectEventGraphicsInfo_Umbreon,
     [OBJ_EVENT_GFX_VAPOREON] =                 &gObjectEventGraphicsInfo_Vaporeon,
     [OBJ_EVENT_GFX_ZANGOOSE] =                 &gObjectEventGraphicsInfo_Zangoose,
+    [OBJ_EVENT_GFX_FLYGON_SHINY] =             &gObjectEventGraphicsInfo_FlygonShiny,
+    [OBJ_EVENT_GFX_GARDEVOIR_SHINY] =          &gObjectEventGraphicsInfo_GardevoirShiny,
+    [OBJ_EVENT_GFX_MACHAMP_SHINY] =            &gObjectEventGraphicsInfo_MachampShiny,
+    [OBJ_EVENT_GFX_NIDOKING_SHINY] =           &gObjectEventGraphicsInfo_NidokingShiny,
+    [OBJ_EVENT_GFX_AURORA_ORB] =               &gObjectEventGraphicsInfo_AuroraOrb,
+    [OBJ_EVENT_GFX_BAMBOO] =                   &gObjectEventGraphicsInfo_Bamboo,
+    [OBJ_EVENT_GFX_CAR_ORANGE] =               &gObjectEventGraphicsInfo_CarOrange,
+    [OBJ_EVENT_GFX_CAR_YELLOW] =               &gObjectEventGraphicsInfo_CarYellow,
+    [OBJ_EVENT_GFX_EGG] =                      &gObjectEventGraphicsInfo_Egg,
+    [OBJ_EVENT_GFX_GREAT_BALL] =               &gObjectEventGraphicsInfo_GreatBall,
+    [OBJ_EVENT_GFX_GYM_FIRE] =                 &gObjectEventGraphicsInfo_GymFire,
+    [OBJ_EVENT_GFX_HEADBUTT_TREE] =            &gObjectEventGraphicsInfo_HeadbuttTree,
+    [OBJ_EVENT_GFX_ILLUSION_ROCK] =            &gObjectEventGraphicsInfo_IllusionRock,
+    [OBJ_EVENT_GFX_ITEM_BALL_HGSS] =           &gObjectEventGraphicsInfo_ItemBallHGSS,
+    [OBJ_EVENT_GFX_JOHTO_BERRIES] =            &gObjectEventGraphicsInfo_JohtoBerries,
+    [OBJ_EVENT_GFX_MINE_CART] =                &gObjectEventGraphicsInfo_MineCart,
+    [OBJ_EVENT_GFX_SHIP_GLAZED] =              &gObjectEventGraphicsInfo_ShipGlazed,
+    [OBJ_EVENT_GFX_SIGN_THING] =               &gObjectEventGraphicsInfo_SignThing,
+    [OBJ_EVENT_GFX_THUNDER_ORB] =              &gObjectEventGraphicsInfo_ThunderOrb,
+    [OBJ_EVENT_GFX_TOMBSTONE] =                &gObjectEventGraphicsInfo_Tombstone,
+    [OBJ_EVENT_GFX_TREE_SUDO] =                &gObjectEventGraphicsInfo_TreeSudo,
+    [OBJ_EVENT_GFX_TRUCK_GLAZED] =             &gObjectEventGraphicsInfo_TruckGlazed,
+    [OBJ_EVENT_GFX_VOLCANO_ORB] =              &gObjectEventGraphicsInfo_VolcanoOrb,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

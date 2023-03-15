@@ -401,6 +401,29 @@
 #define OBJ_EVENT_GFX_UMBREON                    397
 #define OBJ_EVENT_GFX_VAPOREON                   398
 #define OBJ_EVENT_GFX_ZANGOOSE                   399
+#define OBJ_EVENT_GFX_FLYGON_SHINY              400
+#define OBJ_EVENT_GFX_GARDEVOIR_SHINY           401
+#define OBJ_EVENT_GFX_MACHAMP_SHINY             402
+#define OBJ_EVENT_GFX_NIDOKING_SHINY            403
+#define OBJ_EVENT_GFX_AURORA_ORB                404
+#define OBJ_EVENT_GFX_BAMBOO                    405
+#define OBJ_EVENT_GFX_CAR_ORANGE                406
+#define OBJ_EVENT_GFX_CAR_YELLOW                407
+#define OBJ_EVENT_GFX_EGG                       408
+#define OBJ_EVENT_GFX_GREAT_BALL                409
+#define OBJ_EVENT_GFX_GYM_FIRE                  410
+#define OBJ_EVENT_GFX_HEADBUTT_TREE             411
+#define OBJ_EVENT_GFX_ILLUSION_ROCK             412
+#define OBJ_EVENT_GFX_ITEM_BALL_HGSS            413
+#define OBJ_EVENT_GFX_JOHTO_BERRIES             414
+#define OBJ_EVENT_GFX_MINE_CART                 415
+#define OBJ_EVENT_GFX_SHIP_GLAZED               416
+#define OBJ_EVENT_GFX_SIGN_THING                417
+#define OBJ_EVENT_GFX_THUNDER_ORB               418
+#define OBJ_EVENT_GFX_TOMBSTONE                 419
+#define OBJ_EVENT_GFX_TREE_SUDO                 420
+#define OBJ_EVENT_GFX_TRUCK_GLAZED              421
+#define OBJ_EVENT_GFX_VOLCANO_ORB               422
 
 // NOTE: By default, the max value for NUM_OBJ_EVENT_GFX is 239.
 //
@@ -411,7 +434,7 @@
 // object graphics that can be removed. If more graphics are needed, anything that
 // stores graphics ids will need to be increased in size. See wiki entry below:
 // https://github.com/pret/pokeemerald/wiki/Feature-Branches#overworld-expansion
-#define NUM_OBJ_EVENT_GFX                        400
+#define NUM_OBJ_EVENT_GFX                        423
 
 
 // These are dynamic object gfx ids.
