@@ -124,7 +124,7 @@ static void InitSelectedTMSpriteData(u8 a0, u16 itemId);
 static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite);
 static void LoadTMTypePalettes(void);
 static void DrawPartyMonIcons(void);
-static void TintPartyMonIcons(u8 tm);
+static void TintPartyMonIcons(u16 tm);
 static void DestroyPartyMonIcons(void);
 
 static const struct BgTemplate sBGTemplates[] = {
@@ -588,7 +588,7 @@ static void TMCase_MoveCursor_UpdatePrintedDescription(s32 itemIndex)
     AddTextPrinterParameterized_ColorByIndex(1, 2, str, 2, 3, 1, 0, 0, 0);
 
     // update icons
-    TintPartyMonIcons(itemId - ITEM_TM01);
+    TintPartyMonIcons(itemId);
 }
 
 static void FillBG2RowWithPalette_2timesNplus1(s32 a0)
@@ -1162,7 +1162,7 @@ static void DrawPartyMonIcons(void)
     }
 }
 
-static void TintPartyMonIcons(u8 tm)
+static void TintPartyMonIcons(u16 tm)
 {
     u8 i;
     u16 species;
@@ -1172,7 +1172,7 @@ static void TintPartyMonIcons(u8 tm)
         species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL);
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(7, 11));
-        if (!CanLearnTeachableMove(species, tm)) 
+        if (!CanLearnTeachableMove(species, ItemIdToBattleMoveId(tm))) 
         {
             gSprites[spriteIdData[i]].oam.objMode = ST_OAM_OBJ_BLEND;
         }
