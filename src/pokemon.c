@@ -3631,7 +3631,7 @@ void CreateMonWithGenderNatureLetter(struct Pokemon *mon, u16 species, u8 level,
     u32 personality;
     u8 genderRatio;
 
-    genderRatio = gBaseStats[species].genderRatio;
+    genderRatio = gSpeciesInfo[species].genderRatio;
 
 // Infinite loop protection
     if ((genderRatio == MON_MALE) || (genderRatio == MON_FEMALE) || (genderRatio == MON_GENDERLESS))
