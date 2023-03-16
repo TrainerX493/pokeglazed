@@ -777,7 +777,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_ENTEI] =                    &gObjectEventGraphicsInfo_Entei,
     [OBJ_EVENT_GFX_GIRATINA] =                 &gObjectEventGraphicsInfo_Giratina,
     [OBJ_EVENT_GFX_HEATRAN] =                  &gObjectEventGraphicsInfo_Heatran,
-    [OBJ_EVENT_GFX_HO_OH_HGSS] =               &gObjectEventGraphicsInfo_HoOhHGSS,
+    [OBJ_EVENT_GFX_HOOH_HGSS] =               &gObjectEventGraphicsInfo_HoOhHGSS,
     [OBJ_EVENT_GFX_JIRACHI] =                  &gObjectEventGraphicsInfo_Jirachi,
     [OBJ_EVENT_GFX_KELDEO] =                   &gObjectEventGraphicsInfo_Keldeo,
     [OBJ_EVENT_GFX_KYUREM] =                   &gObjectEventGraphicsInfo_Kyurem,

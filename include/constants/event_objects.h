@@ -347,7 +347,7 @@
 #define OBJ_EVENT_GFX_ENTEI                      343
 #define OBJ_EVENT_GFX_GIRATINA                   344
 #define OBJ_EVENT_GFX_HEATRAN                    345
-#define OBJ_EVENT_GFX_HO_OH_HGSS                 346
+#define OBJ_EVENT_GFX_HOOH_HGSS                 346
 #define OBJ_EVENT_GFX_JIRACHI                    347
 #define OBJ_EVENT_GFX_KELDEO                     348
 #define OBJ_EVENT_GFX_KYUREM                     349
