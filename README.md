@@ -20,7 +20,7 @@ Shiny Till Dawn - Move animations (Original Glazed).
 
 Lulleh - Beta tester/support (Original Glazed).
 
-[PCG](https://github.com/PCG06) - Imput & support.
+[PCG](https://github.com/PCG06) - Input & support.
 
 RedRiders180 (Lucbui) - Original creator of Glazed.
 
