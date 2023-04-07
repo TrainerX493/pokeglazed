@@ -10,18 +10,18 @@ This is a port of Pokémon Glazed using the [pokeemerald](https://github.com/pre
 
 [AVeryUncreativeUsername (Trooper)](https://github.com/LazyWeasal) - Story and lore ideas, bug tester. 
 
-RedRiders180 (Lucbui) - Original creator of Glazed.
-
-Datudou - Blazed Glazed creator
+Datudou - Blazed Glazed creator & help with the Original Glazed. 
 
 Ryoncai - Icon artist. 
 
 Captain Kennedy - Story and lore ideas. 
 
-Shiny Till Dawn - Move animations (I think?) 
+Shiny Till Dawn - Move animations (Original Glazed).
 
-ShinyDragonHunter - ???
+Lulleh - Beta tester/support (Original Glazed).
 
-Lulleh - Umm....
+[PCG](https://github.com/PCG06) - Imput & support.
 
-[PCG](https://github.com/PCG06) - I got nothing. 
+RedRiders180 (Lucbui) - Original creator of Glazed.
+
+The people from the original credits of Glazed: https://web.archive.org/web/20220522173624/https://www.pokecommunity.com/showthread.php?t=292279
