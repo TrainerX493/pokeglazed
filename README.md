@@ -8,7 +8,7 @@ This is a port of Pokémon Glazed using the [pokeemerald](https://github.com/pre
 
 [HunarPG](https://github.com/HunarPG) - Programmer.
 
-[AVeryUncreativeUsername (Trooper)](https://github.com/LazyWeasal](https://github.com/AVeryUncreativeUsername) - Story and lore ideas, bug tester. 
+[AVeryUncreativeUsername (Trooper)](https://github.com/AVeryUncreativeUsername) - Story and lore ideas, bug tester. 
 
 Datudou - Blazed Glazed creator & help with the Original Glazed. 
 
