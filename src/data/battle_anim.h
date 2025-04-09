@@ -12,7 +12,6 @@ const struct OamData gOamData_AffineOff_ObjNormal_8x8 =
     .paletteNum = 0,
 };
 
-
 const struct OamData gOamData_AffineOff_ObjNormal_16x16 =
 {
     .y = 0,
@@ -1079,7 +1078,7 @@ const struct CompressedSpriteSheet gBattleAnimPicTable[] =
     {gBattleAnimSpriteGfx_RedFist, 0x0200, ANIM_TAG_RED_FIST},
     {gBattleAnimSpriteGfx_SlamHit, 0x1000, ANIM_TAG_SLAM_HIT},
     {gBattleAnimSpriteGfx_Ring, 0x0180, ANIM_TAG_RING},
-#if NEW_ROCKS_PARTICLE
+#if B_NEW_ROCKS_PARTICLE == TRUE
     {gBattleAnimSpriteGfx_NewRocks, 0x0C00, ANIM_TAG_ROCKS},
 #else
     {gBattleAnimSpriteGfx_Rocks, 0x0C00, ANIM_TAG_ROCKS},
@@ -1156,11 +1155,7 @@ const struct CompressedSpriteSheet gBattleAnimPicTable[] =
     {gBattleAnimSpriteGfx_Shock2, 0x0600, ANIM_TAG_SHOCK_2},
     {gBattleAnimSpriteGfx_ClosingEye2, 0x0200, ANIM_TAG_CLOSING_EYE_2},
     {gBattleAnimSpriteGfx_MetalBall, 0x0080, ANIM_TAG_METAL_BALL},
-#if NEW_SUBSTITUTE_PARTICLE
-    {gBattleAnimSpriteGfx_NewSubstituteFront, 0x0200, ANIM_TAG_MONSTER_DOLL},
-#else
     {gBattleAnimSpriteGfx_MonsterDoll, 0x0200, ANIM_TAG_MONSTER_DOLL},
-#endif
     {gBattleAnimSpriteGfx_Whirlwind, 0x0800, ANIM_TAG_WHIRLWIND},
     {gBattleAnimSpriteGfx_Whirlwind2, 0x0080, ANIM_TAG_WHIRLWIND_2},
     {gBattleAnimSpriteGfx_Explosion4, 0x0a00, ANIM_TAG_EXPLOSION_4},
@@ -1451,6 +1446,28 @@ const struct CompressedSpriteSheet gBattleAnimPicTable[] =
     {gBattleAnimSpriteGfx_Orbs, 0x0180, ANIM_TAG_STEEL_BEAM},
     {gBattleAnimSpriteGfx_AuraSphere, 0x200, ANIM_TAG_POLTERGEIST},
     {gBattleAnimSpriteGfx_Teapot, 0x1800, ANIM_TAG_TEAPOT},
+    {gBattleAnimSpriteGfx_WoodHammerHammer, 0x800, ANIM_TAG_WOOD_HAMMER_HAMMER},
+    {gBattleAnimSpriteGfx_Snowflakes, 0x0700, ANIM_TAG_SNOWFLAKES},
+    {gBattleAnimSpriteGfx_SyrupBlob, 0x400, ANIM_TAG_SYRUP_BLOB_RED},
+    {gBattleAnimSpriteGfx_SyrupShell, 0x2000, ANIM_TAG_SYRUP_SHELL_RED},
+    {gBattleAnimSpriteGfx_SyrupBlob, 0x400, ANIM_TAG_SYRUP_BLOB_YELLOW},
+    {gBattleAnimSpriteGfx_SyrupShell, 0x2000, ANIM_TAG_SYRUP_SHELL_YELLOW},
+    {gBattleAnimSpriteGfx_SyrupSplat, 0x400, ANIM_TAG_SYRUP_SPLAT_RED},
+    {gBattleAnimSpriteGfx_SyrupSplat, 0x400, ANIM_TAG_SYRUP_SPLAT_YELLOW},
+    {gBattleAnimSpriteGfx_IvyCudgel, 0x800, ANIM_TAG_IVY_CUDGEL_GRASS},
+    {gBattleAnimSpriteGfx_IvyCudgel, 0x800, ANIM_TAG_IVY_CUDGEL_FIRE},
+    {gBattleAnimSpriteGfx_IvyCudgel, 0x800, ANIM_TAG_IVY_CUDGEL_ROCK},
+    {gBattleAnimSpriteGfx_IvyCudgel, 0x800, ANIM_TAG_IVY_CUDGEL_WATER},
+    {gBattleAnimSpriteGfx_TeraCrystal, 0x800, ANIM_TAG_TERA_CRYSTAL},
+    {gBattleAnimSpriteGfx_TeraShatter, 0x0180, ANIM_TAG_TERA_SHATTER},
+    {gBattleAnimSpriteGfx_DreepyMissile, 0x200, ANIM_TAG_DREEPY_SHINY},
+    {gBattleAnimSpriteGfx_BloodMoon, 0x0800, ANIM_TAG_BLOOD_MOON},
+    {gBattleAnimSpriteGfx_RedExplosion, 0x0800, ANIM_TAG_RED_EXPLOSION},
+    {gBattleAnimSpriteGfx_Beam, 0x0800, ANIM_TAG_BEAM},
+    {gBattleAnimSpriteGfx_PurpleChain, 0x1000, ANIM_TAG_PURPLE_CHAIN},
+    {gBattleAnimSpriteGfx_PinkVioletOrb, 0x0080, ANIM_TAG_PINKVIO_ORB},
+    {gBattleAnimSpriteGfx_TeraStarstormBeam, 0x200, ANIM_TAG_STARSTORM},
+    {gBattleAnimSpriteGfx_SaltParticle, 0x400, ANIM_TAG_SALT_PARTICLE},
 };
 
 const struct CompressedSpritePalette gBattleAnimPaletteTable[] =
@@ -1529,7 +1546,7 @@ const struct CompressedSpritePalette gBattleAnimPaletteTable[] =
     {gBattleAnimSpritePal_HumanoidFoot, ANIM_TAG_RED_FIST},
     {gBattleAnimSpritePal_SlamHit, ANIM_TAG_SLAM_HIT},
     {gBattleAnimSpritePal_Ring, ANIM_TAG_RING},
-#if NEW_ROCKS_PARTICLE
+#if B_NEW_ROCKS_PARTICLE == TRUE
     {gBattleAnimSpritePal_NewRocks, ANIM_TAG_ROCKS},
 #else
     {gBattleAnimSpritePal_Rocks, ANIM_TAG_ROCKS},
@@ -1606,11 +1623,7 @@ const struct CompressedSpritePalette gBattleAnimPaletteTable[] =
     {gBattleAnimSpritePal_Shock2, ANIM_TAG_SHOCK_2},
     {gBattleAnimSpritePal_ClosingEye2, ANIM_TAG_CLOSING_EYE_2},
     {gBattleAnimSpritePal_MetalBall, ANIM_TAG_METAL_BALL},
-#if NEW_SUBSTITUTE_PARTICLE
-    {gBattleAnimSpritePal_NewSubstituteFront, ANIM_TAG_MONSTER_DOLL},
-#else
     {gBattleAnimSpritePal_MonsterDoll, ANIM_TAG_MONSTER_DOLL},
-#endif
     {gBattleAnimSpritePal_Whirlwind, ANIM_TAG_WHIRLWIND},
     {gBattleAnimSpritePal_Whirlwind, ANIM_TAG_WHIRLWIND_2},
     {gBattleAnimSpritePal_Explosion4, ANIM_TAG_EXPLOSION_4},
@@ -1902,6 +1915,28 @@ const struct CompressedSpritePalette gBattleAnimPaletteTable[] =
     {gBattleAnimSpritePal_SteelBeam, ANIM_TAG_STEEL_BEAM},
     {gBattleAnimSpritePal_Poltergeist, ANIM_TAG_POLTERGEIST},
     {gBattleAnimSpritePal_Teapot, ANIM_TAG_TEAPOT},
+    {gBattleAnimSpritePal_WoodHammerHammer, ANIM_TAG_WOOD_HAMMER_HAMMER},
+    {gBattleAnimSpritePal_RainDrops, ANIM_TAG_SNOWFLAKES},
+    {gBattleAnimSpritePal_SyrupRed, ANIM_TAG_SYRUP_BLOB_RED},
+    {gBattleAnimSpritePal_SyrupRed, ANIM_TAG_SYRUP_SHELL_RED},
+    {gBattleAnimSpritePal_SyrupYellow, ANIM_TAG_SYRUP_BLOB_YELLOW},
+    {gBattleAnimSpritePal_SyrupYellow, ANIM_TAG_SYRUP_SHELL_YELLOW},
+    {gBattleAnimSpritePal_SyrupRed, ANIM_TAG_SYRUP_SPLAT_RED},
+    {gBattleAnimSpritePal_SyrupYellow, ANIM_TAG_SYRUP_SPLAT_YELLOW},
+    {gBattleAnimSpritePal_IvyCudgelGrass, ANIM_TAG_IVY_CUDGEL_GRASS},
+    {gBattleAnimSpritePal_IvyCudgelFire, ANIM_TAG_IVY_CUDGEL_FIRE},
+    {gBattleAnimSpritePal_IvyCudgelRock, ANIM_TAG_IVY_CUDGEL_ROCK},
+    {gBattleAnimSpritePal_IvyCudgelWater, ANIM_TAG_IVY_CUDGEL_WATER},
+    {gBattleAnimSpritePal_TeraCrystal, ANIM_TAG_TERA_CRYSTAL},
+    {gBattleAnimSpritePal_TeraShatter, ANIM_TAG_TERA_SHATTER},
+    {gBattleAnimSpritePal_DreepyMissileShiny, ANIM_TAG_DREEPY_SHINY},
+    {gBattleAnimSpritePal_BloodMoon, ANIM_TAG_BLOOD_MOON},
+    {gBattleAnimSpritePal_RedExplosion, ANIM_TAG_RED_EXPLOSION},
+    {gBattleAnimSpritePal_Beam, ANIM_TAG_BEAM},
+    {gBattleAnimSpritePal_PurpleChain, ANIM_TAG_PURPLE_CHAIN},
+    {gBattleAnimSpritePal_PinkVioletOrb, ANIM_TAG_PINKVIO_ORB},
+    {gBattleAnimSpritePal_TeraStarstormBeam, ANIM_TAG_STARSTORM},
+    {gBattleAnimSpritePal_SaltParticle, ANIM_TAG_SALT_PARTICLE},
 };
 
 const struct BattleAnimBackground gBattleAnimBackgroundTable[] =
@@ -1987,4 +2022,7 @@ const struct BattleAnimBackground gBattleAnimBackgroundTable[] =
     [BG_AURA_SPHERE]               = {gBattleAnimBgImage_FocusBlast,              gBattleAnimBgPalette_AuraSphere,              gBattleAnimBgTilemap_FocusBlast},
     [BG_STEEL_BEAM_OPPONENT]       = {gBattleAnimBgImage_Highspeed,               gBattleAnimBgPalette_SteelBeam,               gBattleAnimBgTilemap_HighspeedOpponent},
     [BG_STEEL_BEAM_PLAYER]         = {gBattleAnimBgImage_Highspeed,               gBattleAnimBgPalette_SteelBeam,               gBattleAnimBgTilemap_HighspeedPlayer},
+    [BG_CHLOROBLAST]               = {gBattleAnimBgImage_HydroCannon,             gBattleAnimBgPalette_Chloroblast,             gBattleAnimBgTilemap_HydroCannon},
+    [BG_RAINBOW]                   = {gBattleAnimBgImage_Rainbow,                 gBattleAnimBGPalette_Rainbow,                 gBattleAnimBgTilemap_Rainbow},
+    [BG_SWAMP]                     = {gBattleAnimBgImage_Swamp,                   gBattleAnimBGPalette_Swamp,                   gBattleAnimBgTilemap_Swamp},
 };

@@ -2,11 +2,6 @@
 #include "event_data.h"
 #include "pokedex.h"
 
-#define NUM_SPECIAL_FLAGS (SPECIAL_FLAGS_END - SPECIAL_FLAGS_START + 1)
-#define NUM_TEMP_FLAGS    (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
-#define NUM_DAILY_FLAGS   (DAILY_FLAGS_END - DAILY_FLAGS_START + 1)
-#define NUM_TEMP_VARS     (TEMP_VARS_END - TEMP_VARS_START + 1)
-
 #define SPECIAL_FLAGS_SIZE  (NUM_SPECIAL_FLAGS / 8)  // 8 flags per byte
 #define TEMP_FLAGS_SIZE     (NUM_TEMP_FLAGS / 8)
 #define DAILY_FLAGS_SIZE    (NUM_DAILY_FLAGS / 8)
@@ -32,7 +27,26 @@ EWRAM_DATA u16 gSpecialVar_MonBoxPos = 0;
 EWRAM_DATA u16 gSpecialVar_Unused_0x8014 = 0;
 EWRAM_DATA static u8 sSpecialFlags[SPECIAL_FLAGS_SIZE] = {0};
 
+#if TESTING
+#define TEST_FLAGS_SIZE     1
+#define TEST_VARS_SIZE      8
+EWRAM_DATA static u8 sTestFlags[TEST_FLAGS_SIZE] = {0};
+EWRAM_DATA static u16 sTestVars[TEST_VARS_SIZE] = {0};
+#endif // TESTING
+
 extern u16 *const gSpecialVars[];
+
+const u16 gBadgeFlags[NUM_BADGES] =
+{
+    FLAG_BADGE01_GET,
+    FLAG_BADGE02_GET,
+    FLAG_BADGE03_GET,
+    FLAG_BADGE04_GET,
+    FLAG_BADGE05_GET,
+    FLAG_BADGE06_GET,
+    FLAG_BADGE07_GET,
+    FLAG_BADGE08_GET,
+};
 
 void InitEventData(void)
 {
@@ -43,8 +57,8 @@ void InitEventData(void)
 
 void ClearTempFieldEventData(void)
 {
-    memset(gSaveBlock1Ptr->flags + (TEMP_FLAGS_START / 8), 0, TEMP_FLAGS_SIZE);
-    memset(gSaveBlock1Ptr->vars + ((TEMP_VARS_START - VARS_START) * 2), 0, TEMP_VARS_SIZE);
+    memset(&gSaveBlock1Ptr->flags[TEMP_FLAGS_START / 8], 0, TEMP_FLAGS_SIZE);
+    memset(&gSaveBlock1Ptr->vars[TEMP_VARS_START - VARS_START], 0, TEMP_VARS_SIZE);
     FlagClear(FLAG_SYS_ENC_UP_ITEM);
     FlagClear(FLAG_SYS_ENC_DOWN_ITEM);
     FlagClear(FLAG_SYS_USE_STRENGTH);
@@ -54,7 +68,7 @@ void ClearTempFieldEventData(void)
 
 void ClearDailyFlags(void)
 {
-    memset(gSaveBlock1Ptr->flags + (DAILY_FLAGS_START / 8), 0, DAILY_FLAGS_SIZE);
+    memset(&gSaveBlock1Ptr->flags[DAILY_FLAGS_START / 8], 0, DAILY_FLAGS_SIZE);
 }
 
 void DisableNationalPokedex(void)
@@ -172,6 +186,10 @@ u16 *GetVarPointer(u16 id)
         return NULL;
     else if (id < SPECIAL_VARS_START)
         return &gSaveBlock1Ptr->vars[id - VARS_START];
+#if TESTING
+    else if (id >= TESTING_VARS_START)
+        return &sTestVars[id - TESTING_VARS_START];
+#endif // TESTING
     else
         return gSpecialVars[id - SPECIAL_VARS_START];
 }
@@ -212,6 +230,10 @@ u8 *GetFlagPointer(u16 id)
         return NULL;
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];
+#if TESTING
+    else if (id >= TESTING_FLAGS_START)
+        return &sTestFlags[(id - TESTING_FLAGS_START) / 8];
+#endif // TESTING
     else
         return &sSpecialFlags[(id - SPECIAL_FLAGS_START) / 8];
 }

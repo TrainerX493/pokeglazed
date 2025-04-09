@@ -64,12 +64,12 @@ enum {
 
 struct CreditsData
 {
-    u16 monToShow[NUM_MON_SLIDES]; // List of Pokemon species ids that will show during the credits
+    u16 monToShow[NUM_MON_SLIDES]; // List of Pokémon species ids that will show during the credits
     u16 imgCounter; //how many mon images have been shown
     u16 nextImgPos; //if the next image spawns left/center/right
     u16 currShownMon; //index into monToShow
-    u16 numMonToShow; //number of pokemon to show, always NUM_MON_SLIDES after determine function
-    u16 caughtMonIds[NATIONAL_DEX_COUNT]; //temporary location to hold a condensed array of all caught pokemon
+    u16 numMonToShow; //number of Pokémon to show, always NUM_MON_SLIDES after determine function
+    u16 caughtMonIds[NATIONAL_DEX_COUNT]; //temporary location to hold a condensed array of all caught Pokémon
     u16 numCaughtMon; //count of filled spaces in caughtMonIds
     u16 unused[7];
 };
@@ -81,10 +81,8 @@ struct CreditsEntry
     const u8 *text;
 };
 
-static EWRAM_DATA s16 sUnkVar = 0; // Never read, only set to 0
 static EWRAM_DATA u16 sSavedTaskId = 0;
 EWRAM_DATA bool8 gHasHallOfFameRecords = 0;
-static EWRAM_DATA bool8 sUsedSpeedUp = 0; // Never read
 static EWRAM_DATA struct CreditsData *sCreditsData = {0};
 
 static const u16 sCredits_Pal[] = INCBIN_U16("graphics/credits/credits.gbapal");
@@ -272,16 +270,6 @@ static const union AnimCmd *const sAnims_Rival[] =
     sAnim_Rival_Still,
 };
 
-#define MONBG_OFFSET (MON_PIC_SIZE * 3)
-static const struct SpriteSheet sSpriteSheet_MonBg[] = {
-    { gDecompressionBuffer, MONBG_OFFSET, TAG_MON_BG },
-    {},
-};
-static const struct SpritePalette sSpritePalette_MonBg[] = {
-    { (const u16 *)&gDecompressionBuffer[MONBG_OFFSET], TAG_MON_BG },
-    {},
-};
-
 static const struct OamData sOamData_MonBg =
 {
     .y = DISPLAY_HEIGHT,
@@ -355,7 +343,6 @@ static void CB2_Credits(void)
         VBlankCB_Credits();
         RunTasks();
         AnimateSprites();
-        sUsedSpeedUp = TRUE;
     }
     BuildOamBuffer();
     UpdatePaletteFade();
@@ -448,7 +435,6 @@ void CB2_StartCreditsSequence(void)
     SetVBlankCallback(VBlankCB_Credits);
     m4aSongNumStart(MUS_CREDITS);
     SetMainCallback2(CB2_Credits);
-    sUsedSpeedUp = FALSE;
     sCreditsData = AllocZeroed(sizeof(struct CreditsData));
 
     DeterminePokemonToShow();
@@ -480,7 +466,6 @@ static void Task_CreditsMain(u8 taskId)
         return;
     }
 
-    sUnkVar = 0;
     mode = gTasks[taskId].tNextMode;
 
     if (gTasks[taskId].tNextMode == MODE_BIKE_SCENE)
@@ -534,6 +519,8 @@ static void Task_ReadyShowMons(u8 taskId)
     }
 }
 
+#define MONBG_OFFSET (MON_PIC_SIZE * 3)
+
 static void Task_LoadShowMons(u8 taskId)
 {
     switch (gMain.state)
@@ -541,8 +528,11 @@ static void Task_LoadShowMons(u8 taskId)
     default:
     case 0:
     {
-        u16 i;
+        s32 i;
         u16 *temp;
+        u8 *buffer = Alloc(MONBG_OFFSET + PLTT_SIZEOF(16));
+        struct SpriteSheet bgSheet = { buffer, MONBG_OFFSET, TAG_MON_BG };
+        struct SpritePalette bgPalette = { (u16 *) &buffer[MONBG_OFFSET], TAG_MON_BG };
 
         ResetSpriteData();
         ResetAllPicSprites();
@@ -553,20 +543,22 @@ static void Task_LoadShowMons(u8 taskId)
         LoadPalette(gBirchBagGrass_Pal + 1, BG_PLTT_ID(0) + 1, PLTT_SIZEOF(2 * 16 - 1));
 
         for (i = 0; i < MON_PIC_SIZE; i++)
-            gDecompressionBuffer[i] = 0x11;
-        for (i = 0; i < MON_PIC_SIZE; i++)
-            (gDecompressionBuffer + MON_PIC_SIZE)[i] = 0x22;
-        for (i = 0; i < MON_PIC_SIZE; i++)
-            (gDecompressionBuffer + MON_PIC_SIZE * 2)[i] = 0x33;
+        {
+            buffer[i] = 0x11;
+            (buffer + MON_PIC_SIZE)[i] = 0x22;
+            (buffer + MON_PIC_SIZE * 2)[i] = 0x33;
+        }
 
-        temp = (u16 *)(&gDecompressionBuffer[MONBG_OFFSET]);
+        temp = (u16 *)(&buffer[MONBG_OFFSET]);
         temp[0] = RGB_BLACK;
         temp[1] = RGB(31, 31, 20); // light yellow
         temp[2] = RGB(31, 20, 20); // light red
         temp[3] = RGB(20, 20, 31); // light blue
 
-        LoadSpriteSheet(sSpriteSheet_MonBg);
-        LoadSpritePalette(sSpritePalette_MonBg);
+        LoadSpriteSheet(&bgSheet);
+        LoadSpritePalette(&bgPalette);
+
+        Free(buffer);
 
         gMain.state++;
         break;
@@ -740,7 +732,6 @@ static void Task_UpdatePage(u8 taskId)
             gTasks[taskId].tState = 1;
             gTasks[taskId].tDelay = 72;
             gTasks[gTasks[taskId].tMainTaskId].tPrintedPage = FALSE;
-            sUnkVar = 0;
         }
         return;
     case 1:
@@ -1371,7 +1362,7 @@ static void SpriteCB_Player(struct Sprite *sprite)
         break;
     case 4:
         StartSpriteAnimIfDifferent(sprite, 0);
-        if (sprite->x > 120)
+        if (sprite->x > DISPLAY_WIDTH / 2)
             sprite->x--;
         break;
     case 5:
@@ -1556,8 +1547,8 @@ static void DeterminePokemonToShow(void)
     u16 dexNum;
     u16 j;
 
-    // Go through the Pokedex, and anything that has gotten caught we put into our massive array.
-    // This basically packs all of the caught pokemon into the front of the array
+    // Go through the Pokédex, and anything that has gotten caught we put into our massive array.
+    // This basically packs all of the caught Pokémon into the front of the array
     for (dexNum = 1, j = 0; dexNum < NATIONAL_DEX_COUNT; dexNum++)
     {
         if (GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT))
@@ -1571,14 +1562,14 @@ static void DeterminePokemonToShow(void)
     for (dexNum = j; dexNum < NATIONAL_DEX_COUNT; dexNum++)
         sCreditsData->caughtMonIds[dexNum] = NATIONAL_DEX_NONE;
 
-    // Cap the number of pokemon we care about to NUM_MON_SLIDES, the max we show in the credits scene (-1 for the starter)
+    // Cap the number of Pokémon we care about to NUM_MON_SLIDES, the max we show in the credits scene (-1 for the starter)
     sCreditsData->numCaughtMon = j;
     if (sCreditsData->numCaughtMon < NUM_MON_SLIDES)
         sCreditsData->numMonToShow = j;
     else
         sCreditsData->numMonToShow = NUM_MON_SLIDES;
 
-    // Loop through our list of caught pokemon and select randomly from it to fill the images to show
+    // Loop through our list of caught Pokémon and select randomly from it to fill the images to show
     j = 0;
     do
     {
@@ -1599,7 +1590,7 @@ static void DeterminePokemonToShow(void)
     }
     while (sCreditsData->numCaughtMon != 0 && j < NUM_MON_SLIDES);
 
-    // If we don't have enough pokemon in the dex to fill everything, copy the selected mon into the end of the array, so it loops
+    // If we don't have enough Pokémon in the dex to fill everything, copy the selected mon into the end of the array, so it loops
     if (sCreditsData->numMonToShow < NUM_MON_SLIDES)
     {
         for (j = sCreditsData->numMonToShow, page = 0; j < NUM_MON_SLIDES; j++)
@@ -1610,7 +1601,7 @@ static void DeterminePokemonToShow(void)
             if (page == sCreditsData->numMonToShow)
                 page = 0;
         }
-        // Ensure the last pokemon is our starter
+        // Ensure the last Pokémon is our starter
         sCreditsData->monToShow[NUM_MON_SLIDES - 1] = starter;
     }
     else
@@ -1618,7 +1609,7 @@ static void DeterminePokemonToShow(void)
         // Check to see if our starter has already appeared in this list, break if it has
         for (dexNum = 0; sCreditsData->monToShow[dexNum] != starter && dexNum < NUM_MON_SLIDES; dexNum++);
 
-        // If it has, swap it with the last pokemon, to ensure our starter is the last image
+        // If it has, swap it with the last Pokémon, to ensure our starter is the last image
         if (dexNum < sCreditsData->numMonToShow - 1)
         {
             sCreditsData->monToShow[dexNum] = sCreditsData->monToShow[NUM_MON_SLIDES-1];
@@ -1626,7 +1617,7 @@ static void DeterminePokemonToShow(void)
         }
         else
         {
-            // Ensure the last pokemon is our starter
+            // Ensure the last Pokémon is our starter
             sCreditsData->monToShow[NUM_MON_SLIDES - 1] = starter;
         }
     }

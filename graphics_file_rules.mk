@@ -1,5 +1,3 @@
-CASTFORMGFXDIR := graphics/pokemon/castform
-CHERRIMGFXDIR := graphics/pokemon/cherrim
 TILESETGFXDIR := data/tilesets
 FONTGFXDIR := graphics/fonts
 INTERFACEGFXDIR := graphics/interface
@@ -22,63 +20,11 @@ JPCONTESTGFXDIR := graphics/contest/japanese
 POKEDEXGFXDIR := graphics/pokedex
 STARTERGFXDIR := graphics/starter_choose
 NAMINGGFXDIR := graphics/naming_screen
+SPINDAGFXDIR := graphics/pokemon/spinda/spots
+TITLESCREENGFXDIR := graphics/title_screen
 
-types := normal fight flying poison ground rock bug ghost steel mystery fire water grass electric psychic ice dragon dark fairy
+types := none normal fight flying poison ground rock bug ghost steel mystery fire water grass electric psychic ice dragon dark fairy stellar
 contest_types := cool beauty cute smart tough
-
-### Cherrim ###
-
-$(CHERRIMGFXDIR)/front.4bpp: $(CHERRIMGFXDIR)/normal/front.4bpp \
-                              $(CHERRIMGFXDIR)/sunshine/front.4bpp
-	@cat $^ >$@
-
-$(CHERRIMGFXDIR)/back.4bpp: $(CHERRIMGFXDIR)/normal/back.4bpp \
-                              $(CHERRIMGFXDIR)/sunshine/back.4bpp
-	@cat $^ >$@
-
-$(CHERRIMGFXDIR)/anim_front.4bpp: $(CHERRIMGFXDIR)/normal/anim_front.4bpp \
-                              $(CHERRIMGFXDIR)/sunshine/anim_front.4bpp
-	@cat $^ >$@
-
-$(CHERRIMGFXDIR)/normal.gbapal: $(CHERRIMGFXDIR)/normal/normal.gbapal \
-                              $(CHERRIMGFXDIR)/sunshine/normal.gbapal
-	@cat $^ >$@
-
-$(CHERRIMGFXDIR)/shiny.gbapal: $(CHERRIMGFXDIR)/normal/shiny.gbapal \
-                              $(CHERRIMGFXDIR)/sunshine/shiny.gbapal
-	@cat $^ >$@
-
-### Castform ###
-
-$(CASTFORMGFXDIR)/front.4bpp: $(CASTFORMGFXDIR)/normal/front.4bpp \
-                              $(CASTFORMGFXDIR)/sunny/front.4bpp \
-                              $(CASTFORMGFXDIR)/rainy/front.4bpp \
-                              $(CASTFORMGFXDIR)/snowy/front.4bpp
-	@cat $^ >$@
-
-$(CASTFORMGFXDIR)/back.4bpp: $(CASTFORMGFXDIR)/normal/back.4bpp \
-                              $(CASTFORMGFXDIR)/sunny/back.4bpp \
-                              $(CASTFORMGFXDIR)/rainy/back.4bpp \
-                              $(CASTFORMGFXDIR)/snowy/back.4bpp
-	@cat $^ >$@
-
-$(CASTFORMGFXDIR)/anim_front.4bpp: $(CASTFORMGFXDIR)/normal/anim_front.4bpp \
-                              $(CASTFORMGFXDIR)/sunny/anim_front.4bpp \
-                              $(CASTFORMGFXDIR)/rainy/anim_front.4bpp \
-                              $(CASTFORMGFXDIR)/snowy/anim_front.4bpp
-	@cat $^ >$@
-
-$(CASTFORMGFXDIR)/normal.gbapal: $(CASTFORMGFXDIR)/normal/normal.gbapal \
-                              $(CASTFORMGFXDIR)/sunny/normal.gbapal \
-                              $(CASTFORMGFXDIR)/rainy/normal.gbapal \
-                              $(CASTFORMGFXDIR)/snowy/normal.gbapal
-	@cat $^ >$@
-
-$(CASTFORMGFXDIR)/shiny.gbapal: $(CASTFORMGFXDIR)/normal/shiny.gbapal \
-                              $(CASTFORMGFXDIR)/sunny/shiny.gbapal \
-                              $(CASTFORMGFXDIR)/rainy/shiny.gbapal \
-                              $(CASTFORMGFXDIR)/snowy/shiny.gbapal
-	@cat $^ >$@
 
 ### Tilesets ###
 
@@ -293,6 +239,18 @@ $(FONTGFXDIR)/narrow.latfont: $(FONTGFXDIR)/latin_narrow.png
 $(FONTGFXDIR)/small_narrow.latfont: $(FONTGFXDIR)/latin_small_narrow.png
 	$(GFX) $< $@
 
+$(FONTGFXDIR)/narrower.latfont: $(FONTGFXDIR)/latin_narrower.png
+	$(GFX) $< $@
+
+$(FONTGFXDIR)/small_narrower.latfont: $(FONTGFXDIR)/latin_small_narrower.png
+	$(GFX) $< $@
+
+$(FONTGFXDIR)/short_narrow.latfont: $(FONTGFXDIR)/latin_short_narrow.png
+	$(GFX) $< $@
+
+$(FONTGFXDIR)/short_narrower.latfont: $(FONTGFXDIR)/latin_short_narrower.png
+	$(GFX) $< $@
+
 $(FONTGFXDIR)/small.hwjpnfont: $(FONTGFXDIR)/japanese_small.png
 	$(GFX) $< $@
 
@@ -308,16 +266,20 @@ $(FONTGFXDIR)/short.fwjpnfont: $(FONTGFXDIR)/japanese_short.png
 $(FONTGFXDIR)/braille.fwjpnfont: $(FONTGFXDIR)/braille.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/frlg_male.fwjpnfont: $(FONTGFXDIR)/japanese_frlg_male_font.png
+$(FONTGFXDIR)/frlg_male.fwjpnfont: $(FONTGFXDIR)/japanese_frlg_male.png
 	$(GFX) $< $@
 
-$(FONTGFXDIR)/frlg_female.fwjpnfont: $(FONTGFXDIR)/japanese_frlg_female_font.png
+$(FONTGFXDIR)/frlg_female.fwjpnfont: $(FONTGFXDIR)/japanese_frlg_female.png
 	$(GFX) $< $@
 
 
 ### Miscellaneous ###
-graphics/title_screen/pokemon_logo.gbapal: %.gbapal: %.pal
+
+$(TITLESCREENGFXDIR)/pokemon_logo.gbapal: %.gbapal: %.pal
 	$(GFX) $< $@ -num_colors 224
+
+$(TITLESCREENGFXDIR)/emerald_version.8bpp: %.8bpp: %.png
+	$(GFX) $< $@ -mwidth 8 -mheight 4
 
 graphics/pokemon_jump/bg.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 63 -Wnum_tiles
@@ -438,10 +400,6 @@ $(RAYQUAZAGFXDIR)/scene_2/bg.4bpp: %.4bpp: %.png
 
 $(RAYQUAZAGFXDIR)/scene_3/rayquaza.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 124 -Wnum_tiles
-
-$(RAYQUAZAGFXDIR)/scene_3/rayquaza_tail_fix.4bpp: $(RAYQUAZAGFXDIR)/scene_3/rayquaza_tail.4bpp
-	cp $< $@
-	head -c 12 /dev/zero >> $@
 
 $(RAYQUAZAGFXDIR)/scene_4/streaks.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 19 -Wnum_tiles
@@ -699,3 +657,15 @@ $(NAMINGGFXDIR)/cursor_squished.4bpp: %.4bpp: %.png
 
 $(NAMINGGFXDIR)/cursor_filled.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 5 -Wnum_tiles
+
+$(SPINDAGFXDIR)/spot_0.1bpp: %.1bpp: %.png
+	$(GFX) $< $@ -plain -data_width 2
+
+$(SPINDAGFXDIR)/spot_1.1bpp: %.1bpp: %.png
+	$(GFX) $< $@ -plain -data_width 2
+
+$(SPINDAGFXDIR)/spot_2.1bpp: %.1bpp: %.png
+	$(GFX) $< $@ -plain -data_width 2
+
+$(SPINDAGFXDIR)/spot_3.1bpp: %.1bpp: %.png
+	$(GFX) $< $@ -plain -data_width 2

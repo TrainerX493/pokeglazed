@@ -3,10 +3,9 @@
 #include "data.h"
 #include "decompress.h"
 #include "pokemon.h"
-#include "pokemon_debug.h"
+#include "pokemon_sprite_visualizer.h"
 #include "text.h"
-
-EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] = {0};
+#include "menu.h"
 
 void LZDecompressWram(const u32 *src, void *dest)
 {
@@ -18,36 +17,91 @@ void LZDecompressVram(const u32 *src, void *dest)
     LZ77UnCompVram(src, dest);
 }
 
-u16 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src)
+// Checks if `ptr` is likely LZ77 data
+// Checks word-alignment, min/max size, and header byte
+// Returns uncompressed size if true, 0 otherwise
+u32 IsLZ77Data(const void *ptr, u32 minSize, u32 maxSize)
+{
+    const u8 *data = ptr;
+    u32 size;
+    // Compressed data must be word aligned
+    if (((u32)ptr) & 3)
+        return 0;
+    // Check LZ77 header byte
+    // See https://problemkaputt.de/gbatek.htm#biosdecompressionfunctions
+    if (data[0] != 0x10)
+        return 0;
+
+    // Read 24-bit uncompressed size
+    size = data[1] | (data[2] << 8) | (data[3] << 16);
+    if (size >= minSize && size <= maxSize)
+        return size;
+    return 0;
+}
+
+static inline u32 DoLoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src, void *buffer)
 {
     struct SpriteSheet dest;
 
-    LZ77UnCompWram(src->data, gDecompressionBuffer);
-    dest.data = gDecompressionBuffer;
+    dest.data = buffer;
     dest.size = src->size;
     dest.tag = src->tag;
     return LoadSpriteSheet(&dest);
 }
 
-void LoadCompressedSpriteSheetOverrideBuffer(const struct CompressedSpriteSheet *src, void *buffer)
+u32 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src)
 {
-    struct SpriteSheet dest;
+    void *buffer = malloc_and_decompress(src->data, NULL);
+    u32 ret = DoLoadCompressedSpriteSheet(src, buffer);
+    Free(buffer);
 
-    LZ77UnCompWram(src->data, buffer);
-    dest.data = buffer;
-    dest.size = src->size;
-    dest.tag = src->tag;
-    LoadSpriteSheet(&dest);
+    return ret;
 }
 
-void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
+u32 LoadCompressedSpriteSheetOverrideBuffer(const struct CompressedSpriteSheet *src, void *buffer)
 {
-    struct SpritePalette dest;
+    LZDecompressWram(src->data, buffer);
+    return DoLoadCompressedSpriteSheet(src, buffer);
+}
 
-    LZ77UnCompWram(src->data, gDecompressionBuffer);
-    dest.data = (void *) gDecompressionBuffer;
-    dest.tag = src->tag;
-    LoadSpritePalette(&dest);
+// This can be used for either compressed or uncompressed sprite sheets
+u32 LoadCompressedSpriteSheetByTemplate(const struct SpriteTemplate *template, s32 offset)
+{
+    struct SpriteTemplate myTemplate;
+    struct SpriteFrameImage myImage;
+    u32 size;
+
+    // Check for LZ77 header and read uncompressed size, or fallback if not compressed (zero size)
+    if ((size = IsLZ77Data(template->images->data, TILE_SIZE_4BPP, MAX_DECOMPRESSION_BUFFER_SIZE)) == 0)
+        return LoadSpriteSheetByTemplate(template, 0, offset);
+
+    void *buffer = malloc_and_decompress(template->images->data, NULL);
+    myImage.data = buffer;
+    myImage.size = size + offset;
+    myTemplate.images = &myImage;
+    myTemplate.tileTag = template->tileTag;
+
+    u32 ret = LoadSpriteSheetByTemplate(&myTemplate, 0, offset);
+    Free(buffer);
+    return ret;
+}
+
+u32 LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
+{
+    return LoadCompressedSpritePaletteWithTag(src->data, src->tag);
+}
+
+u32 LoadCompressedSpritePaletteWithTag(const u32 *pal, u16 tag)
+{
+    u32 index;
+    struct SpritePalette dest;
+    void *buffer = malloc_and_decompress(pal, NULL);
+
+    dest.data = buffer;
+    dest.tag = tag;
+    index = LoadSpritePalette(&dest);
+    Free(buffer);
+    return index;
 }
 
 void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *src, void *buffer)
@@ -60,20 +114,9 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
     LoadSpritePalette(&dest);
 }
 
-void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffer, s32 species)
+void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffer)
 {
-    if (species > NUM_SPECIES)
-        LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
-    else
-        LZ77UnCompWram(src->data, buffer);
-}
-
-void DecompressPicFromTableGender(void* buffer, s32 species, u32 personality)
-{
-    if (ShouldShowFemaleDifferences(species, personality))
-        DecompressPicFromTable(&gMonFrontPicTableFemale[species], buffer, species);
-    else
-        DecompressPicFromTable(&gMonFrontPicTable[species], buffer, species);
+    LZ77UnCompWram(src->data, buffer);
 }
 
 void HandleLoadSpecialPokePic(bool32 isFrontPic, void *dest, s32 species, u32 personality)
@@ -83,38 +126,40 @@ void HandleLoadSpecialPokePic(bool32 isFrontPic, void *dest, s32 species, u32 pe
 
 void LoadSpecialPokePic(void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
+    species = SanitizeSpeciesId(species);
     if (species == SPECIES_UNOWN)
-    {
-        u32 id = GetUnownSpeciesId(personality);
+        species = GetUnownSpeciesId(personality);
 
-        if (!isFrontPic)
-            LZ77UnCompWram(gMonBackPicTable[id].data, dest);
-        else
-            LZ77UnCompWram(gMonFrontPicTable[id].data, dest);
-    }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+    if (isFrontPic)
     {
-        if (isFrontPic)
-            LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
+    #if P_GENDER_DIFFERENCES
+        if (gSpeciesInfo[species].frontPicFemale != NULL && IsPersonalityFemale(species, personality))
+            LZ77UnCompWram(gSpeciesInfo[species].frontPicFemale, dest);
         else
-            LZ77UnCompWram(gMonBackPicTable[0].data, dest);
-    }
-    else if (ShouldShowFemaleDifferences(species, personality))
-    {
-        if (isFrontPic)
-            LZ77UnCompWram(gMonFrontPicTableFemale[species].data, dest);
+    #endif
+        if (gSpeciesInfo[species].frontPic != NULL)
+            LZ77UnCompWram(gSpeciesInfo[species].frontPic, dest);
         else
-            LZ77UnCompWram(gMonBackPicTableFemale[species].data, dest);
+            LZ77UnCompWram(gSpeciesInfo[SPECIES_NONE].frontPic, dest);
     }
     else
     {
-        if (isFrontPic)
-            LZ77UnCompWram(gMonFrontPicTable[species].data, dest);
+    #if P_GENDER_DIFFERENCES
+        if (gSpeciesInfo[species].backPicFemale != NULL && IsPersonalityFemale(species, personality))
+            LZ77UnCompWram(gSpeciesInfo[species].backPicFemale, dest);
         else
-            LZ77UnCompWram(gMonBackPicTable[species].data, dest);
+    #endif
+        if (gSpeciesInfo[species].backPic != NULL)
+            LZ77UnCompWram(gSpeciesInfo[species].backPic, dest);
+        else
+            LZ77UnCompWram(gSpeciesInfo[SPECIES_NONE].backPic, dest);
     }
 
-    DrawSpindaSpots(species, personality, dest, isFrontPic);
+    if (species == SPECIES_SPINDA && isFrontPic)
+    {
+        DrawSpindaSpots(personality, dest, FALSE);
+        DrawSpindaSpots(personality, dest, TRUE);
+    }
 }
 
 void Unused_LZDecompressWramIndirect(const void **src, void *dest)
@@ -122,7 +167,7 @@ void Unused_LZDecompressWramIndirect(const void **src, void *dest)
     LZ77UnCompWram(*src, dest);
 }
 
-static void StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
+static void UNUSED StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
 {
     /*
       This function appears to emulate behaviour found in the GB(C) versions regarding how the Pokemon images
@@ -223,7 +268,8 @@ static void StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_
             // While the remaining space will be filled with actual data
             if (object_size == 6)
             {
-                for (k = 0; k < 256; k++) {
+                for (k = 0; k < 256; k++)
+                {
                     *dest = 0;
                     dest++;
                 }
@@ -233,14 +279,16 @@ static void StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_
             {
                 if (object_size == 6)
                 {
-                    for (k = 0; k < 32; k++) {
+                    for (k = 0; k < 32; k++)
+                    {
                         *dest = 0;
                         dest++;
                     }
                 }
 
                 // Copy tile data
-                for (k = 0; k < 32 * object_size; k++) {
+                for (k = 0; k < 32 * object_size; k++)
+                {
                     *dest = *src;
                     src++;
                     dest++;
@@ -248,7 +296,8 @@ static void StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_
 
                 if (object_size == 6)
                 {
-                    for (k = 0; k < 32; k++) {
+                    for (k = 0; k < 32; k++)
+                    {
                         *dest = 0;
                         dest++;
                     }
@@ -257,7 +306,8 @@ static void StitchObjectsOn8x8Canvas(s32 object_size, s32 object_count, u8 *src_
 
             if (object_size == 6)
             {
-                for (k = 0; k < 256; k++) {
+                for (k = 0; k < 256; k++)
+                {
                     *dest = 0;
                     dest++;
                 }

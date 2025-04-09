@@ -13,7 +13,7 @@
 #define GAME_STAT_TRAINER_BATTLES              9
 #define GAME_STAT_ENTERED_HOF                 10
 #define GAME_STAT_POKEMON_CAPTURES            11
-#define GAME_STAT_FISHING_CAPTURES            12
+#define GAME_STAT_FISHING_ENCOUNTERS          12
 #define GAME_STAT_HATCHED_EGGS                13
 #define GAME_STAT_EVOLVED_POKEMON             14
 #define GAME_STAT_USED_POKECENTER             15
@@ -53,8 +53,9 @@
 #define GAME_STAT_ENTERED_HOT_SPRINGS         49
 #define GAME_STAT_NUM_UNION_ROOM_BATTLES      50
 #define GAME_STAT_PLAYED_BERRY_CRUSH          51
+#define GAME_STAT_DEXNAV_SCANNED              52
 
-#define NUM_USED_GAME_STATS                   52
+#define NUM_USED_GAME_STATS                   53
 #define NUM_GAME_STATS                        64
 
 #endif // GUARD_CONSTANTS_GAME_STAT_H

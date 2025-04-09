@@ -30,14 +30,12 @@ struct ScanlineEffect
     void (*setFirstScanlineReg)(void);
     u8 srcBuffer;
     u8 state;
-    u8 unused16;
-    u8 unused17;
     u8 waveTaskId;
 };
 
 extern struct ScanlineEffect gScanlineEffect;
 
-extern u16 gScanlineEffectRegBuffers[2][0x3C0];
+extern u16 ALIGNED(4) gScanlineEffectRegBuffers[2][0x3C0];
 
 void ScanlineEffect_Stop(void);
 void ScanlineEffect_Clear(void);

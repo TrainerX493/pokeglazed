@@ -189,7 +189,7 @@ static const u16 sTerraOrMarineCaveMapSecIds[ABNORMAL_WEATHER_LOCATIONS] =
     [ABNORMAL_WEATHER_ROUTE_129_EAST  - 1] = MAPSEC_ROUTE_129
 };
 
-#define MARINE_CAVE_COORD(location)(ABNORMAL_WEATHER_##location - MARINE_CAVE_LOCATIONS_START)
+#define MARINE_CAVE_COORD(location) (ABNORMAL_WEATHER_##location - MARINE_CAVE_LOCATIONS_START)
 
 static const struct UCoords16 sMarineCaveLocationCoords[MARINE_CAVE_LOCATIONS] =
 {
@@ -621,7 +621,7 @@ bool8 LoadRegionMapGfx(void)
 void BlendRegionMap(u16 color, u32 coeff)
 {
     BlendPalettes(0x380, coeff, color);
-    CpuCopy16(gPlttBufferFaded + 0x70, gPlttBufferUnfaded + 0x70, 0x60);
+    CpuCopy16(&gPlttBufferFaded[BG_PLTT_ID(7)], &gPlttBufferUnfaded[BG_PLTT_ID(7)], 3 * PLTT_SIZE_4BPP);
 }
 
 void FreeRegionMapIconResources(void)
@@ -679,6 +679,10 @@ static u8 ProcessRegionMapInput_Full(void)
     else if (JOY_NEW(B_BUTTON))
     {
         input = MAP_INPUT_B_BUTTON;
+    }
+    else if (JOY_NEW(R_BUTTON))
+    {
+        input = MAP_INPUT_R_BUTTON;
     }
     if (input == MAP_INPUT_MOVE_START)
     {
@@ -758,6 +762,10 @@ static u8 ProcessRegionMapInput_Zoomed(void)
     if (JOY_NEW(B_BUTTON))
     {
         input = MAP_INPUT_B_BUTTON;
+    }
+    else if (JOY_NEW(R_BUTTON))
+    {
+        input = MAP_INPUT_R_BUTTON;
     }
     if (input == MAP_INPUT_MOVE_START)
     {
@@ -1124,8 +1132,8 @@ static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
 {
     u16 y;
     u16 x;
-    u8 mapGroup;
-    u8 mapNum;
+    s8 mapGroup;
+    s8 mapNum;
     u16 dimensionScale;
     s16 xOnMap;
     s16 yOnMap;
@@ -1419,7 +1427,7 @@ void CreateRegionMapCursor(u16 tileTag, u16 paletteTag)
             sRegionMap->cursorSprite->y = 8 * sRegionMap->cursorPosY + 4;
         }
         sRegionMap->cursorSprite->data[1] = 2;
-        sRegionMap->cursorSprite->data[2] = (IndexOfSpritePaletteTag(paletteTag) << 4) + 0x101;
+        sRegionMap->cursorSprite->data[2] = OBJ_PLTT_ID(IndexOfSpritePaletteTag(paletteTag)) + 1;
         sRegionMap->cursorSprite->data[3] = TRUE;
     }
 }
@@ -1434,14 +1442,12 @@ static void FreeRegionMapCursorSprite(void)
     }
 }
 
-// Unused
-static void SetUnkCursorSpriteData(void)
+static void UNUSED SetUnkCursorSpriteData(void)
 {
     sRegionMap->cursorSprite->data[3] = TRUE;
 }
 
-// Unused
-static void ClearUnkCursorSpriteData(void)
+static void UNUSED ClearUnkCursorSpriteData(void)
 {
     sRegionMap->cursorSprite->data[3] = FALSE;
 }
@@ -1994,27 +2000,9 @@ static void CB_ExitFlyMap(void)
             FreeRegionMapIconResources();
             if (sFlyMap->choseFlyLocation)
             {
-                switch (sFlyMap->regionMap.mapSecId)
-                {
-                case MAPSEC_SOUTHERN_ISLAND:
-                    SetWarpDestinationToHealLocation(HEAL_LOCATION_SOUTHERN_ISLAND_EXTERIOR);
-                    break;
-                case MAPSEC_BATTLE_FRONTIER:
-                    SetWarpDestinationToHealLocation(HEAL_LOCATION_BATTLE_FRONTIER_OUTSIDE_EAST);
-                    break;
-                case MAPSEC_LITTLEROOT_TOWN:
-                    SetWarpDestinationToHealLocation(gSaveBlock2Ptr->playerGender == MALE ? HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE : HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE);
-                    break;
-                case MAPSEC_EVER_GRANDE_CITY:
-                    SetWarpDestinationToHealLocation(FlagGet(FLAG_LANDMARK_POKEMON_LEAGUE) && sFlyMap->regionMap.posWithinMapSec == 0 ? HEAL_LOCATION_EVER_GRANDE_CITY_POKEMON_LEAGUE : HEAL_LOCATION_EVER_GRANDE_CITY);
-                    break;
-                default:
-                    if (sMapHealLocations[sFlyMap->regionMap.mapSecId][2] != HEAL_LOCATION_NONE)
-                        SetWarpDestinationToHealLocation(sMapHealLocations[sFlyMap->regionMap.mapSecId][2]);
-                    else
-                        SetWarpDestinationToMapWarp(sMapHealLocations[sFlyMap->regionMap.mapSecId][0], sMapHealLocations[sFlyMap->regionMap.mapSecId][1], WARP_ID_NONE);
-                    break;
-                }
+                struct RegionMap* tempRegionMap = &sFlyMap->regionMap;
+
+                SetFlyDestination(tempRegionMap);
                 ReturnToFieldFromFlyMapSelect();
             }
             else
@@ -2026,4 +2014,34 @@ static void CB_ExitFlyMap(void)
         }
         break;
     }
+}
+
+u32 FilterFlyDestination(struct RegionMap* regionMap)
+{
+    switch (regionMap->mapSecId)
+    {
+    case MAPSEC_SOUTHERN_ISLAND:
+        return HEAL_LOCATION_SOUTHERN_ISLAND_EXTERIOR;
+    case MAPSEC_BATTLE_FRONTIER:
+        return HEAL_LOCATION_BATTLE_FRONTIER_OUTSIDE_EAST;
+    case MAPSEC_LITTLEROOT_TOWN:
+        return (gSaveBlock2Ptr->playerGender == MALE ? HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE : HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE);
+    case MAPSEC_EVER_GRANDE_CITY:
+        return (FlagGet(FLAG_LANDMARK_POKEMON_LEAGUE) && regionMap->posWithinMapSec == 0 ? HEAL_LOCATION_EVER_GRANDE_CITY_POKEMON_LEAGUE : HEAL_LOCATION_EVER_GRANDE_CITY);
+    default:
+        if (sMapHealLocations[regionMap->mapSecId][2] != HEAL_LOCATION_NONE)
+            return sMapHealLocations[regionMap->mapSecId][2];
+        else
+            return WARP_ID_NONE;
+    }
+}
+
+void SetFlyDestination(struct RegionMap* regionMap)
+{
+    u32 flyDestination = FilterFlyDestination(regionMap);
+
+    if (flyDestination != WARP_ID_NONE)
+        SetWarpDestinationToHealLocation(flyDestination);
+    else
+        SetWarpDestinationToMapWarp(sMapHealLocations[regionMap->mapSecId][0], sMapHealLocations[regionMap->mapSecId][1], WARP_ID_NONE);
 }

@@ -82,6 +82,9 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
     {sTextWindowFrame20_Gfx, sTextWindowFrame20_Pal}
 };
 
+static const u16 sTextWindowDexNavFrame[] = INCBIN_U16("graphics/text_window/dexnav_pal.gbapal");
+static const struct TilesPal sDexNavWindowFrame = {gTextWindowFrame1_Gfx, sTextWindowDexNavFrame};
+
 // code
 const struct TilesPal *GetWindowFrameTilesPal(u8 id)
 {
@@ -95,6 +98,12 @@ void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gMessageBox_Gfx, 0x1C0, destOffset);
     LoadPalette(GetOverworldTextboxPalettePtr(), palOffset, PLTT_SIZE_4BPP);
+}
+
+void LoadSignBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gSignpostWindow_Gfx, 0x1C0, destOffset);
+    LoadPalette(GetTextWindowPalette(1), palOffset, PLTT_SIZE_4BPP);
 }
 
 void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
@@ -197,10 +206,8 @@ void LoadUserWindowBorderGfxOnBg(u8 bg, u16 destOffset, u8 palOffset)
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, palOffset, PLTT_SIZE_4BPP);
 }
 
-void LoadSignPostWindowFrameGfx(void)
+void LoadDexNavWindowGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
-    // TODO signpost msgbox frames
-    //LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gUnknown_8470B0C, 0x260, destOffset);
-    //LoadPalette(GetWindowFrameTilesPal(1), palIdx, 32);
-    LoadMessageBoxAndBorderGfx();
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), sDexNavWindowFrame.tiles, 0x120, destOffset);
+    LoadPalette(sDexNavWindowFrame.pal, palOffset, 32);
 }

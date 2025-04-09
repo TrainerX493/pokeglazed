@@ -413,6 +413,25 @@ u32 UnpackSelectedBattlePalettes(s16 selector)
     bool8 targetPartner = (selector >> 4) & 1;
     bool8 anim1 = (selector >> 5) & 1;
     bool8 anim2 = (selector >> 6) & 1;
+    u32 moveTarget = GetBattlerMoveTargetType(gBattlerAttacker, gAnimMoveIndex);
+
+    switch (moveTarget)
+    {
+    case MOVE_TARGET_BOTH:
+        if (target)
+        {
+            targetPartner |= 1;
+        }
+        break;
+    case MOVE_TARGET_FOES_AND_ALLY:
+        if (target)
+        {
+            targetPartner |= 1;
+            attackerPartner |= 1;
+        }
+        break;
+    }
+
     return GetBattlePalettesMask(battleBackground, attacker, target, attackerPartner, targetPartner, anim1, anim2);
 }
 
@@ -794,7 +813,7 @@ static void AnimTask_FlashAnimTagWithColor_Step2(u8 taskId)
     if (!gPaletteFade.active)
     {
         selectedPalettes = 1 << (IndexOfSpritePaletteTag(gTasks[taskId].data[7]) + 16);
-        BeginNormalPaletteFade(selectedPalettes, 0, 0, 0, RGB(0, 0, 0));
+        BeginNormalPaletteFade(selectedPalettes, 0, 0, 0, RGB_BLACK);
         DestroyAnimVisualTask(taskId);
     }
 }
@@ -811,7 +830,7 @@ void AnimTask_InvertScreenColor(u8 taskId)
         selectedPalettes |= (0x10000 << gBattleAnimTarget);
     if (gBattleAnimArgs[0] & 0x8 && IsBattlerAlive(BATTLE_PARTNER(gBattleAnimTarget)))
         selectedPalettes |= (0x10000 << BATTLE_PARTNER(gBattleAnimTarget));
-	if (gBattleAnimArgs[0] & 0x10 && IsBattlerAlive(BATTLE_PARTNER(gBattleAnimAttacker)))
+    if (gBattleAnimArgs[0] & 0x10 && IsBattlerAlive(BATTLE_PARTNER(gBattleAnimAttacker)))
         selectedPalettes |= (0x10000 << BATTLE_PARTNER(gBattleAnimAttacker));
 
     InvertPlttBuffer(selectedPalettes);

@@ -14,8 +14,6 @@
 #define TRAINER_SECRET_BASE                 1024
 #define TRAINER_LINK_OPPONENT               2048
 #define TRAINER_UNION_ROOM                  3072
-#define TRAINER_STEVEN_PARTNER              3075
-#define TRAINER_CUSTOM_PARTNER              3076
 
 #define TRAINER_PIC_HIKER                  0
 #define TRAINER_PIC_AQUA_GRUNT_M           1
@@ -110,6 +108,7 @@
 #define TRAINER_PIC_LEAF                  90
 #define TRAINER_PIC_RS_BRENDAN            91
 #define TRAINER_PIC_RS_MAY                92
+#define TRAINER_PIC_COUNT                 93
 
 // The player back pics are assumed to alternate according to the gender values (MALE/FEMALE)
 #define TRAINER_BACK_PIC_BRENDAN                0
@@ -371,19 +370,9 @@
 
 #define F_TRAINER_FEMALE (1 << 7)
 
-// Set to buff up all trained pokemon that use .iv instead of .ivs
-#define TRAINER_IV_MODIFIER       0
-
-// Unused.
-#define F_TRAINER_PARTY_CUSTOM_MOVESET (1 << 0)
-#define F_TRAINER_PARTY_HELD_ITEM      (1 << 1)
-#define F_TRAINER_PARTY_CUSTOM_MON     (1 << 2)
-
-// Use for trainer parties.
-#define TRAINER_MON_FEMALE     1
-#define TRAINER_MON_MALE       2
-
-#define TRAINER_MON_FRIENDLY     1
-#define TRAINER_MON_UNFRIENDLY   2
+// Trainer party defines
+#define TRAINER_MON_MALE          1
+#define TRAINER_MON_FEMALE        2
+#define TRAINER_MON_RANDOM_GENDER 3
 
 #endif  // GUARD_TRAINERS_H

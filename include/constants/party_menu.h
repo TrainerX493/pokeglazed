@@ -11,6 +11,7 @@
 #define AILMENT_BRN   5
 #define AILMENT_PKRS  6
 #define AILMENT_FNT   7
+#define AILMENT_FRB   8
 
 #define PARTY_LAYOUT_SINGLE          0
 #define PARTY_LAYOUT_DOUBLE          1
@@ -47,7 +48,8 @@
 #define PARTY_ACTION_CHOOSE_AND_CLOSE   11
 #define PARTY_ACTION_MOVE_TUTOR         12
 #define PARTY_ACTION_MINIGAME           13
-#define PARTY_ACTION_REUSABLE_ITEM      14  // Unused. The only reusable items are handled separately
+#define PARTY_ACTION_SEND_MON_TO_BOX    14
+#define PARTY_ACTION_CHOOSE_FAINTED_MON 15
 
 // IDs for DisplayPartyMenuStdMessage, to display the message at the bottom of the party menu
 #define PARTY_MSG_CHOOSE_MON                0
@@ -78,6 +80,11 @@
 #define PARTY_MSG_DO_WHAT_WITH_MAIL         25
 #define PARTY_MSG_ALREADY_HOLDING_ONE       26
 #define PARTY_MSG_MOVE_ITEM_WHERE           27
+#define PARTY_MSG_WHICH_APPLIANCE           28
+#define PARTY_MSG_CHOOSE_SECOND_FUSION      29
+#define PARTY_MSG_NO_POKEMON                30
+#define PARTY_MSG_CHOOSE_MON_FOR_BOX        31
+
 #define PARTY_MSG_NONE                      127
 
 // IDs for DisplayPartyPokemonDescriptionText, to display a message in the party pokemon's box
@@ -95,9 +102,11 @@
 #define PARTYBOX_DESC_HAVE        11
 #define PARTYBOX_DESC_DONT_HAVE   12
 
-#define SELECTWINDOW_ACTIONS  0
-#define SELECTWINDOW_ITEM     1
-#define SELECTWINDOW_MAIL     2
-#define SELECTWINDOW_MOVES    3
+#define SELECTWINDOW_ACTIONS     0
+#define SELECTWINDOW_ITEM        1
+#define SELECTWINDOW_MAIL        2
+#define SELECTWINDOW_MOVES       3
+#define SELECTWINDOW_CATALOG     4
+#define SELECTWINDOW_ZYGARDECUBE 5
 
 #endif // GUARD_CONSTANTS_PARTY_MENU_H

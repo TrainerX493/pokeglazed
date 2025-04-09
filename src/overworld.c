@@ -6,6 +6,7 @@
 #include "bg.h"
 #include "cable_club.h"
 #include "clock.h"
+#include "dexnav.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -24,6 +25,8 @@
 #include "gpu_regs.h"
 #include "heal_location.h"
 #include "io_reg.h"
+#include "item.h"
+#include "item_icon.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "load_save.h"
@@ -42,6 +45,7 @@
 #include "random.h"
 #include "roamer.h"
 #include "rotating_gate.h"
+#include "rtc.h"
 #include "safari_zone.h"
 #include "save.h"
 #include "save_location.h"
@@ -50,6 +54,7 @@
 #include "secret_base.h"
 #include "sound.h"
 #include "start_menu.h"
+#include "string_util.h"
 #include "task.h"
 #include "tileset_anims.h"
 #include "time_events.h"
@@ -58,6 +63,7 @@
 #include "tv.h"
 #include "scanline_effect.h"
 #include "wild_encounter.h"
+#include "vs_seeker.h"
 #include "frontier_util.h"
 #include "constants/abilities.h"
 #include "constants/layouts.h"
@@ -66,6 +72,8 @@
 #include "constants/songs.h"
 #include "constants/trainer_hill.h"
 #include "constants/weather.h"
+
+STATIC_ASSERT((B_FLAG_FOLLOWERS_DISABLED == 0 || OW_FOLLOWERS_ENABLED), FollowersFlagAssignedWithoutEnablingThem);
 
 struct CableClubPlayer
 {
@@ -131,17 +139,14 @@ static void UpdateAllLinkPlayers(u16 *, s32);
 static u8 FlipVerticalAndClearForced(u8, u8);
 static u8 LinkPlayerGetCollision(u8, u8, s16, s16);
 static void CreateLinkPlayerSprite(u8, u8);
-static void GetLinkPlayerCoords(u8, u16 *, u16 *);
+static void GetLinkPlayerCoords(u8, s16 *, s16 *);
 static u8 GetLinkPlayerFacingDirection(u8);
 static u8 GetLinkPlayerElevation(u8);
-static s32 GetLinkPlayerObjectStepTimer(u8);
 static u8 GetLinkPlayerIdAt(s16, s16);
 static void SetPlayerFacingDirection(u8, u8);
 static void ZeroObjectEvent(struct ObjectEvent *);
 static void SpawnLinkPlayerObjectEvent(u8, s16, s16, u8);
 static void InitLinkPlayerObjectEventPos(struct ObjectEvent *, s16, s16);
-static void SetLinkPlayerObjectRange(u8, u8);
-static void DestroyLinkPlayerObject(u8);
 static u8 GetSpriteForLinkedPlayer(u8);
 static void RunTerminateLinkScript(void);
 static u32 GetLinkSendQueueLength(void);
@@ -156,7 +161,7 @@ static void InitMenuBasedScript(const u8 *);
 static void LoadCableClubPlayer(s32, s32, struct CableClubPlayer *);
 static bool32 IsCableClubPlayerUnfrozen(struct CableClubPlayer *);
 static bool32 CanCableClubPlayerPressStart(struct CableClubPlayer *);
-static u8 *TryGetTileEventScript(struct CableClubPlayer *);
+static const u8 *TryGetTileEventScript(struct CableClubPlayer *);
 static bool32 PlayerIsAtSouthExit(struct CableClubPlayer *);
 static const u8 *TryInteractWithPlayer(struct CableClubPlayer *);
 static u16 KeyInterCB_DeferToRecvQueue(u32);
@@ -183,14 +188,14 @@ static u16 (*sPlayerKeyInterceptCallback)(u32);
 static bool8 sReceivingFromLink;
 static u8 sRfuKeepAliveTimer;
 
-u16 *gOverworldTilemapBuffer_Bg2;
-u16 *gOverworldTilemapBuffer_Bg1;
-u16 *gOverworldTilemapBuffer_Bg3;
-u16 gHeldKeyCodeToSend;
-void (*gFieldCallback)(void);
-bool8 (*gFieldCallback2)(void);
-u8 gLocalLinkPlayerId; // This is our player id in a multiplayer mode.
-u8 gFieldLinkPlayerCount;
+COMMON_DATA u16 *gOverworldTilemapBuffer_Bg2 = NULL;
+COMMON_DATA u16 *gOverworldTilemapBuffer_Bg1 = NULL;
+COMMON_DATA u16 *gOverworldTilemapBuffer_Bg3 = NULL;
+COMMON_DATA u16 gHeldKeyCodeToSend = 0;
+COMMON_DATA void (*gFieldCallback)(void) = NULL;
+COMMON_DATA bool8 (*gFieldCallback2)(void) = NULL;
+COMMON_DATA u8 gLocalLinkPlayerId = 0; // This is our player id in a multiplayer mode.
+COMMON_DATA u8 gFieldLinkPlayerCount = 0;
 
 EWRAM_DATA static u8 sObjectEventLoadFlag = 0;
 EWRAM_DATA struct WarpData gLastUsedWarp = {0};
@@ -362,9 +367,8 @@ static void (*const sMovementStatusHandler[])(struct LinkPlayerObjectEvent *, st
 void DoWhiteOut(void)
 {
     RunScriptImmediately(EventScript_WhiteOut);
-    #if B_WHITEOUT_MONEY == GEN_3
-    SetMoney(&gSaveBlock1Ptr->money, GetMoney(&gSaveBlock1Ptr->money) / 2);
-    #endif
+    if (B_WHITEOUT_MONEY == GEN_3)
+        SetMoney(&gSaveBlock1Ptr->money, GetMoney(&gSaveBlock1Ptr->money) / 2);
     VarSet(VAR_FORCEANIM, 0);
     HealPlayerParty();
     Overworld_ResetStateAfterWhiteOut();
@@ -403,6 +407,32 @@ void Overworld_ResetStateAfterDigEscRope(void)
     FlagClear(FLAG_SYS_USE_FLASH);
 }
 
+#if B_RESET_FLAGS_VARS_AFTER_WHITEOUT  == TRUE
+void Overworld_ResetBattleFlagsAndVars(void)
+{
+    #if B_VAR_STARTING_STATUS != 0
+        VarSet(B_VAR_STARTING_STATUS, 0);
+    #endif
+
+    #if B_VAR_STARTING_STATUS_TIMER != 0
+        VarSet(B_VAR_STARTING_STATUS_TIMER, 0);
+    #endif
+
+    #if B_VAR_WILD_AI_FLAGS != 0
+        VarSet(B_VAR_WILD_AI_FLAGS,0);
+    #endif
+
+    FlagClear(B_FLAG_INVERSE_BATTLE);
+    FlagClear(B_FLAG_FORCE_DOUBLE_WILD);
+    FlagClear(B_SMART_WILD_AI_FLAG);
+    FlagClear(B_FLAG_NO_BAG_USE);
+    FlagClear(B_FLAG_NO_CATCHING);
+    FlagClear(B_FLAG_NO_RUNNING);
+    FlagClear(B_FLAG_DYNAMAX_BATTLE);
+    FlagClear(B_FLAG_SKY_BATTLE);
+}
+#endif
+
 static void Overworld_ResetStateAfterWhiteOut(void)
 {
     ResetInitialPlayerAvatarState();
@@ -411,9 +441,8 @@ static void Overworld_ResetStateAfterWhiteOut(void)
     FlagClear(FLAG_SYS_SAFARI_MODE);
     FlagClear(FLAG_SYS_USE_STRENGTH);
     FlagClear(FLAG_SYS_USE_FLASH);
-#if VAR_TERRAIN != 0
-    VarSet(VAR_TERRAIN, 0);
-#endif
+    if (B_RESET_FLAGS_VARS_AFTER_WHITEOUT == TRUE)
+        Overworld_ResetBattleFlagsAndVars();
     // If you were defeated by Kyogre/Groudon and the step counter has
     // maxed out, end the abnormal weather.
     if (VarGet(VAR_SHOULD_END_ABNORMAL_WEATHER) == 1)
@@ -429,7 +458,7 @@ static void UpdateMiscOverworldStates(void)
     ChooseAmbientCrySpecies();
     ResetCyclingRoadChallengeData();
     UpdateLocationHistoryForRoamer();
-    RoamerMoveToOtherLocationSet();
+    MoveAllRoamersToOtherLocationSets();
 }
 
 void ResetGameStats(void)
@@ -489,7 +518,7 @@ void LoadObjEventTemplatesFromHeader(void)
 
 void LoadSaveblockObjEventScripts(void)
 {
-    struct ObjectEventTemplate *mapHeaderObjTemplates = gMapHeader.events->objectEvents;
+    const struct ObjectEventTemplate *mapHeaderObjTemplates = gMapHeader.events->objectEvents;
     struct ObjectEventTemplate *savObjTemplates = gSaveBlock1Ptr->objectEventTemplates;
     s32 i;
 
@@ -539,12 +568,9 @@ static void InitMapView(void)
     InitTilesetAnimations();
 }
 
-const struct MapLayout *GetMapLayout(void)
+const struct MapLayout *GetMapLayout(u16 mapLayoutId)
 {
-    u16 mapLayoutId = gSaveBlock1Ptr->mapLayoutId;
-    if (mapLayoutId)
-        return gMapLayouts[mapLayoutId - 1];
-    return NULL;
+    return gMapLayouts[mapLayoutId - 1];
 }
 
 void ApplyCurrentWarp(void)
@@ -601,13 +627,13 @@ static void LoadCurrentMapData(void)
     sLastMapSectionId = gMapHeader.regionMapSectionId;
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
     gSaveBlock1Ptr->mapLayoutId = gMapHeader.mapLayoutId;
-    gMapHeader.mapLayout = GetMapLayout();
+    gMapHeader.mapLayout = GetMapLayout(gMapHeader.mapLayoutId);
 }
 
 static void LoadSaveblockMapHeader(void)
 {
     gMapHeader = *Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
-    gMapHeader.mapLayout = GetMapLayout();
+    gMapHeader.mapLayout = GetMapLayout(gSaveBlock1Ptr->mapLayoutId);
 }
 
 static void SetPlayerCoordsFromWarp(void)
@@ -672,9 +698,19 @@ void SetWarpDestinationToHealLocation(u8 healLocationId)
         SetWarpDestination(healLocation->group, healLocation->map, WARP_ID_NONE, healLocation->x, healLocation->y);
 }
 
+static bool32 IsFRLGWhiteout(void)
+{
+    if (!OW_FRLG_WHITEOUT)
+        return FALSE;
+    return GetHealNpcLocalId(GetHealLocationIndexByWarpData(&gSaveBlock1Ptr->lastHealLocation)) > 0;
+}
+
 void SetWarpDestinationToLastHealLocation(void)
 {
-    sWarpDestination = gSaveBlock1Ptr->lastHealLocation;
+    if (IsFRLGWhiteout())
+        SetWhiteoutRespawnWarpAndHealerNPC(&sWarpDestination);
+    else
+        sWarpDestination = gSaveBlock1Ptr->lastHealLocation;
 }
 
 void SetLastHealLocationWarp(u8 healLocationId)
@@ -806,9 +842,16 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
     LoadObjEventTemplatesFromHeader();
     TrySetMapSaveWarpStatus();
     ClearTempFieldEventData();
+    ResetDexNavSearch();
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
+#if FREE_MATCH_CALL == FALSE
     TryUpdateRandomTrainerRematches(mapGroup, mapNum);
+#endif //FREE_MATCH_CALL
+
+if (I_VS_SEEKER_CHARGING != 0)
+    MapResetTrainerRematches(mapGroup, mapNum);
+
     DoTimeBasedEvents();
     SetSavedWeatherFromCurrMapHeader();
     ChooseAmbientCrySpecies();
@@ -824,13 +867,22 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
 
     InitSecondaryTilesetAnimation();
     UpdateLocationHistoryForRoamer();
-    RoamerMove();
+    MoveAllRoamers();
     DoCurrentWeather();
     ResetFieldTasksArgs();
     RunOnResumeMapScript();
 
-    if (gMapHeader.regionMapSectionId != sLastMapSectionId)
-        ShowMapNamePopup();
+    if (OW_HIDE_REPEAT_MAP_POPUP)
+    {
+        if (gMapHeader.regionMapSectionId != sLastMapSectionId)
+            ShowMapNamePopup();
+    }
+    else
+    {
+        if (gMapHeader.regionMapSectionId != MAPSEC_BATTLE_FRONTIER
+         || gMapHeader.regionMapSectionId != sLastMapSectionId)
+            ShowMapNamePopup();
+    }
 }
 
 static void LoadMapFromWarp(bool32 a1)
@@ -855,9 +907,16 @@ static void LoadMapFromWarp(bool32 a1)
     CheckLeftFriendsSecretBase();
     TrySetMapSaveWarpStatus();
     ClearTempFieldEventData();
+    ResetDexNavSearch();
     ResetCyclingRoadChallengeData();
     RestartWildEncounterImmunitySteps();
+#if FREE_MATCH_CALL == FALSE
     TryUpdateRandomTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+#endif //FREE_MATCH_CALL
+
+if (I_VS_SEEKER_CHARGING != 0)
+     MapResetTrainerRematches(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum);
+
     if (a1 != TRUE)
         DoTimeBasedEvents();
     SetSavedWeatherFromCurrMapHeader();
@@ -868,7 +927,8 @@ static void LoadMapFromWarp(bool32 a1)
     Overworld_ClearSavedMusic();
     RunOnTransitionMapScript();
     UpdateLocationHistoryForRoamer();
-    RoamerMoveToOtherLocationSet();
+    MoveAllRoamersToOtherLocationSets();
+    gChainFishingDexNavStreak = 0;
     if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
         InitBattlePyramidMap(FALSE);
     else if (InTrainerHill())
@@ -1006,7 +1066,7 @@ u8 GetFlashLevel(void)
 void SetCurrentMapLayout(u16 mapLayoutId)
 {
     gSaveBlock1Ptr->mapLayoutId = mapLayoutId;
-    gMapHeader.mapLayout = GetMapLayout();
+    gMapHeader.mapLayout = GetMapLayout(mapLayoutId);
 }
 
 void SetObjectEventLoadFlag(u8 flag)
@@ -1014,8 +1074,8 @@ void SetObjectEventLoadFlag(u8 flag)
     sObjectEventLoadFlag = flag;
 }
 
-// Unused, sObjectEventLoadFlag is read directly
-static u8 GetObjectEventLoadFlag(void)
+// sObjectEventLoadFlag is read directly
+static u8 UNUSED GetObjectEventLoadFlag(void)
 {
     return sObjectEventLoadFlag;
 }
@@ -1114,7 +1174,7 @@ u16 GetCurrLocationDefaultMusic(void)
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE111)
      && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE111)
      && GetSavedWeather() == WEATHER_SANDSTORM)
-        return MUS_ROUTE111;
+        return MUS_DESERT;
 
     music = GetLocationMusic(&gSaveBlock1Ptr->location);
     if (music != MUS_ROUTE118)
@@ -1270,23 +1330,34 @@ static void PlayAmbientCry(void)
     PlayCry_NormalNoDucking(sAmbientCrySpecies, pan, volume, CRY_PRIORITY_AMBIENT);
 }
 
+// States for UpdateAmbientCry
+enum {
+    AMB_CRY_INIT,
+    AMB_CRY_FIRST,
+    AMB_CRY_RESET,
+    AMB_CRY_WAIT,
+    AMB_CRY_IDLE,
+};
+
 void UpdateAmbientCry(s16 *state, u16 *delayCounter)
 {
     u8 i, monsCount, divBy;
 
     switch (*state)
     {
-    case 0:
+    case AMB_CRY_INIT:
+        // This state will be revisited whenever ResetFieldTasksArgs is called (which happens on map transition)
         if (sAmbientCrySpecies == SPECIES_NONE)
-            *state = 4;
+            *state = AMB_CRY_IDLE;
         else
-            *state = 1;
+            *state = AMB_CRY_FIRST;
         break;
-    case 1:
+    case AMB_CRY_FIRST:
+        // It takes between 1200-3599 frames (~20-60 seconds) to play the first ambient cry after entering a map
         *delayCounter = (Random() % 2400) + 1200;
-        *state = 3;
+        *state = AMB_CRY_WAIT;
         break;
-    case 2:
+    case AMB_CRY_RESET:
         divBy = 1;
         monsCount = CalculatePlayerPartyCount();
         for (i = 0; i < monsCount; i++)
@@ -1298,18 +1369,20 @@ void UpdateAmbientCry(s16 *state, u16 *delayCounter)
                 break;
             }
         }
+        // Ambient cries after the first one take between 1200-2399 frames (~20-40 seconds)
+        // If the player has a Pokémon with the ability Swarm in their party, the time is halved to 600-1199 frames (~10-20 seconds)
         *delayCounter = ((Random() % 1200) + 1200) / divBy;
-        *state = 3;
+        *state = AMB_CRY_WAIT;
         break;
-    case 3:
-        (*delayCounter)--;
-        if (*delayCounter == 0)
+    case AMB_CRY_WAIT:
+        if (--(*delayCounter) == 0)
         {
             PlayAmbientCry();
-            *state = 2;
+            *state = AMB_CRY_RESET;
         }
         break;
-    case 4:
+    case AMB_CRY_IDLE:
+        // No land/water Pokémon on this map
         break;
     }
 }
@@ -1320,7 +1393,7 @@ static void ChooseAmbientCrySpecies(void)
      && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE130))
      && !IsMirageIslandPresent())
     {
-        // Only play water pokemon cries on this route
+        // Only play water Pokémon cries on this route
         // when Mirage Island is not present
         sIsAmbientCryWaterMon = TRUE;
         sAmbientCrySpecies = GetLocalWaterMon();
@@ -1442,7 +1515,7 @@ static void DoCB1_Overworld(u16 newKeys, u16 heldKeys)
     UpdatePlayerAvatarTransitionState();
     FieldClearPlayerInput(&inputStruct);
     FieldGetPlayerInput(&inputStruct, newKeys, heldKeys);
-    FieldInput_HandleCancelSignpost(&inputStruct);
+    CancelSignPostMessageBox(&inputStruct);
     if (!ArePlayerFieldControlsLocked())
     {
         if (ProcessPlayerFieldInput(&inputStruct) == 1)
@@ -1489,7 +1562,10 @@ void CB2_Overworld(void)
         SetVBlankCallback(NULL);
     OverworldBasic();
     if (fading)
+    {
         SetFieldVBlankCallback();
+        return;
+    }
 }
 
 void SetMainCallback1(MainCallback cb)
@@ -1561,7 +1637,10 @@ void CB2_WhiteOut(void)
         ResetInitialPlayerAvatarState();
         ScriptContext_Init();
         UnlockPlayerFieldControls();
-        gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+        if (IsFRLGWhiteout())
+            gFieldCallback = FieldCB_RushInjuredPokemonToCenter;
+        else
+            gFieldCallback = FieldCB_WarpExitFadeFromBlack;
         state = 0;
         DoMapLoadLoop(&state);
         SetFieldVBlankCallback();
@@ -1970,6 +2049,10 @@ static bool32 ReturnToFieldLocal(u8 *state)
         ResetScreenForMapLoad();
         ResumeMap(FALSE);
         InitObjectEventsReturnToField();
+        if (gFieldCallback == FieldCallback_UseFly)
+            RemoveFollowingPokemon();
+        else
+            UpdateFollowingPokemon();
         SetCameraToTrackPlayer();
         (*state)++;
         break;
@@ -2162,7 +2245,7 @@ static void InitObjectEventsLink(void)
 
 static void InitObjectEventsLocal(void)
 {
-    s16 x, y;
+    u16 x, y;
     struct InitialPlayerAvatarState *player;
 
     gTotalCameraPixelOffsetX = 0;
@@ -2174,6 +2257,7 @@ static void InitObjectEventsLocal(void)
     SetPlayerAvatarTransitionFlags(player->transitionFlags);
     ResetInitialPlayerAvatarState();
     TrySpawnObjectEvents(0, 0);
+    UpdateFollowingPokemon();
     TryRunOnWarpIntoMapScript();
 }
 
@@ -2658,8 +2742,7 @@ u32 GetCableClubPartnersReady(void)
     return CABLE_SEAT_WAITING;
 }
 
-// Unused
-static bool32 IsAnyPlayerExitingCableClub(void)
+static bool32 UNUSED IsAnyPlayerExitingCableClub(void)
 {
     return IsAnyPlayerInLinkState(PLAYER_LINK_STATE_EXITING_ROOM);
 }
@@ -2724,7 +2807,7 @@ static bool32 CanCableClubPlayerPressStart(struct CableClubPlayer *player)
         return FALSE;
 }
 
-static u8 *TryGetTileEventScript(struct CableClubPlayer *player)
+static const u8 *TryGetTileEventScript(struct CableClubPlayer *player)
 {
     if (player->movementMode != MOVEMENT_MODE_SCRIPTED)
         return FACING_NONE;
@@ -2964,10 +3047,10 @@ static void InitLinkPlayerObjectEventPos(struct ObjectEvent *objEvent, s16 x, s1
     objEvent->previousCoords.y = y;
     SetSpritePosToMapCoords(x, y, &objEvent->initialCoords.x, &objEvent->initialCoords.y);
     objEvent->initialCoords.x += 8;
-    ObjectEventUpdateElevation(objEvent);
+    ObjectEventUpdateElevation(objEvent, NULL);
 }
 
-static void SetLinkPlayerObjectRange(u8 linkPlayerId, u8 dir)
+static void UNUSED SetLinkPlayerObjectRange(u8 linkPlayerId, u8 dir)
 {
     if (gLinkPlayerObjectEvents[linkPlayerId].active)
     {
@@ -2977,7 +3060,7 @@ static void SetLinkPlayerObjectRange(u8 linkPlayerId, u8 dir)
     }
 }
 
-static void DestroyLinkPlayerObject(u8 linkPlayerId)
+static void UNUSED DestroyLinkPlayerObject(u8 linkPlayerId)
 {
     struct LinkPlayerObjectEvent *linkPlayerObjEvent = &gLinkPlayerObjectEvents[linkPlayerId];
     u8 objEventId = linkPlayerObjEvent->objEventId;
@@ -2996,7 +3079,7 @@ static u8 GetSpriteForLinkedPlayer(u8 linkPlayerId)
     return objEvent->spriteId;
 }
 
-static void GetLinkPlayerCoords(u8 linkPlayerId, u16 *x, u16 *y)
+static void GetLinkPlayerCoords(u8 linkPlayerId, s16 *x, s16 *y)
 {
     u8 objEventId = gLinkPlayerObjectEvents[linkPlayerId].objEventId;
     struct ObjectEvent *objEvent = &gObjectEvents[objEventId];
@@ -3018,7 +3101,7 @@ static u8 GetLinkPlayerElevation(u8 linkPlayerId)
     return objEvent->currentElevation;
 }
 
-static s32 GetLinkPlayerObjectStepTimer(u8 linkPlayerId)
+static s32 UNUSED GetLinkPlayerObjectStepTimer(u8 linkPlayerId)
 {
     u8 objEventId = gLinkPlayerObjectEvents[linkPlayerId].objEventId;
     struct ObjectEvent *objEvent = &gObjectEvents[objEventId];
@@ -3051,7 +3134,7 @@ static void SetPlayerFacingDirection(u8 linkPlayerId, u8 facing)
     {
         if (facing > FACING_FORCED_RIGHT)
         {
-            objEvent->triggerGroundEffectsOnMove = 1;
+            objEvent->triggerGroundEffectsOnMove = TRUE;
         }
         else
         {
@@ -3104,7 +3187,7 @@ static bool8 FacingHandler_DpadMovement(struct LinkPlayerObjectEvent *linkPlayer
     {
         objEvent->directionSequenceIndex = 16;
         ShiftObjectEventCoords(objEvent, x, y);
-        ObjectEventUpdateElevation(objEvent);
+        ObjectEventUpdateElevation(objEvent, NULL);
         return TRUE;
     }
 }
@@ -3200,7 +3283,7 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, u8 gameVersion)
         sprite = &gSprites[objEvent->spriteId];
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = linkPlayerId;
-        objEvent->triggerGroundEffectsOnMove = 0;
+        objEvent->triggerGroundEffectsOnMove = FALSE;
     }
 }
 
@@ -3225,3 +3308,210 @@ static void SpriteCB_LinkPlayer(struct Sprite *sprite)
         sprite->data[7]++;
     }
 }
+
+// ----------------
+// Item Header Descriptions
+// Item Description Header
+
+#define ITEM_ICON_X     26
+#define ITEM_ICON_Y     24
+#define ITEM_TAG        0x2722 //same as money label
+
+bool8 GetSetItemObtained(u16 item, enum ItemObtainFlags caseId)
+{
+#if OW_SHOW_ITEM_DESCRIPTIONS == OW_ITEM_DESCRIPTIONS_FIRST_TIME
+    u8 index = item / 8;
+    u8 bit = item % 8;
+    u8 mask = 1 << bit;
+    switch (caseId)
+    {
+    case FLAG_GET_ITEM_OBTAINED:
+        return gSaveBlock3Ptr->itemFlags[index] & mask;
+    case FLAG_SET_ITEM_OBTAINED:
+        gSaveBlock3Ptr->itemFlags[index] |= mask;
+        return TRUE;
+    }
+#endif
+    return FALSE;
+}
+
+#if OW_SHOW_ITEM_DESCRIPTIONS != OW_ITEM_DESCRIPTIONS_OFF
+
+EWRAM_DATA static u8 sHeaderBoxWindowId = 0;
+EWRAM_DATA u8 sItemIconSpriteId = 0;
+EWRAM_DATA u8 sItemIconSpriteId2 = 0;
+
+static void ShowItemIconSprite(u16 item, bool8 firstTime, bool8 flash);
+static void DestroyItemIconSprite(void);
+
+static u8 ReformatItemDescription(u16 item, u8 *dest)
+{
+    u8 count = 0;
+    u8 numLines = 1;
+    u8 maxChars = 32;
+    u8 *desc = (u8 *)gItemsInfo[item].description;
+
+    while (*desc != EOS)
+    {
+        if (count >= maxChars)
+        {
+            while (*desc != CHAR_SPACE && *desc != CHAR_NEWLINE)
+            {
+                *dest = *desc;  //finish word
+                dest++;
+                desc++;
+            }
+
+            *dest = CHAR_NEWLINE;
+            count = 0;
+            numLines++;
+            dest++;
+            desc++;
+            continue;
+        }
+
+        *dest = *desc;
+        if (*desc == CHAR_NEWLINE)
+        {
+            *dest = CHAR_SPACE;
+        }
+
+        dest++;
+        desc++;
+        count++;
+    }
+
+    // finish string
+    *dest = EOS;
+    return numLines;
+}
+
+void ScriptShowItemDescription(struct ScriptContext *ctx)
+{
+    u8 headerType = ScriptReadByte(ctx);
+
+    Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    struct WindowTemplate template;
+    u16 item = gSpecialVar_0x8006;
+    u8 textY;
+    u8 *dst;
+    bool8 handleFlash = FALSE;
+
+    if (GetFlashLevel() > 0 || InBattlePyramid_())
+        handleFlash = TRUE;
+
+    if (headerType == 1) // berry
+        dst = gStringVar3;
+    else
+        dst = gStringVar1;
+
+    if (GetSetItemObtained(item, FLAG_GET_ITEM_OBTAINED))
+    {
+        ShowItemIconSprite(item, FALSE, handleFlash);
+        return; //no box if item obtained previously
+    }
+
+    SetWindowTemplateFields(&template, 0, 1, 1, 28, 3, 15, 8);
+    sHeaderBoxWindowId = AddWindow(&template);
+    FillWindowPixelBuffer(sHeaderBoxWindowId, PIXEL_FILL(0));
+    PutWindowTilemap(sHeaderBoxWindowId);
+    CopyWindowToVram(sHeaderBoxWindowId, 3);
+    SetStandardWindowBorderStyle(sHeaderBoxWindowId, FALSE);
+    DrawStdFrameWithCustomTileAndPalette(sHeaderBoxWindowId, FALSE, 0x214, 14);
+
+    if (ReformatItemDescription(item, dst) == 1)
+        textY = 4;
+    else
+        textY = 0;
+
+    ShowItemIconSprite(item, TRUE, handleFlash);
+    AddTextPrinterParameterized(sHeaderBoxWindowId, 0, dst, ITEM_ICON_X + 2, textY, 0, NULL);
+}
+
+void ScriptHideItemDescription(struct ScriptContext *ctx)
+{
+    Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
+
+    DestroyItemIconSprite();
+
+    if (!GetSetItemObtained(gSpecialVar_0x8006, FLAG_GET_ITEM_OBTAINED))
+    {
+        //header box only exists if haven't seen item before
+        GetSetItemObtained(gSpecialVar_0x8006, FLAG_SET_ITEM_OBTAINED);
+        ClearStdWindowAndFrameToTransparent(sHeaderBoxWindowId, FALSE);
+        CopyWindowToVram(sHeaderBoxWindowId, 3);
+        RemoveWindow(sHeaderBoxWindowId);
+    }
+}
+
+static void ShowItemIconSprite(u16 item, bool8 firstTime, bool8 flash)
+{
+    s16 x = 0, y = 0;
+    u8 iconSpriteId;
+    u8 spriteId2 = MAX_SPRITES;
+
+    if (flash)
+    {
+        SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON);
+        SetGpuRegBits(REG_OFFSET_WINOUT, WINOUT_WINOBJ_OBJ);
+    }
+
+    iconSpriteId = AddItemIconSprite(ITEM_TAG, ITEM_TAG, item);
+    if (flash)
+        spriteId2 = AddItemIconSprite(ITEM_TAG, ITEM_TAG, item);
+    if (iconSpriteId != MAX_SPRITES)
+    {
+        if (!firstTime)
+        {
+            //show in message box
+            x = 213;
+            y = 140;
+        }
+        else
+        {
+            // show in header box
+            x = ITEM_ICON_X;
+            y = ITEM_ICON_Y;
+        }
+
+        gSprites[iconSpriteId].x2 = x;
+        gSprites[iconSpriteId].y2 = y;
+        gSprites[iconSpriteId].oam.priority = 0;
+    }
+
+    if (spriteId2 != MAX_SPRITES)
+    {
+        gSprites[spriteId2].x2 = x;
+        gSprites[spriteId2].y2 = y;
+        gSprites[spriteId2].oam.priority = 0;
+        gSprites[spriteId2].oam.objMode = ST_OAM_OBJ_WINDOW;
+        sItemIconSpriteId2 = spriteId2;
+    }
+
+    sItemIconSpriteId = iconSpriteId;
+}
+
+static void DestroyItemIconSprite(void)
+{
+    FreeSpriteTilesByTag(ITEM_TAG);
+    FreeSpritePaletteByTag(ITEM_TAG);
+    FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId]);
+    DestroySprite(&gSprites[sItemIconSpriteId]);
+
+    if ((GetFlashLevel() > 0 || InBattlePyramid_()) && sItemIconSpriteId2 != MAX_SPRITES)
+    {
+        FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId2]);
+        DestroySprite(&gSprites[sItemIconSpriteId2]);
+    }
+}
+
+#else
+void ScriptShowItemDescription(struct ScriptContext *ctx)
+{
+    (void) ScriptReadByte(ctx);
+}
+void ScriptHideItemDescription(struct ScriptContext *ctx)
+{
+}
+#endif // OW_SHOW_ITEM_DESCRIPTIONS

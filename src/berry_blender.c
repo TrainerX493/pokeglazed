@@ -174,8 +174,8 @@ struct BerryBlender
     u16 progressBarValue;
     u16 maxProgressBarValue;
     u16 centerScale;
-    u16 bg_X;
-    u16 bg_Y;
+    s16 bg_X;
+    s16 bg_Y;
     u8 opponentTaskIds[BLENDER_MAX_PLAYERS - 1];
     u8 perfectOpponents; // for debugging, NPCs will always hit Best
     u16 scores[BLENDER_MAX_PLAYERS][NUM_SCORE_TYPES];
@@ -246,7 +246,7 @@ static s16 sPokeblockPresentFlavors[FLAVOR_COUNT + 1];
 static s16 sDebug_MaxRPMStage;
 static s16 sDebug_GameTimeStage;
 
-u8 gInGameOpponentsNo;
+COMMON_DATA u8 gInGameOpponentsNo = 0;
 
 static const u16 sBlenderCenter_Pal[] = INCBIN_U16("graphics/berry_blender/center.gbapal");
 static const u8 sBlenderCenter_Tilemap[] = INCBIN_U8("graphics/berry_blender/center_map.bin");
@@ -255,35 +255,20 @@ static const u16 sBlenderOuter_Pal[] = INCBIN_U16("graphics/berry_blender/outer.
 static const u16 sUnused_Pal[] = INCBIN_U16("graphics/berry_blender/unused.gbapal");
 static const u16 sEmpty_Pal[16 * 14] = {0};
 
-// unused text
-static const u8 sUnusedText_YesNo[] = _("YES\nNO");
-static const u8 sUnusedText_2[] = _("▶");
-static const u8 sUnusedText_Space[] = _(" ");
-static const u8 sUnusedText_Terminating[] = _("Terminating.");
-static const u8 sUnusedText_LinkPartnerNotFound[] = _("Link partner(s) not found.\nPlease try again.\p");
-
 static const u8 sText_BerryBlenderStart[] = _("Starting up the BERRY BLENDER.\pPlease select a BERRY from your BAG\nto put in the BERRY BLENDER.\p");
 static const u8 sText_NewParagraph[] = _("\p");
 static const u8 sText_WasMade[] = _(" was made!");
-static const u8 sText_Mister[] = _("MISTER");
-static const u8 sText_Laddie[] = _("LADDIE");
-static const u8 sText_Lassie[] = _("LASSIE");
-static const u8 sText_Master[] = _("MASTER");
-static const u8 sText_Dude[] = _("DUDE");
-static const u8 sText_Miss[] = _("MISS");
 
 static const u8 *const sBlenderOpponentsNames[] =
 {
-    [BLENDER_MISTER] = sText_Mister,
-    [BLENDER_LADDIE] = sText_Laddie,
-    [BLENDER_LASSIE] = sText_Lassie,
-    [BLENDER_MASTER] = sText_Master,
-    [BLENDER_DUDE]   = sText_Dude,
-    [BLENDER_MISS]   = sText_Miss
+    [BLENDER_MISTER] = COMPOUND_STRING("MISTER"),
+    [BLENDER_LADDIE] = COMPOUND_STRING("LADDIE"),
+    [BLENDER_LASSIE] = COMPOUND_STRING("LASSIE"),
+    [BLENDER_MASTER] = COMPOUND_STRING("MASTER"),
+    [BLENDER_DUDE]   = COMPOUND_STRING("DUDE"),
+    [BLENDER_MISS]   = COMPOUND_STRING("MISS"),
 };
 
-static const u8 sText_PressAToStart[] = _("Press the A Button to start.");
-static const u8 sText_PleaseWaitAWhile[] = _("Please wait a while.");
 static const u8 sText_CommunicationStandby[] = _("Communication standby…");
 static const u8 sText_WouldLikeToBlendAnotherBerry[] = _("Would you like to blend another BERRY?");
 static const u8 sText_RunOutOfBerriesForBlending[] = _("You've run out of BERRIES for\nblending in the BERRY BLENDER.\p");
@@ -291,7 +276,6 @@ static const u8 sText_YourPokeblockCaseIsFull[] = _("Your {POKEBLOCK} CASE is fu
 static const u8 sText_HasNoBerriesToPut[] = _(" has no BERRIES to put in\nthe BERRY BLENDER.");
 static const u8 sText_ApostropheSPokeblockCaseIsFull[] = _("'s {POKEBLOCK} CASE is full.\p");
 static const u8 sText_BlendingResults[] = _("RESULTS OF BLENDING");
-static const u8 sText_BerryUsed[] = _("BERRY USED");
 static const u8 sText_SpaceBerry[] = _(" BERRY");
 static const u8 sText_Time[] = _("Time:");
 static const u8 sText_Min[] = _(" min. ");
@@ -300,7 +284,6 @@ static const u8 sText_MaximumSpeed[] = _("MAXIMUM SPEED");
 static const u8 sText_RPM[] = _(" RPM");
 static const u8 sText_Dot[] = _(".");
 static const u8 sText_NewLine[] = _("\n");
-static const u8 sText_Space[] = _(" ");
 static const u8 sText_Ranking[] = _("RANKING");
 static const u8 sText_TheLevelIs[] = _("The level is ");
 static const u8 sText_TheFeelIs[] = _(", and the feel is ");
@@ -916,14 +899,14 @@ static const u8 sBlackPokeblockFlavorFlags[] = {
     (1 << FLAVOR_SOUR)   | (1 << FLAVOR_SWEET)  | (1 << FLAVOR_SPICY),
 };
 
-static const u8 sUnused[] =
-{
-    0xfe, 0x02, 0x02, 0xce, 0xd0, 0x37, 0x44, 0x07, 0x1f, 0x0c, 0x10,
-    0x00, 0xff, 0xfe, 0x91, 0x72, 0xce, 0xd0, 0x37, 0x44, 0x07, 0x1f,
-    0x0c, 0x10, 0x00, 0xff, 0x06, 0x27, 0x02, 0xff, 0x00, 0x0c, 0x48,
-    0x02, 0xff, 0x00, 0x01, 0x1f, 0x02, 0xff, 0x00, 0x16, 0x37, 0x02,
-    0xff, 0x00, 0x0d, 0x50, 0x4b, 0x02, 0xff, 0x06, 0x06, 0x06, 0x06,
-    0x05, 0x03, 0x03, 0x03, 0x02, 0x02, 0x03, 0x03, 0x03, 0x03, 0x02
+static const u8 sJPText_GoodTvReady[] = _("\nいいTVができました "); // Unused
+static const u8 sJPText_BadTvReady[] = _("\nダメTVができました "); // Unused
+static const u8 sJPText_Flavors[][5] = {_("からい"), _("しぶい"), _("あまい"), _("にがい"), _("すっぱい")}; // Unused
+
+static const u8 sUnused[] = {
+    6, 6, 6, 6, 5,
+    3, 3, 3, 2, 2,
+    3, 3, 3, 3, 2
 };
 
 static const struct WindowTemplate sBlenderRecordWindowTemplate =
@@ -1033,11 +1016,12 @@ static void InitBerryBlenderWindows(void)
         s32 i;
 
         DeactivateAllTextPrinters();
-        for (i = 0; i < 5; i++)
+        // Initialize only the main text windows (player names and message box; excludes results screen)
+        for (i = 0; i < WIN_RESULTS; i++)
             FillWindowPixelBuffer(i, PIXEL_FILL(0));
 
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, DISPLAY_TILE_WIDTH, DISPLAY_TILE_HEIGHT);
-        Menu_LoadStdPalAt(0xE0);
+        Menu_LoadStdPalAt(BG_PLTT_ID(14));
     }
 }
 
@@ -1142,68 +1126,84 @@ static void CB2_LoadBerryBlender(void)
     UpdatePaletteFade();
 }
 
-#define sTargetY       data[0]
-#define sX             data[1]
-#define sY             data[2]
-#define sBounceSpeed   data[3]
-#define sYUpSpeed      data[4]
-#define sBounces       data[5]
-#define sXSpeed        data[6]
-#define sYDownSpeed    data[7]
+// Because of changing how Berry sprites are generated, we have to leave data[6] and data[7] untouched as it has an allocated memory ptr for berry's gfx.
+struct BerrySpriteData
+{
+    s16 sTargetY; // data0
+    s16 sX; // data1
+    s16 sY; // data2
+
+    s8 sBounceSpeed; // data3
+    u8 berryId; // data3
+
+    s8 sYUpSpeed; // data4
+    s8 sBounces; // data4
+
+    s8 sXSpeed; // data5
+    s8 sYDownSpeed; // data5
+};
+
+static inline struct BerrySpriteData *GetBerrySpriteDataAsStructPtr(struct Sprite *sprite)
+{
+    return (void *)(&sprite->data[0]);
+}
 
 // For throwing berries into the machine
 static void SpriteCB_Berry(struct Sprite *sprite)
 {
-    sprite->sX += sprite->sXSpeed;
-    sprite->sY -= sprite->sYUpSpeed;
-    sprite->sY += sprite->sYDownSpeed;
-    sprite->sTargetY += sprite->sYDownSpeed;
-    sprite->sYUpSpeed--;
+    struct BerrySpriteData *spriteData = GetBerrySpriteDataAsStructPtr(sprite);
 
-    if (sprite->sTargetY < sprite->sY)
+    spriteData->sX += spriteData->sXSpeed;
+    spriteData->sY -= spriteData->sYUpSpeed;
+    spriteData->sY += spriteData->sYDownSpeed;
+    spriteData->sTargetY += spriteData->sYDownSpeed;
+    spriteData->sYUpSpeed--;
+
+    if (spriteData->sTargetY < spriteData->sY)
     {
-        sprite->sBounceSpeed = sprite->sYUpSpeed = sprite->sBounceSpeed - 1;
+        spriteData->sBounceSpeed = spriteData->sYUpSpeed = spriteData->sBounceSpeed - 1;
 
-        if (++sprite->sBounces > 3)
-            DestroySprite(sprite);
+        if (++spriteData->sBounces > 3)
+        {
+            DestroyBerryIconSpritePtr(sprite, spriteData->berryId, TRUE);
+            return;
+        }
         else
+        {
             PlaySE(SE_BALL_TRAY_EXIT);
+        }
     }
-    sprite->x = sprite->sX;
-    sprite->y = sprite->sY;
+    sprite->x = spriteData->sX;
+    sprite->y = spriteData->sY;
 }
 
-static void SetBerrySpriteData(struct Sprite *sprite, s16 x, s16 y, s16 bounceSpeed, s16 xSpeed, s16 ySpeed)
+static void SetBerrySpriteData(struct Sprite *sprite, s32 x, s32 y, s32 bounceSpeed, s32 xSpeed, s32 ySpeed, u32 berryId)
 {
-    sprite->sTargetY = y;
-    sprite->sX = x;
-    sprite->sY = y;
-    sprite->sBounceSpeed = bounceSpeed;
-    sprite->sYUpSpeed = 10;
-    sprite->sBounces = 0;
-    sprite->sXSpeed = xSpeed;
-    sprite->sYDownSpeed = ySpeed;
+    struct BerrySpriteData *spriteData = GetBerrySpriteDataAsStructPtr(sprite);
+
+    spriteData->sTargetY = y;
+    spriteData->sX = x;
+    spriteData->sY = y;
+    spriteData->sBounceSpeed = bounceSpeed;
+    spriteData->sYUpSpeed = 10;
+    spriteData->sBounces = 0;
+    spriteData->sXSpeed = xSpeed;
+    spriteData->sYDownSpeed = ySpeed;
+    spriteData->berryId = berryId;
     sprite->callback = SpriteCB_Berry;
 }
 
-#undef sTargetY
-#undef sX
-#undef sY
-#undef sBounceSpeed
-#undef sYUpSpeed
-#undef sBounces
-#undef sXSpeed
-#undef sYDownSpeed
-
-static void CreateBerrySprite(u16 itemId, u8 playerId)
+static void CreateBerrySprite(u32 itemId, u32 playerId)
 {
-    u8 spriteId = CreateSpinningBerrySprite(ITEM_TO_BERRY(itemId) - 1, 0, 80, playerId & 1);
+    u32 berryId = ITEM_TO_BERRY(itemId) - 1;
+    u32 spriteId = CreateSpinningBerrySprite(berryId, 0, 80, playerId & 1);
     SetBerrySpriteData(&gSprites[spriteId],
                         sBerrySpriteData[playerId][0],
                         sBerrySpriteData[playerId][1],
                         sBerrySpriteData[playerId][2],
                         sBerrySpriteData[playerId][3],
-                        sBerrySpriteData[playerId][4]);
+                        sBerrySpriteData[playerId][4],
+                        berryId);
 }
 
 static void ConvertItemToBlenderBerry(struct BlenderBerry* berry, u16 itemId)
@@ -1692,13 +1692,14 @@ static void CB2_StartBlenderLocal(void)
             u32 playerId = sPlayerIdMap[sBerryBlender->numPlayers - 2][i];
             if (sBerryBlender->playerToThrowBerry == playerId)
             {
-                CreateBerrySprite(sBerryBlender->chosenItemId[sBerryBlender->playerToThrowBerry], i);
-                break;
+                CreateBerrySprite(sBerryBlender->chosenItemId[sBerryBlender->playerToThrowBerry++], i);
+                // If we're throwing all at once, continue the loop. If not, break out of the loop(vanilla behavior).
+                if (!BERRY_BLENDER_THROW_ALL_BERRIES_AT_ONCE)
+                    break;
             }
         }
         sBerryBlender->framesToWait = 0;
         sBerryBlender->mainState++;
-        sBerryBlender->playerToThrowBerry++;
         break;
     case 12:
         if (++sBerryBlender->framesToWait > 60)
@@ -1907,7 +1908,7 @@ static void Task_HandleOpponent1(u8 taskId)
 static void Task_HandleOpponent2(u8 taskId)
 {
     u32 var1 = (sBerryBlender->arrowPos + 0x1800) & 0xFFFF;
-    u32 arrowId = sBerryBlender->playerIdToArrowId[2] & 0xFF;
+    u8 arrowId = sBerryBlender->playerIdToArrowId[2];
     if ((var1 >> 8) > sArrowHitRangeStart[arrowId] + 20 && (var1 >> 8) < sArrowHitRangeStart[arrowId] + 40)
     {
         if (!gTasks[taskId].tDidInput)
@@ -1924,11 +1925,9 @@ static void Task_HandleOpponent2(u8 taskId)
                 }
                 else
                 {
-                    u8 value;
                     if (rand > 65)
                         gRecvCmds[2][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_BEST;
-                    value = rand - 41;
-                    if (value < 25)
+                    if (rand > 40 && rand <= 65)
                         gRecvCmds[2][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_GOOD;
                     if (rand < 10)
                         CreateOpponentMissTask(2, 5);
@@ -1952,7 +1951,7 @@ static void Task_HandleOpponent2(u8 taskId)
 static void Task_HandleOpponent3(u8 taskId)
 {
     u32 var1 = (sBerryBlender->arrowPos + 0x1800) & 0xFFFF;
-    u32 arrowId = sBerryBlender->playerIdToArrowId[3] & 0xFF;
+    u8 arrowId = sBerryBlender->playerIdToArrowId[3];
     if ((var1 >> 8) > sArrowHitRangeStart[arrowId] + 20 && (var1 >> 8) < sArrowHitRangeStart[arrowId] + 40)
     {
         if (gTasks[taskId].data[0] == 0)
@@ -1970,16 +1969,9 @@ static void Task_HandleOpponent3(u8 taskId)
                 else
                 {
                     if (rand > 60)
-                    {
                         gRecvCmds[3][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_BEST;
-                    }
-                    else
-                    {
-                        s8 value = rand - 56; // makes me wonder what the original code was
-                        u8 value2 = value;
-                        if (value2 < 5)
-                            gRecvCmds[3][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_GOOD;
-                    }
+                    else if (rand > 55 && rand <= 60)
+                        gRecvCmds[3][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_GOOD;
                     if (rand < 5)
                         CreateOpponentMissTask(3, 5);
                 }
@@ -2049,7 +2041,8 @@ static void UpdateSpeedFromHit(u16 cmd)
     switch (cmd)
     {
     case LINKCMD_BLENDER_SCORE_BEST:
-        if (sBerryBlender->speed < 1500) {
+        if (sBerryBlender->speed < 1500)
+        {
             sBerryBlender->speed += (384 / sNumPlayersToSpeedDivisor[sBerryBlender->numPlayers]);
         }
         else
@@ -2376,8 +2369,7 @@ static void Debug_SetMaxRPMStage(s16 value)
     sDebug_MaxRPMStage = value;
 }
 
-// Unused
-static s16 Debug_GetMaxRPMStage(void)
+static s16 UNUSED Debug_GetMaxRPMStage(void)
 {
     return sDebug_MaxRPMStage;
 }
@@ -2387,8 +2379,7 @@ static void Debug_SetGameTimeStage(s16 value)
     sDebug_GameTimeStage = value;
 }
 
-// Unued
-static s16 Debug_GetGameTimeStage(void)
+static s16 UNUSED Debug_GetGameTimeStage(void)
 {
     return sDebug_GameTimeStage;
 }
@@ -2500,8 +2491,7 @@ static void CalculatePokeblock(struct BlenderBerry *berries, struct Pokeblock *p
         flavors[i] = sPokeblockFlavors[i];
 }
 
-// Unused
-static void Debug_CalculatePokeblock(struct BlenderBerry* berries, struct Pokeblock* pokeblock, u8 numPlayers, u8 *flavors, u16 maxRPM)
+static void UNUSED Debug_CalculatePokeblock(struct BlenderBerry* berries, struct Pokeblock* pokeblock, u8 numPlayers, u8 *flavors, u16 maxRPM)
 {
     CalculatePokeblock(berries, pokeblock, numPlayers, flavors, maxRPM);
 }
@@ -3108,10 +3098,10 @@ static void DrawBlenderCenter(struct BgAffineSrcData *dest)
 {
     struct BgAffineSrcData affineSrc;
 
-    affineSrc.texX = 0x7800;
-    affineSrc.texY = 0x5000;
-    affineSrc.scrX = 0x78 - sBerryBlender->bg_X;
-    affineSrc.scrY = 0x50 - sBerryBlender->bg_Y;
+    affineSrc.texX = (DISPLAY_WIDTH / 2) << 8;
+    affineSrc.texY = (DISPLAY_HEIGHT / 2) << 8;
+    affineSrc.scrX = DISPLAY_WIDTH / 2 - sBerryBlender->bg_X;
+    affineSrc.scrY = DISPLAY_HEIGHT / 2 - sBerryBlender->bg_Y;
     affineSrc.sx = sBerryBlender->centerScale;
     affineSrc.sy = sBerryBlender->centerScale;
     affineSrc.alpha = sBerryBlender->arrowPos;
@@ -3470,7 +3460,7 @@ static bool8 PrintBlendingResults(void)
     struct Pokeblock pokeblock;
     u8 flavors[FLAVOR_COUNT + 1];
     u8 text[40];
-    u16 berryIds[4]; // unused
+    u16 UNUSED berryIds[4];
 
     switch (sBerryBlender->mainState)
     {
@@ -3865,6 +3855,9 @@ static void Blender_AddTextPrinter(u8 windowId, const u8 *string, u8 x, u8 y, s3
     {
     case 0:
     case 3:
+#ifdef UBFIX
+    default:
+#endif
         txtColor[0] = TEXT_COLOR_WHITE;
         txtColor[1] = TEXT_COLOR_DARK_GRAY;
         txtColor[2] = TEXT_COLOR_LIGHT_GRAY;

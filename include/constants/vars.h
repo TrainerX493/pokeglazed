@@ -4,12 +4,12 @@
 #define VARS_START 0x4000
 
 // temporary vars
-// The first 0x10 vars are are temporary--they are cleared every time a map is loaded.
+// The first 0x10 vars are temporary--they are cleared every time a map is loaded.
 #define TEMP_VARS_START            0x4000
 #define VAR_TEMP_0                 (TEMP_VARS_START + 0x0)
 #define VAR_TEMP_1                 (TEMP_VARS_START + 0x1)
 #define VAR_TEMP_2                 (TEMP_VARS_START + 0x2)
-#define VAR_TEMP_3                 (TEMP_VARS_START + 0x3)
+#define VAR_TEMP_3                 (TEMP_VARS_START + 0x3) // Note: Used when the player checks a TV
 #define VAR_TEMP_4                 (TEMP_VARS_START + 0x4)
 #define VAR_TEMP_5                 (TEMP_VARS_START + 0x5)
 #define VAR_TEMP_6                 (TEMP_VARS_START + 0x6)
@@ -23,6 +23,7 @@
 #define VAR_TEMP_E                 (TEMP_VARS_START + 0xE)
 #define VAR_TEMP_F                 (TEMP_VARS_START + 0xF)
 #define TEMP_VARS_END              VAR_TEMP_F
+#define NUM_TEMP_VARS              (TEMP_VARS_END - TEMP_VARS_START + 1)
 
 // object gfx id vars
 // These 0x10 vars are used to dynamically control a map object's sprite.
@@ -300,7 +301,7 @@
 #define VAR_MON_BOX_ID                0x8012
 #define VAR_MON_BOX_POS               0x8013
 #define VAR_UNUSED_0x8014             0x8014
-#define VAR_TRAINER_BATTLE_OPPONENT_A 0x8015 // Alias of gTrainerBattleOpponent_A
+#define VAR_TRAINER_BATTLE_OPPONENT_A 0x8015 // Alias of TRAINER_BATTLE_PARAM.opponentA
 
 #define SPECIAL_VARS_END              0x8015
 
@@ -309,5 +310,30 @@
 // global script context. This means it will run faster, but cannot do any
 // cutscenes nor call a wait command. Used for weather effects in vanilla.
 #define TRIGGER_RUN_IMMEDIATELY   0
+
+// Temp var aliases
+#define VAR_TEMP_CHALLENGE_STATUS  VAR_TEMP_0
+
+#define VAR_TEMP_MIXED_RECORDS         VAR_TEMP_0
+#define VAR_TEMP_RECORD_MIX_GIFT_ITEM  VAR_TEMP_1
+
+#define VAR_TEMP_PLAYING_PYRAMID_MUSIC  VAR_TEMP_E
+
+#define VAR_TEMP_FRONTIER_TUTOR_SELECTION  VAR_TEMP_D
+#define VAR_TEMP_FRONTIER_TUTOR_ID         VAR_TEMP_E
+
+#define VAR_TEMP_TRANSFERRED_SPECIES  VAR_TEMP_1
+
+#if TESTING
+#define TESTING_VARS_START             0x9000
+#define TESTING_VAR_DIFFICULTY         (TESTING_VARS_START + 0x0)
+#define TESTING_VAR_UNUSED_1           (TESTING_VARS_START + 0x1)
+#define TESTING_VAR_UNUSED_2           (TESTING_VARS_START + 0x2)
+#define TESTING_VAR_UNUSED_3           (TESTING_VARS_START + 0x3)
+#define TESTING_VAR_UNUSED_4           (TESTING_VARS_START + 0x4)
+#define TESTING_VAR_UNUSED_5           (TESTING_VARS_START + 0x5)
+#define TESTING_VAR_UNUSED_6           (TESTING_VARS_START + 0x6)
+#define TESTING_VAR_UNUSED_7           (TESTING_VARS_START + 0x7)
+#endif // TESTING
 
 #endif // GUARD_CONSTANTS_VARS_H

@@ -55,10 +55,7 @@ struct LinkTestBGInfo
 static struct BlockTransfer sBlockSend;
 static struct BlockTransfer sBlockRecv[MAX_LINK_PLAYERS];
 static u32 sBlockSendDelayCounter;
-static bool32 sDummy1; // Never read
-static bool8 sDummy2; // Never assigned, read in unused function
 static u32 sPlayerDataExchangeStatus;
-static bool32 sDummy3; // Never read
 static u8 sLinkTestLastBlockSendPos;
 static u8 sLinkTestLastBlockRecvPos[MAX_LINK_PLAYERS];
 static u8 sNumVBlanksWithoutSerialIntr;
@@ -68,41 +65,34 @@ static u16 sRecvNonzeroCheck;
 static u8 sChecksumAvailable;
 static u8 sHandshakePlayerCount;
 
-u16 gLinkPartnersHeldKeys[6];
-u32 gLinkDebugSeed;
-struct LinkPlayerBlock gLocalLinkPlayerBlock;
-bool8 gLinkErrorOccurred;
-u32 gLinkDebugFlags;
-u32 gLinkFiller1;
-bool8 gRemoteLinkPlayersNotReceived[MAX_LINK_PLAYERS];
-u8 gBlockReceivedStatus[MAX_LINK_PLAYERS];
-u32 gLinkFiller2;
-u16 gLinkHeldKeys;
-u16 gRecvCmds[MAX_RFU_PLAYERS][CMD_LENGTH];
-u32 gLinkStatus;
-bool8 gLinkDummy1; // Never read
-bool8 gLinkDummy2; // Never read
-bool8 gReadyToExitStandby[MAX_LINK_PLAYERS];
-bool8 gReadyToCloseLink[MAX_LINK_PLAYERS];
-u16 gReadyCloseLinkType; // Never read
-u8 gSuppressLinkErrorMessage;
-bool8 gWirelessCommType;
-bool8 gSavedLinkPlayerCount;
-u16 gSendCmd[CMD_LENGTH];
-u8 gSavedMultiplayerId;
-bool8 gReceivedRemoteLinkPlayers;
-struct LinkTestBGInfo gLinkTestBGInfo;
-void (*gLinkCallback)(void);
-u8 gShouldAdvanceLinkState;
-u16 gLinkTestBlockChecksums[MAX_LINK_PLAYERS];
-u8 gBlockRequestType;
-u32 gLinkFiller3;
-u32 gLinkFiller4;
-u32 gLinkFiller5;
-u8 gLastSendQueueCount;
-struct Link gLink;
-u8 gLastRecvQueueCount;
-u16 gLinkSavedIme;
+COMMON_DATA u16 gLinkPartnersHeldKeys[6] = {0};
+COMMON_DATA u32 gLinkDebugSeed = 0;
+COMMON_DATA struct LinkPlayerBlock gLocalLinkPlayerBlock = {0};
+COMMON_DATA bool8 gLinkErrorOccurred = 0;
+COMMON_DATA u32 gLinkDebugFlags = 0;
+COMMON_DATA bool8 gRemoteLinkPlayersNotReceived[MAX_LINK_PLAYERS] = {0};
+COMMON_DATA u8 gBlockReceivedStatus[MAX_LINK_PLAYERS] = {0};
+COMMON_DATA u16 gLinkHeldKeys = 0;
+COMMON_DATA u16 ALIGNED(4) gRecvCmds[MAX_RFU_PLAYERS][CMD_LENGTH] = {0};
+COMMON_DATA u32 gLinkStatus = 0;
+COMMON_DATA bool8 gReadyToExitStandby[MAX_LINK_PLAYERS] = {0};
+COMMON_DATA bool8 gReadyToCloseLink[MAX_LINK_PLAYERS] = {0};
+COMMON_DATA u16 gReadyCloseLinkType = 0; // Never read
+COMMON_DATA u8 gSuppressLinkErrorMessage = 0;
+COMMON_DATA bool8 gWirelessCommType = 0;
+COMMON_DATA bool8 gSavedLinkPlayerCount = 0;
+COMMON_DATA u16 gSendCmd[CMD_LENGTH] = {0};
+COMMON_DATA u8 gSavedMultiplayerId = 0;
+COMMON_DATA bool8 gReceivedRemoteLinkPlayers = 0;
+COMMON_DATA struct LinkTestBGInfo gLinkTestBGInfo = {0};
+COMMON_DATA void (*gLinkCallback)(void) = NULL;
+COMMON_DATA u8 gShouldAdvanceLinkState = 0;
+COMMON_DATA u16 gLinkTestBlockChecksums[MAX_LINK_PLAYERS] = {0};
+COMMON_DATA u8 gBlockRequestType = 0;
+COMMON_DATA u8 gLastSendQueueCount = 0;
+COMMON_DATA struct Link gLink = {0};
+COMMON_DATA u8 gLastRecvQueueCount = 0;
+COMMON_DATA u16 gLinkSavedIme = 0;
 
 static EWRAM_DATA u8 sLinkTestDebugValuesEnabled = 0;
 static EWRAM_DATA u8 sDummyFlag = FALSE;
@@ -278,8 +268,7 @@ static void InitLinkTestBG(u8 paletteNum, u8 bgNum, u8 screenBaseBlock, u8 charB
     SetGpuReg(REG_OFFSET_BG0VOFS + bgNum * 4, 0);
 }
 
-// Unused
-static void LoadLinkTestBgGfx(u8 paletteNum, u8 bgNum, u8 screenBaseBlock, u8 charBaseBlock)
+static void UNUSED LoadLinkTestBgGfx(u8 paletteNum, u8 bgNum, u8 screenBaseBlock, u8 charBaseBlock)
 {
     LoadPalette(sLinkTestDigitsPal, BG_PLTT_ID(paletteNum), PLTT_SIZE_4BPP);
     DmaCopy16(3, sLinkTestDigitsGfx, (u16 *)BG_CHAR_ADDR(charBaseBlock), sizeof sLinkTestDigitsGfx);
@@ -289,8 +278,7 @@ static void LoadLinkTestBgGfx(u8 paletteNum, u8 bgNum, u8 screenBaseBlock, u8 ch
     SetGpuReg(sBGControlRegs[bgNum], BGCNT_SCREENBASE(screenBaseBlock) | BGCNT_CHARBASE(charBaseBlock));
 }
 
-// Unused
-static void LinkTestScreen(void)
+static void UNUSED LinkTestScreen(void)
 {
     int i;
 
@@ -312,7 +300,6 @@ static void LinkTestScreen(void)
     AnimateSprites();
     BuildOamBuffer();
     UpdatePaletteFade();
-    sDummy3 = FALSE;
     InitLocalLinkPlayer();
     CreateTask(Task_PrintTestData, 0);
     SetMainCallback2(CB2_LinkTest);
@@ -380,9 +367,6 @@ void OpenLink(void)
         gSuppressLinkErrorMessage = FALSE;
         ResetBlockReceivedFlags();
         ResetBlockSend();
-        sDummy1 = FALSE;
-        gLinkDummy2 = FALSE;
-        gLinkDummy1 = FALSE;
         gReadyCloseLinkType = 0;
         CreateTask(Task_TriggerHandshake, 2);
     }
@@ -554,10 +538,8 @@ static void ProcessRecvCmds(u8 unused)
                 gLinkPartnersHeldKeys[i] = gRecvCmds[i][1];
                 break;
             case LINKCMD_DUMMY_1:
-                gLinkDummy2 = TRUE;
                 break;
             case LINKCMD_DUMMY_2:
-                gLinkDummy2 = TRUE;
                 break;
             case LINKCMD_INIT_BLOCK:
             {
@@ -573,18 +555,11 @@ static void ProcessRecvCmds(u8 unused)
             {
                 if (sBlockRecv[i].size > BLOCK_BUFFER_SIZE)
                 {
-                    u16 *buffer;
-                    u16 j;
-
-                    buffer = (u16 *)gDecompressionBuffer;
-                    for (j = 0; j < CMD_LENGTH - 1; j++)
-                    {
-                        buffer[(sBlockRecv[i].pos / 2) + j] = gRecvCmds[i][j + 1];
-                    }
+                    // Too large block was sent.
                 }
                 else
                 {
-                    u16 j;
+                    u32 j;
 
                     for (j = 0; j < CMD_LENGTH - 1; j++)
                     {
@@ -779,8 +754,7 @@ u32 LinkDummy_Return2(void)
     return 2;
 }
 
-// Unused
-static bool32 IsFullLinkGroupWithNoRS(void)
+static bool32 UNUSED IsFullLinkGroupWithNoRS(void)
 {
     if (GetLinkPlayerCount() != MAX_LINK_PLAYERS || AreAnyLinkPlayersUsingVersions(VERSION_RUBY, VERSION_SAPPHIRE) < 0)
     {
@@ -1012,14 +986,12 @@ void SetBerryBlenderLinkCallback(void)
         gLinkCallback = LinkCB_BerryBlenderSendHeldKeys;
 }
 
-// Unused
-static u32 GetBerryBlenderKeySendAttempts(void)
+static u32 UNUSED GetBerryBlenderKeySendAttempts(void)
 {
     return gBerryBlenderKeySendAttempts;
 }
 
-// Unused
-static void SendBerryBlenderNoSpaceForPokeblocks(void)
+static void UNUSED SendBerryBlenderNoSpaceForPokeblocks(void)
 {
     BuildSendCmd(LINKCMD_BLENDER_NO_PBLOCK_SPACE);
 }
@@ -1165,7 +1137,7 @@ static void LinkTest_PrintHex(u32 num, u8 x, u8 y, u8 length)
     }
 }
 
-static void LinkTest_PrintInt(int num, u8 x, u8 y, u8 length)
+static void UNUSED LinkTest_PrintInt(int num, u8 x, u8 y, u8 length)
 {
     char buff[16];
     int negX;
@@ -1297,8 +1269,7 @@ u8 GetSavedPlayerCount(void)
     return gSavedLinkPlayerCount;
 }
 
-// Unused
-static u8 GetSavedMultiplayerId(void)
+static u8 UNUSED GetSavedMultiplayerId(void)
 {
     return gSavedMultiplayerId;
 }
@@ -1335,13 +1306,13 @@ bool8 DoesLinkPlayerCountMatchSaved(void)
 
 void ClearSavedLinkPlayers(void)
 {
-    int i;
     // The CpuSet loop below is incorrectly writing to NULL
     // instead of sSavedLinkPlayers.
     // Additionally it's using the wrong array size.
 #ifdef UBFIX
     memset(sSavedLinkPlayers, 0, sizeof(sSavedLinkPlayers));
 #else
+    int i;
     for (i = 0; i < MAX_LINK_PLAYERS; i++)
         CpuSet(&sSavedLinkPlayers[i], NULL, sizeof(struct LinkPlayer));
 #endif
@@ -1382,12 +1353,6 @@ bool8 IsLinkMaster(void)
     return EXTRACT_MASTER(gLinkStatus);
 }
 
-// Unused
-static u8 GetDummy2(void)
-{
-    return sDummy2;
-}
-
 void SetCloseLinkCallbackAndType(u16 type)
 {
     if (gWirelessCommType == TRUE)
@@ -1399,7 +1364,6 @@ void SetCloseLinkCallbackAndType(u16 type)
         if (gLinkCallback == NULL)
         {
             gLinkCallback = LinkCB_ReadyCloseLink;
-            gLinkDummy1 = FALSE;
             gReadyCloseLinkType = type;
         }
     }
@@ -1420,7 +1384,6 @@ void SetCloseLinkCallback(void)
         else
         {
             gLinkCallback = LinkCB_ReadyCloseLink;
-            gLinkDummy1 = FALSE;
             gReadyCloseLinkType = 0;
         }
     }
@@ -1456,7 +1419,6 @@ static void LinkCB_WaitCloseLink(void)
         gLinkVSyncDisabled = TRUE;
         CloseLink();
         gLinkCallback = NULL;
-        gLinkDummy1 = TRUE;
     }
 }
 
@@ -1476,7 +1438,6 @@ void SetCloseLinkCallbackHandleJP(void)
         else
         {
             gLinkCallback = LinkCB_ReadyCloseLinkWithJP;
-            gLinkDummy1 = FALSE;
             gReadyCloseLinkType = 0;
         }
     }
@@ -1518,7 +1479,6 @@ static void LinkCB_WaitCloseLinkWithJP(void)
         gLinkVSyncDisabled = TRUE;
         CloseLink();
         gLinkCallback = NULL;
-        gLinkDummy1 = TRUE;
     }
 }
 
@@ -1532,8 +1492,6 @@ void SetLinkStandbyCallback(void)
     {
         if (gLinkCallback == NULL)
             gLinkCallback = LinkCB_Standby;
-
-        gLinkDummy1 = FALSE;
     }
 }
 
@@ -1650,7 +1608,7 @@ static void ErrorMsg_MoveCloserToPartner(void)
     DecompressAndLoadBgGfxUsingHeap(1, sWirelessLinkDisplayGfx, FALSE, 0, 0);
     CopyToBgTilemapBuffer(1, sWirelessLinkDisplayTilemap, 0, 0);
     CopyBgTilemapBufferToVram(1);
-    LoadPalette(sWirelessLinkDisplayPal, 0, 0x20);
+    LoadPalette(sWirelessLinkDisplayPal, BG_PLTT_ID(0), sizeof(sWirelessLinkDisplayPal));
     FillWindowPixelBuffer(WIN_LINK_ERROR_TOP, PIXEL_FILL(0));
     FillWindowPixelBuffer(WIN_LINK_ERROR_BOTTOM, PIXEL_FILL(0));
     AddTextPrinterParameterized3(WIN_LINK_ERROR_TOP, FONT_SHORT_COPY_1, 2, 6, sTextColors, 0, gText_CommErrorEllipsis);
@@ -2373,4 +2331,18 @@ void ResetRecvBuffer(void)
                 gLink.recvQueue.data[i][j][k] = LINKCMD_NONE;
         }
     }
+}
+
+bool32 ShouldCheckForUnionRoom(void)
+{
+    if (OW_UNION_DISABLE_CHECK)
+        return FALSE;
+
+    if (OW_FLAG_MOVE_UNION_ROOM_CHECK == 0)
+        return TRUE;
+
+    if (FlagGet(OW_FLAG_MOVE_UNION_ROOM_CHECK))
+        return TRUE;
+
+    return FALSE;
 }

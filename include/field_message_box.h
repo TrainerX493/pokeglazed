@@ -20,4 +20,6 @@ void StopFieldMessage(void);
 void InitFieldMessageBox(void);
 extern u8 gWalkAwayFromSignInhibitTimer;
 
+extern u8 gWalkAwayFromSignpostTimer;
+
 #endif // GUARD_FIELD_MESSAGE_BOX_H

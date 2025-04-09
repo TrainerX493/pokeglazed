@@ -360,20 +360,21 @@ void BattleArena_AddMindPoints(u8 battler)
 // All moves with power != 0 give 1 point, with the following exceptions:
 //    - Counter, Mirror Coat, and Bide give 0 points
 //    - Fake Out subtracts 1 point
-// All moves with power == 0 give 0 points, with the following exceptions:
+// All status moves give 0 points, with the following exceptions:
 //    - Protect, Detect, and Endure subtract 1 point
+    u32 effect = GetMoveEffect(gCurrentMove);
 
-    if (gBattleMoves[gCurrentMove].effect == EFFECT_FAKE_OUT
-     || gBattleMoves[gCurrentMove].effect == EFFECT_PROTECT
-     || gBattleMoves[gCurrentMove].effect == EFFECT_ENDURE)
+    if (effect == EFFECT_FIRST_TURN_ONLY
+     || effect == EFFECT_PROTECT
+     || effect == EFFECT_ENDURE)
     {
         gBattleStruct->arenaMindPoints[battler]--;
     }
-    else if (gBattleMoves[gCurrentMove].power != 0
-          && gBattleMoves[gCurrentMove].effect != EFFECT_COUNTER
-          && gBattleMoves[gCurrentMove].effect != EFFECT_MIRROR_COAT
-          && gBattleMoves[gCurrentMove].effect != EFFECT_METAL_BURST
-          && gBattleMoves[gCurrentMove].effect != EFFECT_BIDE)
+    else if (!IsBattleMoveStatus(gCurrentMove)
+          && effect != EFFECT_COUNTER
+          && effect != EFFECT_MIRROR_COAT
+          && effect != EFFECT_METAL_BURST
+          && effect != EFFECT_BIDE)
     {
         gBattleStruct->arenaMindPoints[battler]++;
     }
@@ -385,26 +386,25 @@ void BattleArena_AddSkillPoints(u8 battler)
 
     if (gHitMarker & HITMARKER_OBEYS)
     {
-        u8 *failedMoveBits = &gBattleStruct->alreadyStatusedMoveAttempt;
-        if (*failedMoveBits & gBitTable[battler])
+        if (gBattleStruct->battlerState[battler].alreadyStatusedMoveAttempt)
         {
-            *failedMoveBits &= ~(gBitTable[battler]);
+            gBattleStruct->battlerState[battler].alreadyStatusedMoveAttempt = FALSE;
             skillPoints[battler] -= 2;
         }
-        else if (gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+        else if (gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT)
         {
-            if (!(gMoveResultFlags & MOVE_RESULT_MISSED) || gBattleCommunication[MISS_TYPE] != B_MSG_PROTECTED)
+            if (!(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_MISSED) || gBattleCommunication[MISS_TYPE] != B_MSG_PROTECTED)
                 skillPoints[battler] -= 2;
         }
-        else if ((gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) && (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
+        else if ((gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_SUPER_EFFECTIVE) && (gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NOT_VERY_EFFECTIVE))
         {
             skillPoints[battler] += 1;
         }
-        else if (gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE)
+        else if (gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_SUPER_EFFECTIVE)
         {
             skillPoints[battler] += 2;
         }
-        else if (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE)
+        else if (gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NOT_VERY_EFFECTIVE)
         {
             skillPoints[battler] -= 1;
         }
@@ -445,8 +445,7 @@ void BattleArena_DeductSkillPoints(u8 battler, u16 stringId)
     }
 }
 
-// Unused
-static void UpdateHPAtStart(u8 battler)
+static void UNUSED UpdateHPAtStart(u8 battler)
 {
     u16 *hpAtStart = gBattleStruct->arenaStartHp;
 
@@ -473,7 +472,7 @@ static void InitArenaChallenge(void)
         gSaveBlock2Ptr->frontier.arenaWinStreaks[lvlMode] = 0;
 
     SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE);
-    gTrainerBattleOpponent_A = 0;
+    TRAINER_BATTLE_PARAM.opponentA = 0;
 }
 
 static void GetArenaData(void)
@@ -530,8 +529,9 @@ static void SetArenaData(void)
 
 static void SaveArenaChallenge(void)
 {
+    ClearEnemyPartyAfterChallenge();
     gSaveBlock2Ptr->frontier.challengeStatus = gSpecialVar_0x8005;
-    VarSet(VAR_TEMP_0, 0);
+    VarSet(VAR_TEMP_CHALLENGE_STATUS, 0);
     gSaveBlock2Ptr->frontier.challengePaused = TRUE;
     SaveGameFrontier();
 }
@@ -562,7 +562,7 @@ static void GiveArenaPrize(void)
 
 static void BufferArenaOpponentName(void)
 {
-    GetFrontierTrainerName(gStringVar1, gTrainerBattleOpponent_A);
+    GetFrontierTrainerName(gStringVar1, TRAINER_BATTLE_PARAM.opponentA);
 }
 
 void DrawArenaRefereeTextBox(void)

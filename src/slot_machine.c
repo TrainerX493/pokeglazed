@@ -1116,7 +1116,7 @@ static void PlaySlotMachine_Internal(u8 machineId, MainCallback exitCallback)
 {
     struct Task *task = &gTasks[CreateTask(SlotMachineDummyTask, 0xFF)];
     task->tMachineId = machineId;
-    StoreWordInTwoHalfwords(&task->tExitCallback, (intptr_t)exitCallback);
+    StoreWordInTwoHalfwords((u16*) &task->tExitCallback, (intptr_t)exitCallback);
 }
 
 // Extracts and assigns machineId and exit callback from task.
@@ -1285,7 +1285,7 @@ static void Task_SlotMachine(u8 taskId)
 // SLOTTASK_UNFADE
 static bool8 SlotTask_UnfadeScreen(struct Task *task)
 {
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
     LoadPikaPowerMeter(sSlotMachine->pikaPowerBolts);
     sSlotMachine->state++; // SLOTTASK_WAIT_FADE
     return FALSE;
@@ -1731,7 +1731,7 @@ static bool8 SlotTask_EndGame(struct Task *task)
 {
     SetCoins(sSlotMachine->coins);
     TryPutFindThatGamerOnAir(GetCoins());
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     sSlotMachine->state++; // SLOTTASK_FREE
     return FALSE;
 }
@@ -2324,7 +2324,9 @@ static bool8 ReelTask_MoveToStop(struct Task *task)
     memcpy(reelStopShocks, sReelStopShocks, sizeof(sReelStopShocks));
     reelPixelPos = sSlotMachine->reelPixelOffsets[task->tReelId] % REEL_SYMBOL_HEIGHT;
     if (reelPixelPos != 0)
+    {
         reelPixelPos = AdvanceSlotReelToNextSymbol(task->tReelId, sSlotMachine->reelSpeed);
+    }
     else if (sSlotMachine->reelExtraTurns[task->tReelId])
     {
         sSlotMachine->reelExtraTurns[task->tReelId]--;
@@ -3324,7 +3326,8 @@ static void SpriteCB_FlashMatchingLines(struct Sprite *sprite)
                 if (sprite->sNumFullFlashes)
                     sprite->sNumFullFlashes--;
             }
-            else if (sprite->sColor >= maxColorChange) {
+            else if (sprite->sColor >= maxColorChange)
+            {
                 // Reached peak darkness, reverse
                 sprite->sColorIncr = -sprite->sColorIncr;
             }
@@ -3904,7 +3907,7 @@ static void Task_InfoBox(u8 taskId)
 
 static void InfoBox_FadeIn(struct Task *task)
 {
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     task->tState++;
 }
 
@@ -3928,7 +3931,7 @@ static void InfoBox_AddText(struct Task *task)
 {
     AddTextPrinterParameterized3(1, FONT_NORMAL, 2, 5, sColors_ReeltimeHelp, 0, gText_ReelTimeHelp);
     CopyWindowToVram(1, COPYWIN_FULL);
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
     task->tState++;
 }
 
@@ -3940,7 +3943,7 @@ static void InfoBox_WaitInput(struct Task *task)
         ClearWindowTilemap(1);
         CopyWindowToVram(1, COPYWIN_MAP);
         RemoveWindow(1);
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB(0, 0, 0));
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         task->tState++;
     }
 }
@@ -3961,7 +3964,7 @@ static void InfoBox_CreateDigitalDisplay(struct Task *task)
 static void InfoBox_LoadPikaPowerMeter(struct Task *task)
 {
     LoadPikaPowerMeter(sSlotMachine->pikaPowerBolts);
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(0, 0, 0));
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
     task->tState++;
 }
 
@@ -4427,7 +4430,7 @@ static void SpriteCB_ReelTimePikachuAura(struct Sprite *sprite)
     u8 colors[] = {16, 0};
     if (sprite->sFlashPal && --sprite->sDelayTimer <= 0)
     {
-        MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(PALTAG_PIKA_AURA) << 4) + 0x103, colors[sprite->sColorIdx], colors[sprite->sColorIdx], colors[sprite->sColorIdx]);
+        MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(PALTAG_PIKA_AURA)) + 3, colors[sprite->sColorIdx], colors[sprite->sColorIdx], colors[sprite->sColorIdx]);
         ++sprite->sColorIdx;
         sprite->sColorIdx &= 1;
         sprite->sDelayTimer = sprite->sDelay;
@@ -4442,7 +4445,7 @@ static void SetReelTimePikachuAuraFlashDelay(s16 delay)
 static void DestroyReelTimePikachuAuraSprites(void)
 {
     u8 i;
-    MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(PALTAG_PIKA_AURA) << 4) + 0x103, 0, 0, 0);
+    MultiplyInvertedPaletteRGBComponents(OBJ_PLTT_ID(IndexOfSpritePaletteTag(PALTAG_PIKA_AURA)) + 3, 0, 0, 0);
     for (i = 0; i < ARRAY_COUNT(sSlotMachine->reelTimePikachuAuraSpriteIds); i++)
         DestroySprite(&gSprites[sSlotMachine->reelTimePikachuAuraSpriteIds[i]]);
 }
@@ -4672,9 +4675,9 @@ static void SpriteCB_DigitalDisplay_Reel(struct Sprite *sprite)
     {
     case 0:
         sprite->x += 4;
-        if (sprite->x >= 0xd0)
+        if (sprite->x >= DISPLAY_WIDTH - 32)
         {
-            sprite->x = 0xd0;
+            sprite->x = DISPLAY_WIDTH - 32;
             sprite->sState++;
         }
         break;
@@ -4684,7 +4687,7 @@ static void SpriteCB_DigitalDisplay_Reel(struct Sprite *sprite)
         break;
     case 2:
         sprite->x += 4;
-        if (sprite->x >= 0x110)
+        if (sprite->x >= DISPLAY_WIDTH + 32)
             sprite->sState++;
         break;
     case 3:
@@ -4700,9 +4703,9 @@ static void SpriteCB_DigitalDisplay_Time(struct Sprite *sprite)
     {
     case 0:
         sprite->x -= 4;
-        if (sprite->x <= 0xd0)
+        if (sprite->x <= DISPLAY_WIDTH - 32)
         {
-            sprite->x = 0xd0;
+            sprite->x = DISPLAY_WIDTH - 32;
             sprite->sState++;
         }
         break;
@@ -4712,7 +4715,7 @@ static void SpriteCB_DigitalDisplay_Time(struct Sprite *sprite)
         break;
     case 2:
         sprite->x -= 4;
-        if (sprite->x <= 0x90)
+        if (sprite->x <= 144)
             sprite->sState++;
         break;
     case 3:
@@ -4738,9 +4741,9 @@ static void SpriteCB_DigitalDisplay_ReelTimeNumber(struct Sprite *sprite)
         break;
     case 2:
         sprite->x += 4;
-        if (sprite->x >= 0xd0)
+        if (sprite->x >= DISPLAY_WIDTH - 32)
         {
-            sprite->x = 0xd0;
+            sprite->x = DISPLAY_WIDTH - 32;
             sprite->sState++;
         }
         break;
@@ -4750,7 +4753,7 @@ static void SpriteCB_DigitalDisplay_ReelTimeNumber(struct Sprite *sprite)
         break;
     case 4:
         sprite->x += 4;
-        if (sprite->x >= 0xf8)
+        if (sprite->x >= DISPLAY_WIDTH + 8)
             sprite->sState++;
         break;
     case 5:
@@ -5813,8 +5816,8 @@ static const struct SpriteFrameImage sImageTable_ReelTimeNumbers[] =
     { gSlotMachineReelTimeNumber5, 0x80 },
 };
 
-static const struct SpriteFrameImage sImageTable_ReelTimeShadow[] = { gSlotMachineReelTimeShadow, 0x200 };
-static const struct SpriteFrameImage sImageTable_ReelTimeNumberGap[] = { gSlotMachineReelTimeNumberGap_Gfx, 0x40 };
+static const struct SpriteFrameImage sImageTable_ReelTimeShadow[] = { {gSlotMachineReelTimeShadow, 0x200} };
+static const struct SpriteFrameImage sImageTable_ReelTimeNumberGap[] = { {gSlotMachineReelTimeNumberGap_Gfx, 0x40} };
 
 static const struct SpriteFrameImage sImageTable_ReelTimeBolt[] =
 {
@@ -5822,7 +5825,7 @@ static const struct SpriteFrameImage sImageTable_ReelTimeBolt[] =
     { gSlotMachineReelTimeBolt1, 0x100 },
 };
 
-static const struct SpriteFrameImage sImageTable_ReelTimePikachuAura[] = { gSlotMachineReelTimePikaAura, 0x400 };
+static const struct SpriteFrameImage sImageTable_ReelTimePikachuAura[] = { {gSlotMachineReelTimePikaAura, 0x400} };
 
 static const struct SpriteFrameImage sImageTable_ReelTimeExplosion[] =
 {
@@ -5830,9 +5833,9 @@ static const struct SpriteFrameImage sImageTable_ReelTimeExplosion[] =
     { gSlotMachineReelTimeExplosion1, 0x200 },
 };
 
-static const struct SpriteFrameImage sImageTable_ReelTimeDuck[] = { gSlotMachineReelTimeDuck, 0x20};
-static const struct SpriteFrameImage sImageTable_ReelTimeSmoke[] = { gSlotMachineReelTimeSmoke, 0x80};
-static const struct SpriteFrameImage sImageTable_PikaPowerBolt[] = { gSlotMachinePikaPowerBolt, 0x20};
+static const struct SpriteFrameImage sImageTable_ReelTimeDuck[] = { {gSlotMachineReelTimeDuck, 0x20} };
+static const struct SpriteFrameImage sImageTable_ReelTimeSmoke[] = { {gSlotMachineReelTimeSmoke, 0x80} };
+static const struct SpriteFrameImage sImageTable_PikaPowerBolt[] = { {gSlotMachinePikaPowerBolt, 0x20} };
 
 static const union AnimCmd sAnim_SingleFrame[] =
 {
@@ -6485,7 +6488,7 @@ static const struct Subsprite sSubsprites_ReelBackground[] =
 
 static const struct SubspriteTable sSubspriteTable_ReelBackground[] =
 {
-    ARRAY_COUNT(sSubsprites_ReelBackground), sSubsprites_ReelBackground
+    {ARRAY_COUNT(sSubsprites_ReelBackground), sSubsprites_ReelBackground}
 };
 
 /*      v-- Origin on 3
@@ -6547,7 +6550,7 @@ static const struct Subsprite sSubsprites_ReelTimeMachineAntennae[] =
 
 static const struct SubspriteTable sSubspriteTable_ReelTimeMachineAntennae[] =
 {
-    ARRAY_COUNT(sSubsprites_ReelTimeMachineAntennae), sSubsprites_ReelTimeMachineAntennae
+    {ARRAY_COUNT(sSubsprites_ReelTimeMachineAntennae), sSubsprites_ReelTimeMachineAntennae}
 };
 
 /*
@@ -6587,7 +6590,7 @@ static const struct Subsprite sSubsprites_ReelTimeMachine[] =
 
 static const struct SubspriteTable sSubspriteTable_ReelTimeMachine[] =
 {
-    ARRAY_COUNT(sSubsprites_ReelTimeMachine), sSubsprites_ReelTimeMachine
+    {ARRAY_COUNT(sSubsprites_ReelTimeMachine), sSubsprites_ReelTimeMachine}
 };
 
 /*
@@ -6644,7 +6647,7 @@ static const struct Subsprite sSubsprites_BrokenReelTimeMachine[] =
 
 static const struct SubspriteTable sSubspriteTable_BrokenReelTimeMachine[] =
 {
-    ARRAY_COUNT(sSubsprites_BrokenReelTimeMachine), sSubsprites_BrokenReelTimeMachine
+    {ARRAY_COUNT(sSubsprites_BrokenReelTimeMachine), sSubsprites_BrokenReelTimeMachine}
 };
 
 /*      v-- Origin on 3
@@ -6689,7 +6692,7 @@ static const struct Subsprite sSubsprites_ReelTimeShadow[] =
 
 static const struct SubspriteTable sSubspriteTable_ReelTimeShadow[] =
 {
-    ARRAY_COUNT(sSubsprites_ReelTimeShadow), sSubsprites_ReelTimeShadow
+    {ARRAY_COUNT(sSubsprites_ReelTimeShadow), sSubsprites_ReelTimeShadow}
 };
 
 /*
@@ -6727,7 +6730,7 @@ static const struct Subsprite sSubsprites_ReelTimeNumberGap[] =
 
 static const struct SubspriteTable sSubspriteTable_ReelTimeNumberGap[] =
 {
-    ARRAY_COUNT(sSubsprites_ReelTimeNumberGap), sSubsprites_ReelTimeNumberGap
+    {ARRAY_COUNT(sSubsprites_ReelTimeNumberGap), sSubsprites_ReelTimeNumberGap}
 };
 
 /*
@@ -6784,7 +6787,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Reel[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Reel[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Reel), sSubsprites_DigitalDisplay_Reel
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_Reel), sSubsprites_DigitalDisplay_Reel}
 };
 
 /*      v-- Origin on 3
@@ -6829,7 +6832,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Time[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Time[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Time), sSubsprites_DigitalDisplay_Time
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_Time), sSubsprites_DigitalDisplay_Time}
 };
 
 /*      v-- Origin on 3
@@ -6874,7 +6877,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Insert[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Insert[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Insert), sSubsprites_DigitalDisplay_Insert
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_Insert), sSubsprites_DigitalDisplay_Insert}
 };
 
 /*      v-- Origin on 3
@@ -6919,7 +6922,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Unused1[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Unused1[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Unused1), sSubsprites_DigitalDisplay_Unused1
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_Unused1), sSubsprites_DigitalDisplay_Unused1}
 };
 
 /*      v-- Origin on 3
@@ -6981,10 +6984,10 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Win[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Win[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Win), sSubsprites_DigitalDisplay_Win
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_Win), sSubsprites_DigitalDisplay_Win}
 };
 
-static const struct Subsprite sSubsprites_DigitalDisplay_Smoke[] =
+static const struct Subsprite sSubsprites_DigitalDisplay_SmokeBig[] =
 {
     {
         .x = -16,
@@ -6996,7 +6999,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Smoke[] =
     }
 };
 
-static const struct Subsprite sSubsprites_DigitalDisplay_Unused2[] =
+static const struct Subsprite sSubsprites_DigitalDisplay_SmokeSmall[] =
 {
     {
         .x = -8,
@@ -7010,12 +7013,8 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Unused2[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Smoke[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Smoke), sSubsprites_DigitalDisplay_Smoke
-};
-
-static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Unused2[] =
-{
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Unused2), sSubsprites_DigitalDisplay_Unused2
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_SmokeBig),   sSubsprites_DigitalDisplay_SmokeBig},
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_SmokeSmall), sSubsprites_DigitalDisplay_SmokeSmall}
 };
 
 /*
@@ -7128,7 +7127,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_Pokeball[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_Pokeball[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_Pokeball), sSubsprites_DigitalDisplay_Pokeball
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_Pokeball), sSubsprites_DigitalDisplay_Pokeball}
 };
 
 /*
@@ -7166,7 +7165,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_DPad[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_DPad[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_DPad), sSubsprites_DigitalDisplay_DPad
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_DPad), sSubsprites_DigitalDisplay_DPad}
 };
 
 /*
@@ -7195,7 +7194,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_StopS[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_StopS[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_StopS), sSubsprites_DigitalDisplay_StopS
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_StopS), sSubsprites_DigitalDisplay_StopS}
 };
 
 /*
@@ -7224,7 +7223,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_StopT[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_StopT[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_StopT), sSubsprites_DigitalDisplay_StopT
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_StopT), sSubsprites_DigitalDisplay_StopT}
 };
 
 /*
@@ -7253,7 +7252,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_StopO[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_StopO[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_StopO), sSubsprites_DigitalDisplay_StopO
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_StopO), sSubsprites_DigitalDisplay_StopO}
 };
 
 /*
@@ -7282,7 +7281,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_StopP[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_StopP[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_StopP), sSubsprites_DigitalDisplay_StopP
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_StopP), sSubsprites_DigitalDisplay_StopP}
 };
 
 /*
@@ -7311,7 +7310,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BonusB[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BonusB[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusB), sSubsprites_DigitalDisplay_BonusB
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusB), sSubsprites_DigitalDisplay_BonusB}
 };
 
 /*
@@ -7340,7 +7339,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BonusO[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BonusO[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusO), sSubsprites_DigitalDisplay_BonusO
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusO), sSubsprites_DigitalDisplay_BonusO}
 };
 
 /*
@@ -7369,7 +7368,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BonusN[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BonusN[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusN), sSubsprites_DigitalDisplay_BonusN
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusN), sSubsprites_DigitalDisplay_BonusN}
 };
 
 /*
@@ -7398,7 +7397,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BonusU[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BonusU[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusU), sSubsprites_DigitalDisplay_BonusU
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusU), sSubsprites_DigitalDisplay_BonusU}
 };
 
 /*
@@ -7427,7 +7426,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BonusS[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BonusS[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusS), sSubsprites_DigitalDisplay_BonusS
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BonusS), sSubsprites_DigitalDisplay_BonusS}
 };
 
 /*
@@ -7490,7 +7489,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BigB[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BigB[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BigB), sSubsprites_DigitalDisplay_BigB
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BigB), sSubsprites_DigitalDisplay_BigB}
 };
 
 /*
@@ -7528,7 +7527,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BigI[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BigI[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BigI), sSubsprites_DigitalDisplay_BigI
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BigI), sSubsprites_DigitalDisplay_BigI}
 };
 
 /*
@@ -7591,7 +7590,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_BigG[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_BigG[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_BigG), sSubsprites_DigitalDisplay_BigG
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_BigG), sSubsprites_DigitalDisplay_BigG}
 };
 
 /*
@@ -7654,7 +7653,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_RegR[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_RegR[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_RegR), sSubsprites_DigitalDisplay_RegR
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_RegR), sSubsprites_DigitalDisplay_RegR}
 };
 
 /*
@@ -7692,7 +7691,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_RegE[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_RegE[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_RegE), sSubsprites_DigitalDisplay_RegE
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_RegE), sSubsprites_DigitalDisplay_RegE}
 };
 
 /*
@@ -7755,7 +7754,7 @@ static const struct Subsprite sSubsprites_DigitalDisplay_RegG[] =
 
 static const struct SubspriteTable sSubspriteTable_DigitalDisplay_RegG[] =
 {
-    ARRAY_COUNT(sSubsprites_DigitalDisplay_RegG), sSubsprites_DigitalDisplay_RegG
+    {ARRAY_COUNT(sSubsprites_DigitalDisplay_RegG), sSubsprites_DigitalDisplay_RegG}
 };
 
 static const struct SpriteTemplate *const sSpriteTemplates_DigitalDisplay[NUM_DIG_DISPLAY_SPRITES] =
@@ -7853,7 +7852,7 @@ static const u16 sUnusedColors[] =
     RGB(27, 27, 27),
     RGB(8, 11, 26),
     RGB(11, 21, 13),
-    RGB(31, 31, 31),
+    RGB_WHITE,
     RGB(16, 26, 21),
     RGB(0, 22, 31),
     RGB(26, 21, 0),

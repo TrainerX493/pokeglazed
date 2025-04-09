@@ -1,4 +1,4 @@
-	@ Get the status (CHALLENGE_STATUS_*) of the current challenge and store the result in VAR_TEMP_0
+	@ Get the status (CHALLENGE_STATUS_*) of the current challenge and store the result in VAR_TEMP_CHALLENGE_STATUS
 	.macro frontier_getstatus
 	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_GET_STATUS
 	special CallFrontierUtilFunc
@@ -133,7 +133,7 @@
 	special CallFrontierUtilFunc
 	.endm
 
-	@ Buffer the name of gTrainerBattleOpponent_A in STR_VAR_1 (0) or STR_VAR_2 (1)
+	@ Buffer the name of gTrainerBattleParameter.params.opponentA in STR_VAR_1 (0) or STR_VAR_2 (1)
 	.macro frontier_gettrainername stringVar:req
 	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_BUFFER_TRAINER_NAME
 	.if \stringVar == STR_VAR_1

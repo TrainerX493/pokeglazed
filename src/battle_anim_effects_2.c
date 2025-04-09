@@ -15,6 +15,7 @@
 #include "util.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/moves.h"
 
 static void AnimCirclingFinger(struct Sprite *);
 static void AnimBouncingMusicNote(struct Sprite *);
@@ -541,6 +542,14 @@ const union AffineAnimCmd gGrowAndShrinkAffineAnimCmds[] =
     AFFINEANIMCMD_END,
 };
 
+const union AffineAnimCmd gShrinkAndGrowAffineAnimCmds[] =
+{
+    AFFINEANIMCMD_FRAME(4, 5, 0, 12),
+    AFFINEANIMCMD_FRAME(0, 0, 0, 24),
+    AFFINEANIMCMD_FRAME(-4, -5, 0, 6),
+    AFFINEANIMCMD_END,
+};
+
 const union AnimCmd gBreathPuffAnimCmds1[] =
 {
     ANIMCMD_FRAME(0, 4, .hFlip = TRUE),
@@ -942,6 +951,18 @@ const struct SpriteTemplate gRedHeartRisingSpriteTemplate =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimRedHeartRising,
+};
+
+// New struct that's just a copy of 'gMagentaHeartSpriteTemplate', without need to make new anim tags 
+const struct SpriteTemplate gRedHeartCharmSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_RED_HEART,
+    .paletteTag = ANIM_TAG_RED_HEART,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMagentaHeart,
 };
 
 const union AffineAnimCmd gHiddenPowerOrbAffineAnimCmds[] =
@@ -1703,7 +1724,7 @@ void AnimTask_AirCutterProjectile(u8 taskId)
     }
     else
     {
-        if (GET_BATTLER_SIDE2(gBattleAnimTarget) == B_SIDE_PLAYER)
+        if (GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER)
         {
             gTasks[taskId].data[4] = 1;
             gBattleAnimArgs[0] = -gBattleAnimArgs[0];
@@ -1717,7 +1738,7 @@ void AnimTask_AirCutterProjectile(u8 taskId)
 
     attackerX = gTasks[taskId].data[9] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X);
     attackerY = gTasks[taskId].data[10] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y);
-    if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+    if (IsDoubleBattle()
         && IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimTarget)))
     {
         SetAverageBattlerPositions(gBattleAnimTarget, FALSE, &targetX, &targetY);
@@ -1787,7 +1808,7 @@ void AnimTask_AirCutterProjectile(u8 taskId)
 static void AnimVoidLines(struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, FALSE);
-    sprite->data[0] = 0x100 + (IndexOfSpritePaletteTag(sVoidLinesSpriteTemplate.paletteTag) << 4);
+    sprite->data[0] = OBJ_PLTT_ID(IndexOfSpritePaletteTag(sVoidLinesSpriteTemplate.paletteTag));
     sprite->callback = AnimVoidLines_Step;
 }
 
@@ -2245,7 +2266,9 @@ static void AnimTask_Splash_Step(u8 taskId)
             task->data[4] -= 2;
         }
         else
+        {
             task->data[1]++;
+        }
         break;
     case 3:
         if (!RunAffineAnimFromTaskData(task))
@@ -2281,6 +2304,16 @@ static void AnimTask_GrowAndShrink_Step(u8 taskId)
     struct Task *task = &gTasks[taskId];
     if (!RunAffineAnimFromTaskData(task))
         DestroyAnimVisualTask(taskId);
+}
+
+// Shrinks, pauses, then grows the attacking mon.
+// No args.
+void AnimTask_ShrinkAndGrow(u8 taskId)
+{
+    struct Task *task = &gTasks[taskId];
+    u8 spriteId = GetAnimBattlerSpriteId(ANIM_ATTACKER);
+    PrepareAffineAnimInTaskData(task, spriteId, gShrinkAndGrowAffineAnimCmds);
+    task->func = AnimTask_GrowAndShrink_Step;
 }
 
 // Animates a little puff of the mon's breath.
@@ -2587,8 +2620,8 @@ static void AnimPencil_Step(struct Sprite *sprite)
 static void AnimBlendThinRing(struct Sprite *sprite)
 {
     u8 battler = 0;
-    u16 sp0 = 0;
-    u16 sp1 = 0;
+    s16 x = 0;
+    s16 y = 0;
     u8 r4;
 
     if (gBattleAnimArgs[2] == 0)
@@ -2599,16 +2632,16 @@ static void AnimBlendThinRing(struct Sprite *sprite)
     r4 = gBattleAnimArgs[3] ^ 1;
     if (IsDoubleBattle() && IsBattlerSpriteVisible(BATTLE_PARTNER(battler)))
     {
-        SetAverageBattlerPositions(battler, r4, &sp0, &sp1);
+        SetAverageBattlerPositions(battler, r4, &x, &y);
         if (r4 == 0)
             r4 = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
         else
             r4 = GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2);
 
         if (GetBattlerSide(battler) != B_SIDE_PLAYER)
-            gBattleAnimArgs[0] -= (sp0 - r4) - gBattleAnimArgs[0];  // This is weird.
+            gBattleAnimArgs[0] -= (x - r4) - gBattleAnimArgs[0];  // This is weird.
         else
-            gBattleAnimArgs[0] = sp0 - r4;
+            gBattleAnimArgs[0] = x - r4;
     }
 
     sprite->callback = AnimSpriteOnMonPos;
@@ -2992,7 +3025,9 @@ static void AnimTask_SpeedDust_Step(u8 taskId)
                     task->data[8] = 1;
                 }
                 else
+                {
                     task->data[8] = 2;
+                }
             }
         }
         break;
@@ -3150,7 +3185,7 @@ static void AnimTask_FakeOut_Step2(u8 taskId)
     {
         gTasks[taskId].data[11] = 0x88;
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG3 | BLDCNT_EFFECT_LIGHTEN);
-        BlendPalettes(GetBattlePalettesMask(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE), 16, RGB(31, 31, 31));
+        BlendPalettes(GetBattlePalettesMask(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE), 16, RGB_WHITE);
     }
     else if (gTasks[taskId].data[10] > 4)
     {
@@ -3358,6 +3393,12 @@ static void AnimTask_HeartsBackground_Step(u8 taskId)
 void AnimTask_ScaryFace(u8 taskId)
 {
     struct BattleAnimBgData animBg;
+    bool32 onPlayer;
+
+    if (gAnimMoveIndex == MOVE_BITTER_MALICE)
+        onPlayer = GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER;
+    else
+        onPlayer = GetBattlerSide(gBattleAnimTarget) == B_SIDE_OPPONENT;
 
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND);
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
@@ -3373,7 +3414,7 @@ void AnimTask_ScaryFace(u8 taskId)
     GetBattleAnimBg1Data(&animBg);
     if (IsContest())
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimBgTilemap_ScaryFaceContest, FALSE);
-    else if (GetBattlerSide(gBattleAnimTarget) == B_SIDE_OPPONENT)
+    else if (onPlayer)
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimBgTilemap_ScaryFacePlayer, FALSE);
     else
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimBgTilemap_ScaryFaceOpponent, FALSE);
@@ -3709,7 +3750,6 @@ static void AnimTask_UproarDistortion_Step(u8 taskId)
 
 static void AnimJaggedMusicNote(struct Sprite *sprite)
 {
-    int var1;
     u8 battler = !gBattleAnimArgs[0] ? gBattleAnimAttacker : gBattleAnimTarget;
 
     if (GetBattlerSide(battler) == B_SIDE_OPPONENT)
@@ -3720,16 +3760,8 @@ static void AnimJaggedMusicNote(struct Sprite *sprite)
     sprite->data[0] = 0;
     sprite->data[1] = (u16)sprite->x << 3;
     sprite->data[2] = (u16)sprite->y << 3;
-
-    var1 = gBattleAnimArgs[1] << 3;
-    if (var1 < 0)
-        var1 += 7;
-    sprite->data[3] = var1 >> 3;
-
-    var1 = gBattleAnimArgs[2] << 3;
-    if (var1 < 0)
-        var1 += 7;
-    sprite->data[4] = var1 >> 3;
+    sprite->data[3] = (gBattleAnimArgs[1] << 3) / 8;
+    sprite->data[4] = (gBattleAnimArgs[2] << 3) / 8;
 
     sprite->oam.tileNum += gBattleAnimArgs[3] * 16;
     sprite->callback = AnimJaggedMusicNote_Step;
@@ -3838,7 +3870,7 @@ static void AnimPerishSongMusicNote_Step2(struct Sprite *sprite)
 
 static void AnimGuardRing(struct Sprite *sprite)
 {
-    if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
+    if (IsDoubleBattle() && IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
     {
         SetAverageBattlerPositions(gBattleAnimAttacker, FALSE, &sprite->x, &sprite->y);
         sprite->y += 40;

@@ -451,7 +451,7 @@ ALIGNED(4) static const u8 sText_NobodyHasRegistered[] = _("Nobody has registere
 ALIGNED(4) static const u8 sText_ChooseRequestedMonType[] = _("Please choose the type of POKéMON\nthat you would like in the trade.\n");
 ALIGNED(4) static const u8 sText_WhichMonWillYouOffer[] = _("Which of your party POKéMON will\nyou offer in trade?\p");
 ALIGNED(4) static const u8 sText_RegistrationCanceled[] = _("Registration has been canceled.\p");
-ALIGNED(4) static const u8 sText_RegistraionCompleted[] = _("Registration has been completed.\p");
+ALIGNED(4) static const u8 sText_RegistrationCompleted[] = _("Registration has been completed.\p");
 ALIGNED(4) static const u8 sText_TradeCanceled[] = _("The trade has been canceled.\p");
 ALIGNED(4) static const u8 sText_CancelRegistrationOfMon[] = _("Cancel the registration of your\nLv. {STR_VAR_2} {STR_VAR_1}?");
 ALIGNED(4) static const u8 sText_CancelRegistrationOfEgg[] = _("Cancel the registration of your\nEGG?");
@@ -633,10 +633,10 @@ static const struct WindowTemplate sWindowTemplate_BButtonCancel = {
 
 // Minimum and maximum number of players for a link group
 // A minimum of 0 means the min and max are equal
-#define LINK_GROUP_CAPACITY(min, max)(((min) << 12) | ((max) << 8))
-#define GROUP_MAX(capacity)(capacity & 0x0F)
-#define GROUP_MIN(capacity)(capacity >> 4)
-#define GROUP_MIN2(capacity)(capacity & 0xF0) // Unnecessary to have both, but needed to match
+#define LINK_GROUP_CAPACITY(min, max) (((min) << 12) | ((max) << 8))
+#define GROUP_MAX(capacity) (capacity & 0x0F)
+#define GROUP_MIN(capacity) (capacity >> 4)
+#define GROUP_MIN2(capacity) (capacity & 0xF0) // Unnecessary to have both, but needed to match
 
 static const u32 sLinkGroupToActivityAndCapacity[NUM_LINK_GROUP_TYPES] = {
     [LINK_GROUP_SINGLE_BATTLE]     = ACTIVITY_BATTLE_SINGLE     | LINK_GROUP_CAPACITY(0, 2),
@@ -867,25 +867,26 @@ static const struct WindowTemplate sWindowTemplate_TradingBoardRequestType = {
     .baseBlock = 0x0001
 };
 
-static const struct ListMenuItem sTradingBoardTypes[NUMBER_OF_MON_TYPES] = {
-    { gTypeNames[TYPE_NORMAL],   TYPE_NORMAL         },
-    { gTypeNames[TYPE_FIRE],     TYPE_FIRE           },
-    { gTypeNames[TYPE_WATER],    TYPE_WATER          },
-    { gTypeNames[TYPE_ELECTRIC], TYPE_ELECTRIC       },
-    { gTypeNames[TYPE_GRASS],    TYPE_GRASS          },
-    { gTypeNames[TYPE_ICE],      TYPE_ICE            },
-    { gTypeNames[TYPE_GROUND],   TYPE_GROUND         },
-    { gTypeNames[TYPE_ROCK],     TYPE_ROCK           },
-    { gTypeNames[TYPE_FLYING],   TYPE_FLYING         },
-    { gTypeNames[TYPE_PSYCHIC],  TYPE_PSYCHIC        },
-    { gTypeNames[TYPE_FIGHTING], TYPE_FIGHTING       },
-    { gTypeNames[TYPE_POISON],   TYPE_POISON         },
-    { gTypeNames[TYPE_BUG],      TYPE_BUG            },
-    { gTypeNames[TYPE_GHOST],    TYPE_GHOST          },
-    { gTypeNames[TYPE_DRAGON],   TYPE_DRAGON         },
-    { gTypeNames[TYPE_STEEL],    TYPE_STEEL          },
-    { gTypeNames[TYPE_DARK],     TYPE_DARK           },
-    { gTypeNames[TYPE_FAIRY],    TYPE_FAIRY          },
+// Subtract two from the total type count to handle in-battle types not for display
+static const struct ListMenuItem sTradingBoardTypes[NUMBER_OF_MON_TYPES - 2] = {
+    { gTypesInfo[TYPE_NORMAL].name,   TYPE_NORMAL         },
+    { gTypesInfo[TYPE_FIRE].name,     TYPE_FIRE           },
+    { gTypesInfo[TYPE_WATER].name,    TYPE_WATER          },
+    { gTypesInfo[TYPE_ELECTRIC].name, TYPE_ELECTRIC       },
+    { gTypesInfo[TYPE_GRASS].name,    TYPE_GRASS          },
+    { gTypesInfo[TYPE_ICE].name,      TYPE_ICE            },
+    { gTypesInfo[TYPE_GROUND].name,   TYPE_GROUND         },
+    { gTypesInfo[TYPE_ROCK].name,     TYPE_ROCK           },
+    { gTypesInfo[TYPE_FLYING].name,   TYPE_FLYING         },
+    { gTypesInfo[TYPE_PSYCHIC].name,  TYPE_PSYCHIC        },
+    { gTypesInfo[TYPE_FIGHTING].name, TYPE_FIGHTING       },
+    { gTypesInfo[TYPE_POISON].name,   TYPE_POISON         },
+    { gTypesInfo[TYPE_BUG].name,      TYPE_BUG            },
+    { gTypesInfo[TYPE_GHOST].name,    TYPE_GHOST          },
+    { gTypesInfo[TYPE_DRAGON].name,   TYPE_DRAGON         },
+    { gTypesInfo[TYPE_STEEL].name,    TYPE_STEEL          },
+    { gTypesInfo[TYPE_DARK].name,     TYPE_DARK           },
+    { gTypesInfo[TYPE_FAIRY].name,    TYPE_FAIRY          },
     { sText_Exit,                NUMBER_OF_MON_TYPES }
 };
 

@@ -113,7 +113,6 @@ EWRAM_DATA static u16 sDecorationsCursorPos = 0;
 EWRAM_DATA static u16 sDecorationsScrollOffset = 0;
 EWRAM_DATA u8 gCurDecorationIndex = 0;
 EWRAM_DATA static u8 sCurDecorationCategory = DECORCAT_DESK;
-EWRAM_DATA static u32 sFiller[2] = {};
 EWRAM_DATA static struct DecorationPCContext sDecorationContext = {};
 EWRAM_DATA static u8 sDecorMenuWindowIds[WINDOW_COUNT] = {};
 EWRAM_DATA static struct DecorationItemsMenu *sDecorationItemsMenu = NULL;
@@ -422,7 +421,16 @@ static const u8 sDecorationSlideElevation[] =
 };
 
 static const u16 sDecorShapeSizes[] = {
-    0x04, 0x08, 0x10, 0x20, 0x10, 0x08, 0x10, 0x20, 0x40, 0x20
+    [DECORSHAPE_1x1] = 4,
+    [DECORSHAPE_2x1] = 8,
+    [DECORSHAPE_3x1] = 16,
+    [DECORSHAPE_4x2] = 32,
+    [DECORSHAPE_2x2] = 16,
+    [DECORSHAPE_1x2] = 8,
+    [DECORSHAPE_1x3] = 16,
+    [DECORSHAPE_2x4] = 32,
+    [DECORSHAPE_3x3] = 64,
+    [DECORSHAPE_3x2] = 32,
 };
 
 static const u16 sBrendanPalette[] = INCBIN_U16("graphics/decorations/brendan.gbapal");
@@ -688,7 +696,7 @@ static void ReturnToDecorationActionsAfterInvalidSelection(u8 taskId)
 
 static void SecretBasePC_PrepMenuForSelectingStoredDecors(u8 taskId)
 {
-    LoadPalette(sDecorationMenuPalette, BG_PLTT_ID(13), PLTT_SIZE_4BPP);
+    LoadPalette(sDecorationMenuPalette, BG_PLTT_ID(13), sizeof(sDecorationMenuPalette));
     ClearDialogWindowAndFrame(0, FALSE);
     RemoveDecorationWindow(WINDOW_MAIN_MENU);
     InitDecorationCategoriesWindow(taskId);
@@ -834,7 +842,7 @@ static void ReturnToActionsMenuFromCategories(u8 taskId)
 
 void ShowDecorationCategoriesWindow(u8 taskId)
 {
-    LoadPalette(sDecorationMenuPalette, BG_PLTT_ID(13), PLTT_SIZE_4BPP);
+    LoadPalette(sDecorationMenuPalette, BG_PLTT_ID(13), sizeof(sDecorationMenuPalette));
     ClearDialogWindowAndFrame(0, FALSE);
     gTasks[taskId].tDecorationMenuCommand = DECOR_MENU_TRADE;
     sCurDecorationCategory = DECORCAT_DESK;
@@ -1331,7 +1339,8 @@ static void DecorationItemsMenuAction_AttemptPlace(u8 taskId)
         else
         {
             ConvertIntToDecimalStringN(gStringVar1, sDecorationContext.size, STR_CONV_MODE_RIGHT_ALIGN, 2);
-            if (sDecorationContext.isPlayerRoom == FALSE) {
+            if (sDecorationContext.isPlayerRoom == FALSE)
+            {
                 StringExpandPlaceholders(gStringVar4, gText_NoMoreDecorations);
             }
             else
@@ -1360,6 +1369,7 @@ static void Task_PlaceDecoration(u8 taskId)
             }
             break;
         case 1:
+            RemoveFollowingPokemon();
             gPaletteFade.bufferTransferDisabled = TRUE;
             ConfigureCameraObjectForPlacingDecoration(&sPlaceDecorationGraphicsDataBuffer, gCurDecorationItems[gCurDecorationIndex]);
             SetUpDecorationShape(taskId);
@@ -1614,6 +1624,17 @@ static bool8 CanPlaceDecoration(u8 taskId, const struct Decoration *decoration)
                 return FALSE;
         }
         break;
+    }
+
+    // If sprite(like), check if there is an available object event slot for it
+    if (decoration->permission == DECORPERM_SPRITE)
+    {
+        for (i = 0; i < NUM_DECORATION_FLAGS; i++)
+        {
+            if (FlagGet(FLAG_DECORATION_1 + i) == TRUE)
+                return TRUE;
+        }
+        return FALSE;
     }
     return TRUE;
 }
@@ -1911,12 +1932,12 @@ static void ClearPlaceDecorationGraphicsDataBuffer(struct PlaceDecorationGraphic
 
 static void CopyPalette(u16 *dest, u16 pal)
 {
-    CpuFastCopy(&((u16 *)gTilesetPointer_SecretBase->palettes)[pal * 16], dest, sizeof(u16) * 16);
+    CpuFastCopy(&gTilesetPointer_SecretBase->palettes[pal], dest, PLTT_SIZE_4BPP);
 }
 
 static void CopyTile(u8 *dest, u16 tile)
 {
-    u8 buffer[TILE_SIZE_4BPP];
+    u8 ALIGNED(4) buffer[TILE_SIZE_4BPP];
     u16 mode;
     u16 i;
 
@@ -1924,7 +1945,7 @@ static void CopyTile(u8 *dest, u16 tile)
     if (tile != 0)
         tile &= 0x03FF;
 
-    CpuFastCopy(&((u8 *)gTilesetPointer_SecretBase->tiles)[tile * TILE_SIZE_4BPP], buffer, TILE_SIZE_4BPP);
+    CpuFastCopy(&gTilesetPointer_SecretBase->tiles[tile * TILE_SIZE_4BPP / sizeof(u32)], buffer, TILE_SIZE_4BPP);
     switch (mode)
     {
     case 0:
@@ -1966,7 +1987,7 @@ static void SetDecorSelectionBoxTiles(struct PlaceDecorationGraphicsDataBuffer *
 
 static u16 GetMetatile(u16 tile)
 {
-    return ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[tile] & 0xFFF;
+    return gTilesetPointer_SecretBaseRedCave->metatiles[tile] & 0xFFF;
 }
 
 static void SetDecorSelectionMetatiles(struct PlaceDecorationGraphicsDataBuffer *data)
@@ -2037,7 +2058,7 @@ static u8 gpu_pal_decompress_alloc_tag_and_upload(struct PlaceDecorationGraphics
     SetDecorSelectionMetatiles(data);
     SetDecorSelectionBoxOamAttributes(data->decoration->shape);
     SetDecorSelectionBoxTiles(data);
-    CopyPalette(data->palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(data->decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
+    CopyPalette(data->palette, gTilesetPointer_SecretBaseRedCave->metatiles[(data->decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
     LoadSpritePalette(&sSpritePal_PlaceDecoration);
     return CreateSprite(&sDecorationSelectorSpriteTemplate, 0, 0, 0);
 }
@@ -2093,7 +2114,7 @@ static u8 AddDecorationIconObjectFromObjectEvent(u16 tilesTag, u16 paletteTag, u
         SetDecorSelectionMetatiles(&sPlaceDecorationGraphicsDataBuffer);
         SetDecorSelectionBoxOamAttributes(sPlaceDecorationGraphicsDataBuffer.decoration->shape);
         SetDecorSelectionBoxTiles(&sPlaceDecorationGraphicsDataBuffer);
-        CopyPalette(sPlaceDecorationGraphicsDataBuffer.palette, ((u16 *)gTilesetPointer_SecretBaseRedCave->metatiles)[(sPlaceDecorationGraphicsDataBuffer.decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
+        CopyPalette(sPlaceDecorationGraphicsDataBuffer.palette, gTilesetPointer_SecretBaseRedCave->metatiles[(sPlaceDecorationGraphicsDataBuffer.decoration->tiles[0] * NUM_TILES_PER_METATILE) + 7] >> 12);
         sheet.data = sPlaceDecorationGraphicsDataBuffer.image;
         sheet.size = sDecorShapeSizes[sPlaceDecorationGraphicsDataBuffer.decoration->shape] * TILE_SIZE_4BPP;
         sheet.tag = tilesTag;
@@ -2245,7 +2266,8 @@ static void Task_PutAwayDecoration(u8 taskId)
         gTasks[taskId].tState = 1;
         break;
     case 1:
-        if (!gPaletteFade.active) {
+        if (!gPaletteFade.active)
+        {
             DrawWholeMapView();
             ScriptContext_SetupScript(SecretBase_EventScript_PutAwayDecoration);
             ClearDialogWindowAndFrame(0, TRUE);
@@ -2316,6 +2338,7 @@ static void Task_ContinuePuttingAwayDecorations(u8 taskId)
         }
         break;
     case 1:
+        RemoveFollowingPokemon();
         SetUpPuttingAwayDecorationPlayerAvatar();
         FadeInFromBlack();
         tState = 2;

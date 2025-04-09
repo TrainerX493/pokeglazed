@@ -65,8 +65,8 @@ struct PokenavMonList
 enum
 {
     POKENAV_MODE_NORMAL,           // Chosen from Start menu.
-    POKENAV_MODE_FORCE_CALL_READY, // Pokenav tutorial before calling Mr. Stone
-    POKENAV_MODE_FORCE_CALL_EXIT,  // Pokenav tutorial after calling Mr. Stone
+    POKENAV_MODE_FORCE_CALL_READY, // PokéNav tutorial before calling Mr. Stone
+    POKENAV_MODE_FORCE_CALL_EXIT,  // PokéNav tutorial after calling Mr. Stone
 };
 
 enum
@@ -171,6 +171,8 @@ enum
     HELPBAR_NONE,
     HELPBAR_MAP_ZOOMED_OUT,
     HELPBAR_MAP_ZOOMED_IN,
+    HELPBAR_MAP_ZOOMED_OUT_CANFLY,
+    HELPBAR_MAP_ZOOMED_IN_CANFLY,
     HELPBAR_CONDITION_MON_LIST,
     HELPBAR_CONDITION_MON_STATUS,
     HELPBAR_CONDITION_MARKINGS,
@@ -232,8 +234,8 @@ enum
                         [CHECK_PAGE_INTRO_2]  = gText_MatchCall##name##_Intro2}
 
 
-// Pokenav Function IDs
-// Indices into the LoopedTask tables for each of the main Pokenav features
+// PokéNav Function IDs
+// Indices into the LoopedTask tables for each of the main PokéNav features
 
 enum RegionMapFuncIds
 {
@@ -295,6 +297,7 @@ enum
     POKENAV_MAP_FUNC_ZOOM_OUT,
     POKENAV_MAP_FUNC_ZOOM_IN,
     POKENAV_MAP_FUNC_EXIT,
+    POKENAV_MAP_FUNC_FLY
 };
 
 // Modes for PokenavFadeScreen
@@ -438,6 +441,7 @@ void CreateRegionMapLoopedTask(s32);
 bool32 IsRegionMapLoopedTaskActive(void);
 void FreeRegionMapSubstruct1(void);
 void FreeRegionMapSubstruct2(void);
+void UpdateRegionMapHelpBarText(void);
 
 // pokenav_conditions.c
 u32 PokenavCallback_Init_ConditionGraph_Party(void);

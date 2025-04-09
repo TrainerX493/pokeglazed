@@ -70,7 +70,6 @@ struct RedArrowCursor
 
 // this file's functions
 static u8 ListMenuInitInternal(struct ListMenuTemplate *listMenuTemplate, u16 scrollOffset, u16 selectedRow);
-static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAndCallCallback, u8 count, bool8 movingDown);
 static void ListMenuPrintEntries(struct ListMenu *list, u16 startIndex, u16 yOffset, u16 count);
 static void ListMenuDrawCursor(struct ListMenu *list);
 static void ListMenuCallSelectionChangedCallback(struct ListMenu *list, u8 onInit);
@@ -99,7 +98,7 @@ static EWRAM_DATA struct {
 EWRAM_DATA struct ScrollArrowsTemplate gTempScrollArrowTemplate = {0};
 
 // IWRAM common
-struct {
+COMMON_DATA struct {
     u8 cursorPal:4;
     u8 fillValue:4;
     u8 cursorShadowPal:4;
@@ -107,9 +106,9 @@ struct {
     u8 field_2_2:6; // unused
     u8 fontId:7;
     bool8 enabled:1;
-} gListMenuOverride;
+} gListMenuOverride = {0};
 
-struct ListMenuTemplate gMultiuseListMenuTemplate;
+COMMON_DATA struct ListMenuTemplate gMultiuseListMenuTemplate = {0};
 
 // const rom data
 static const struct
@@ -316,7 +315,7 @@ static void ListMenuDummyTask(u8 taskId)
 
 }
 
-s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const struct ListMenuTemplate *listMenuTemplate, u8 drawMode, u16 tileNum, u16 palNum)
+s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const struct ListMenuTemplate *listMenuTemplate, u8 drawMode, u16 tileNum, u16 palOffset)
 {
     switch (sMysteryGiftLinkMenu.state)
     {
@@ -326,9 +325,9 @@ s32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const str
         switch (drawMode)
         {
         case 2:
-            LoadUserWindowBorderGfx(sMysteryGiftLinkMenu.windowId, tileNum, palNum);
+            LoadUserWindowBorderGfx(sMysteryGiftLinkMenu.windowId, tileNum, palOffset);
         case 1:
-            DrawTextBorderOuter(sMysteryGiftLinkMenu.windowId, tileNum, palNum / 16);
+            DrawTextBorderOuter(sMysteryGiftLinkMenu.windowId, tileNum, palOffset / 16);
             break;
         }
         gMultiuseListMenuTemplate = *listMenuTemplate;
@@ -601,11 +600,14 @@ static void ListMenuPrint(struct ListMenu *list, const u8 *str, u8 x, u8 y)
     u8 colors[3];
     if (gListMenuOverride.enabled)
     {
+        u32 fontId = gListMenuOverride.fontId;
+        if (list->template.textNarrowWidth)
+            fontId = GetFontIdToFit(str, fontId, gListMenuOverride.lettersSpacing, list->template.textNarrowWidth);
         colors[0] = gListMenuOverride.fillValue;
         colors[1] = gListMenuOverride.cursorPal;
         colors[2] = gListMenuOverride.cursorShadowPal;
         AddTextPrinterParameterized4(list->template.windowId,
-                                     gListMenuOverride.fontId,
+                                     fontId,
                                      x, y,
                                      gListMenuOverride.lettersSpacing,
                                      0, colors, TEXT_SKIP_DRAW, str);
@@ -614,11 +616,14 @@ static void ListMenuPrint(struct ListMenu *list, const u8 *str, u8 x, u8 y)
     }
     else
     {
+        u32 fontId = list->template.fontId;
+        if (list->template.textNarrowWidth)
+            fontId = GetFontIdToFit(str, fontId, list->template.lettersSpacing, list->template.textNarrowWidth);
         colors[0] = list->template.fillValue;
         colors[1] = list->template.cursorPal;
         colors[2] = list->template.cursorShadowPal;
         AddTextPrinterParameterized4(list->template.windowId,
-                                     list->template.fontId,
+                                     fontId,
                                      x, y,
                                      list->template.lettersSpacing,
                                      0, colors, TEXT_SKIP_DRAW, str);
@@ -677,8 +682,6 @@ static void ListMenuDrawCursor(struct ListMenu *list)
         break;
     }
 }
-
-#undef TASK_NONE
 
 static u8 ListMenuAddCursorObject(struct ListMenu *list, u32 cursorObjId)
 {
@@ -837,7 +840,7 @@ static void ListMenuScroll(struct ListMenu *list, u8 count, bool8 movingDown)
     }
 }
 
-static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAndCallCallback, u8 count, bool8 movingDown)
+bool8 ListMenuChangeSelectionFull(struct ListMenu *list, bool32 updateCursor, bool32 callCallback, u8 count, bool8 movingDown)
 {
     u16 oldSelectedRow;
     u8 selectionChange, i, cursorCount;
@@ -857,7 +860,7 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
         } while (list->template.items[list->scrollOffset + list->selectedRow].id == LIST_HEADER);
     }
 
-    if (updateCursorAndCallCallback)
+    if (updateCursor)
     {
         switch (selectionChange)
         {
@@ -867,7 +870,8 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
         case 1:
             ListMenuErasePrintedCursor(list, oldSelectedRow);
             ListMenuDrawCursor(list);
-            ListMenuCallSelectionChangedCallback(list, FALSE);
+            if (callCallback)
+                ListMenuCallSelectionChangedCallback(list, FALSE);
             CopyWindowToVram(list->template.windowId, COPYWIN_GFX);
             break;
         case 2:
@@ -875,13 +879,19 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
             ListMenuErasePrintedCursor(list, oldSelectedRow);
             ListMenuScroll(list, cursorCount, movingDown);
             ListMenuDrawCursor(list);
-            ListMenuCallSelectionChangedCallback(list, FALSE);
+            if (callCallback)
+                ListMenuCallSelectionChangedCallback(list, FALSE);
             CopyWindowToVram(list->template.windowId, COPYWIN_GFX);
             break;
         }
     }
 
     return FALSE;
+}
+
+bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAndCallCallback, u8 count, bool8 movingDown)
+{
+    return ListMenuChangeSelectionFull(list, updateCursorAndCallCallback, updateCursorAndCallCallback, count, movingDown);
 }
 
 static void ListMenuCallSelectionChangedCallback(struct ListMenu *list, u8 onInit)

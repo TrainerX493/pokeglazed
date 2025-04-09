@@ -1,4 +1,5 @@
 #include "global.h"
+#include "debug.h"
 #include "malloc.h"
 #include "battle.h"
 #include "battle_tower.h"
@@ -20,6 +21,7 @@
 #include "international_string_util.h"
 #include "item_icon.h"
 #include "link.h"
+#include "load_save.h"
 #include "list_menu.h"
 #include "main.h"
 #include "mystery_gift.h"
@@ -28,6 +30,7 @@
 #include "overworld.h"
 #include "party_menu.h"
 #include "pokeblock.h"
+#include "pokedex.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
 #include "random.h"
@@ -42,6 +45,7 @@
 #include "strings.h"
 #include "task.h"
 #include "text.h"
+#include "tilesets.h"
 #include "tv.h"
 #include "wallclock.h"
 #include "window.h"
@@ -57,7 +61,6 @@
 #include "constants/heal_locations.h"
 #include "constants/map_types.h"
 #include "constants/mystery_gift.h"
-#include "constants/script_menu.h"
 #include "constants/slot_machine.h"
 #include "constants/songs.h"
 #include "constants/moves.h"
@@ -68,6 +71,7 @@
 #include "palette.h"
 #include "battle_util.h"
 #include "pokedex.h"
+#include "naming_screen.h"
 
 #define TAG_ITEM_ICON 5500
 
@@ -87,7 +91,7 @@ static EWRAM_DATA u8 sTutorMoveAndElevatorWindowId = 0;
 static EWRAM_DATA u16 sLilycoveDeptStore_NeverRead = 0;
 static EWRAM_DATA u16 sLilycoveDeptStore_DefaultFloorChoice = 0;
 static EWRAM_DATA struct ListMenuItem *sScrollableMultichoice_ListMenuItem = NULL;
-static EWRAM_DATA u16 sScrollableMultichoice_ScrollOffset = 0;
+
 static EWRAM_DATA u16 sFrontierExchangeCorner_NeverRead = 0;
 static EWRAM_DATA u8 sScrollableMultichoice_ItemSpriteId = 0;
 static EWRAM_DATA u8 sBattlePointsWindowId = 0;
@@ -95,7 +99,8 @@ static EWRAM_DATA u8 sFrontierExchangeCorner_ItemIconWindowId = 0;
 static EWRAM_DATA u8 sPCBoxToSendMon = 0;
 static EWRAM_DATA u32 sBattleTowerMultiBattleTypeFlags = 0;
 
-struct ListMenuTemplate gScrollableMultichoice_ListMenuTemplate;
+COMMON_DATA struct ListMenuTemplate gScrollableMultichoice_ListMenuTemplate = {0};
+EWRAM_DATA u16 gScrollableMultichoice_ScrollOffset = 0;
 
 void TryLoseFansFromPlayTime(void);
 void SetPlayerGotFirstFans(void);
@@ -139,7 +144,20 @@ static void Task_CloseBattlePikeCurtain(u8);
 static u8 DidPlayerGetFirstFans(void);
 static void SetInitialFansOfPlayer(void);
 static u16 PlayerGainRandomTrainerFan(void);
+#if FREE_LINK_BATTLE_RECORDS == FALSE
 static void BufferFanClubTrainerName_(struct LinkBattleRecords *, u8, u8);
+#else
+static void BufferFanClubTrainerName_(u8 whichLinkTrainer, u8 whichNPCTrainer);
+#endif //FREE_LINK_BATTLE_RECORDS
+
+static const u8 sText_BigGuy[] = _("Big guy");
+static const u8 sText_BigGirl[] = _("Big girl");
+static const u8 sText_Son[] = _("son");
+static const u8 sText_Daughter[] = _("daughter");
+static const u8 sText_99TimesPlus[] = _("99 times +");
+static const u8 sText_1MinutePlus[] = _("1 minute +");
+static const u8 sText_SpaceSeconds[] = _(" seconds");
+static const u8 sText_SpaceTimes[] = _(" time(s)");
 
 void Special_ShowDiploma(void)
 {
@@ -184,11 +202,11 @@ static void DetermineCyclingRoadResults(u32 numFrames, u8 numBikeCollisions)
     if (numBikeCollisions < 100)
     {
         ConvertIntToDecimalStringN(gStringVar1, numBikeCollisions, STR_CONV_MODE_LEFT_ALIGN, 2);
-        StringAppend(gStringVar1, gText_SpaceTimes);
+        StringAppend(gStringVar1, sText_SpaceTimes);
     }
     else
     {
-        StringCopy(gStringVar1, gText_99TimesPlus);
+        StringCopy(gStringVar1, sText_99TimesPlus);
     }
 
     if (numFrames < 3600)
@@ -196,11 +214,11 @@ static void DetermineCyclingRoadResults(u32 numFrames, u8 numBikeCollisions)
         ConvertIntToDecimalStringN(gStringVar2, numFrames / 60, STR_CONV_MODE_RIGHT_ALIGN, 2);
         gStringVar2[2] = CHAR_DEC_SEPARATOR;
         ConvertIntToDecimalStringN(&gStringVar2[3], ((numFrames % 60) * 100) / 60, STR_CONV_MODE_LEADING_ZEROS, 2);
-        StringAppend(gStringVar2, gText_SpaceSeconds);
+        StringAppend(gStringVar2, sText_SpaceSeconds);
     }
     else
     {
-        StringCopy(gStringVar2, gText_1MinutePlus);
+        StringCopy(gStringVar2, sText_1MinutePlus);
     }
 
     result = 0;
@@ -266,7 +284,7 @@ u16 GetRecordedCyclingRoadResults(void)
 
 void UpdateCyclingRoadState(void)
 {
-    if (gLastUsedWarp.mapNum == MAP_NUM(ROUTE110_SEASIDE_CYCLING_ROAD_SOUTH_ENTRANCE) && gLastUsedWarp.mapGroup == MAP_GROUP(ROUTE110_SEASIDE_CYCLING_ROAD_SOUTH_ENTRANCE))
+    if (gLastUsedWarp.mapNum == MAP_NUM(ROUTE110_SEASIDE_CYCLING_ROAD_NORTH_ENTRANCE) && gLastUsedWarp.mapGroup == MAP_GROUP(ROUTE110_SEASIDE_CYCLING_ROAD_NORTH_ENTRANCE))
         return;
 
     if (VarGet(VAR_CYCLING_CHALLENGE_STATE) == 2 || VarGet(VAR_CYCLING_CHALLENGE_STATE) == 3)
@@ -909,17 +927,17 @@ u8 GetPlayerTrainerIdOnesDigit(void)
 void GetPlayerBigGuyGirlString(void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE)
-        StringCopy(gStringVar1, gText_BigGuy);
+        StringCopy(gStringVar1, sText_BigGuy);
     else
-        StringCopy(gStringVar1, gText_BigGirl);
+        StringCopy(gStringVar1, sText_BigGirl);
 }
 
 void GetRivalSonDaughterString(void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE)
-        StringCopy(gStringVar1, gText_Daughter);
+        StringCopy(gStringVar1, sText_Daughter);
     else
-        StringCopy(gStringVar1, gText_Son);
+        StringCopy(gStringVar1, sText_Son);
 }
 
 u8 GetBattleOutcome(void)
@@ -964,20 +982,29 @@ void FieldShowRegionMap(void)
     SetMainCallback2(CB2_FieldShowRegionMap);
 }
 
+static bool32 IsBuildingPCTile(u32 tileId)
+{
+    return gMapHeader.mapLayout->primaryTileset == &gTileset_Building && (tileId == METATILE_Building_PC_On || tileId == METATILE_Building_PC_Off);
+}
+
+static bool32 IsPlayerHousePCTile(u32 tileId)
+{
+    return gMapHeader.mapLayout->secondaryTileset == &gTileset_BrendansMaysHouse
+        && (tileId == METATILE_BrendansMaysHouse_BrendanPC_On
+            || tileId == METATILE_BrendansMaysHouse_BrendanPC_Off
+            || tileId == METATILE_BrendansMaysHouse_MayPC_On
+            || tileId == METATILE_BrendansMaysHouse_MayPC_Off);
+}
+
 static bool8 IsPlayerInFrontOfPC(void)
 {
-    u16 x, y;
-    u16 tileInFront;
+    s16 x, y;
+    u32 tileInFront;
 
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
     tileInFront = MapGridGetMetatileIdAt(x, y);
 
-    return (tileInFront == METATILE_BrendansMaysHouse_BrendanPC_On
-         || tileInFront == METATILE_BrendansMaysHouse_BrendanPC_Off
-         || tileInFront == METATILE_BrendansMaysHouse_MayPC_On
-         || tileInFront == METATILE_BrendansMaysHouse_MayPC_Off
-         || tileInFront == METATILE_Building_PC_On
-         || tileInFront == METATILE_Building_PC_Off);
+    return IsBuildingPCTile(tileInFront) || IsPlayerHousePCTile(tileInFront);
 }
 
 // Task data for Task_PCTurnOnEffect and Task_LotteryCornerComputerEffect
@@ -1647,7 +1674,7 @@ bool8 BufferTMHMMoveName(void)
 {
     if (gSpecialVar_0x8004 >= ITEM_TM01 && gSpecialVar_0x8004 <= ITEM_HM08)
     {
-        StringCopy(gStringVar2, gMoveNames[ItemIdToBattleMoveId(gSpecialVar_0x8004)]);
+        StringCopy(gStringVar2, GetMoveName(ItemIdToBattleMoveId(gSpecialVar_0x8004)));
         return TRUE;
     }
 
@@ -2203,6 +2230,8 @@ void ShowFrontierManiacMessage(void)
         else
             winStreak = gSaveBlock2Ptr->frontier.pyramidWinStreaks[FRONTIER_LVL_OPEN];
         break;
+    default:
+        return;
     }
 
     for (i = 0; i < FRONTIER_MANIAC_MESSAGE_COUNT - 1 && sFrontierManiacStreakThresholds[facility][i] < winStreak; i++);
@@ -2403,89 +2432,89 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
     },
     [SCROLL_MULTI_GLASS_WORKSHOP_VENDOR] =
     {
-        gText_BlueFlute,
-        gText_YellowFlute,
-        gText_RedFlute,
-        gText_WhiteFlute,
-        gText_BlackFlute,
-        gText_PrettyChair,
-        gText_PrettyDesk,
+        COMPOUND_STRING("BLUE FLUTE"),
+        COMPOUND_STRING("YELLOW FLUTE"),
+        COMPOUND_STRING("RED FLUTE"),
+        COMPOUND_STRING("WHITE FLUTE"),
+        COMPOUND_STRING("BLACK FLUTE"),
+        COMPOUND_STRING("PRETTY CHAIR"),
+        COMPOUND_STRING("PRETTY DESK"),
         gText_Exit
     },
     [SCROLL_MULTI_POKEMON_FAN_CLUB_RATER] =
     {
-        gText_0Pts,
-        gText_10Pts,
-        gText_20Pts,
-        gText_30Pts,
-        gText_40Pts,
-        gText_50Pts,
-        gText_60Pts,
-        gText_70Pts,
-        gText_80Pts,
-        gText_90Pts,
-        gText_100Pts,
-        gText_QuestionMark
+        COMPOUND_STRING("0 pts"),
+        COMPOUND_STRING("10 pts"),
+        COMPOUND_STRING("20 pts"),
+        COMPOUND_STRING("30 pts"),
+        COMPOUND_STRING("40 pts"),
+        COMPOUND_STRING("50 pts"),
+        COMPOUND_STRING("60 pts"),
+        COMPOUND_STRING("70 pts"),
+        COMPOUND_STRING("80 pts"),
+        COMPOUND_STRING("90 pts"),
+        COMPOUND_STRING("100 pts"),
+        COMPOUND_STRING("?")
     },
     [SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_1] =
     {
-        gText_KissPoster16BP,
-        gText_KissCushion32BP,
-        gText_SmoochumDoll32BP,
-        gText_TogepiDoll48BP,
-        gText_MeowthDoll48BP,
-        gText_ClefairyDoll48BP,
-        gText_DittoDoll48BP,
-        gText_CyndaquilDoll80BP,
-        gText_ChikoritaDoll80BP,
-        gText_TotodileDoll80BP,
+        COMPOUND_STRING("KISS POSTER{CLEAR_TO 0x5E}16BP"),
+        COMPOUND_STRING("KISS CUSHION{CLEAR_TO 0x5E}32BP"),
+        COMPOUND_STRING("SMOOCHUM DOLL{CLEAR_TO 0x5E}32BP"),
+        COMPOUND_STRING("TOGEPI DOLL{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("MEOWTH DOLL{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("CLEFAIRY DOLL{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("DITTO DOLL{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("CYNDAQUIL DOLL{CLEAR_TO 0x5E}80BP"),
+        COMPOUND_STRING("CHIKORITA DOLL{CLEAR_TO 0x5E}80BP"),
+        COMPOUND_STRING("TOTODILE DOLL{CLEAR_TO 0x5E}80BP"),
         gText_Exit
     },
     [SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_2] =
     {
-        gText_LaprasDoll128BP,
-        gText_SnorlaxDoll128BP,
-        gText_VenusaurDoll256BP,
-        gText_CharizardDoll256BP,
-        gText_BlastoiseDoll256BP,
+        COMPOUND_STRING("LAPRAS DOLL{CLEAR_TO 0x58}128BP"),
+        COMPOUND_STRING("SNORLAX DOLL{CLEAR_TO 0x58}128BP"),
+        COMPOUND_STRING("VENUSAUR DOLL{CLEAR_TO 0x58}256BP"),
+        COMPOUND_STRING("CHARIZARD DOLL{CLEAR_TO 0x58}256BP"),
+        COMPOUND_STRING("BLASTOISE DOLL{CLEAR_TO 0x58}256BP"),
         gText_Exit
     },
     [SCROLL_MULTI_BF_EXCHANGE_CORNER_VITAMIN_VENDOR] =
     {
-        gText_Protein1BP,
-        gText_Calcium1BP,
-        gText_Iron1BP,
-        gText_Zinc1BP,
-        gText_Carbos1BP,
-        gText_HpUp1BP,
+        COMPOUND_STRING("PROTEIN{CLEAR_TO 0x64}1BP"),
+        COMPOUND_STRING("CALCIUM{CLEAR_TO 0x64}1BP"),
+        COMPOUND_STRING("IRON{CLEAR_TO 0x64}1BP"),
+        COMPOUND_STRING("ZINC{CLEAR_TO 0x64}1BP"),
+        COMPOUND_STRING("CARBOS{CLEAR_TO 0x64}1BP"),
+        COMPOUND_STRING("HP UP{CLEAR_TO 0x64}1BP"),
         gText_Exit
     },
     [SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR] =
     {
-        gText_Leftovers48BP,
-        gText_WhiteHerb48BP,
-        gText_QuickClaw48BP,
-        gText_MentalHerb48BP,
-        gText_BrightPowder64BP,
-        gText_ChoiceBand64BP,
-        gText_KingsRock64BP,
-        gText_FocusBand64BP,
-        gText_ScopeLens64BP,
+        COMPOUND_STRING("LEFTOVERS{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("WHITE HERB{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("QUICK CLAW{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("MENTAL HERB{CLEAR_TO 0x5E}48BP"),
+        COMPOUND_STRING("BRIGHTPOWDER{CLEAR_TO 0x5E}64BP"),
+        COMPOUND_STRING("CHOICE BAND{CLEAR_TO 0x5E}64BP"),
+        COMPOUND_STRING("KING'S ROCK{CLEAR_TO 0x5E}64BP"),
+        COMPOUND_STRING("FOCUS BAND{CLEAR_TO 0x5E}64BP"),
+        COMPOUND_STRING("SCOPE LENS{CLEAR_TO 0x5E}64BP"),
         gText_Exit
     },
     [SCROLL_MULTI_BERRY_POWDER_VENDOR] =
     {
-        gText_EnergyPowder50,
-        gText_EnergyRoot80,
-        gText_HealPowder50,
-        gText_RevivalHerb300,
-        gText_Protein1000,
-        gText_Iron1000,
-        gText_Carbos1000,
-        gText_Calcium1000,
-        gText_Zinc1000,
-        gText_HPUp1000,
-        gText_PPUp3000,
+        COMPOUND_STRING("ENERGYPOWDER{CLEAR_TO 114}{FONT_SMALL}50"),
+        COMPOUND_STRING("ENERGY ROOT{CLEAR_TO 114}{FONT_SMALL}80"),
+        COMPOUND_STRING("HEAL POWDER{CLEAR_TO 114}{FONT_SMALL}50"),
+        COMPOUND_STRING("REVIVAL HERB{CLEAR_TO 108}{FONT_SMALL}300"),
+        COMPOUND_STRING("PROTEIN{CLEAR_TO 99}{FONT_SMALL}1,000"),
+        COMPOUND_STRING("IRON{CLEAR_TO 99}{FONT_SMALL}1,000"),
+        COMPOUND_STRING("CARBOS{CLEAR_TO 99}{FONT_SMALL}1,000"),
+        COMPOUND_STRING("CALCIUM{CLEAR_TO 99}{FONT_SMALL}1,000"),
+        COMPOUND_STRING("ZINC{CLEAR_TO 99}{FONT_SMALL}1,000"),
+        COMPOUND_STRING("HP UP{CLEAR_TO 99}{FONT_SMALL}1,000"),
+        COMPOUND_STRING("PP UP{CLEAR_TO 99}{FONT_SMALL}3,000"),
         gText_Exit
     },
     [SCROLL_MULTI_BF_RECEPTIONIST] =
@@ -2503,30 +2532,30 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
     },
     [SCROLL_MULTI_BF_MOVE_TUTOR_1] =
     {
-        gText_Softboiled16BP,
-        gText_SeismicToss24BP,
-        gText_DreamEater24BP,
-        gText_MegaPunch24BP,
-        gText_MegaKick48BP,
-        gText_BodySlam48BP,
-        gText_RockSlide48BP,
-        gText_Counter48BP,
-        gText_ThunderWave48BP,
-        gText_SwordsDance48BP,
+        COMPOUND_STRING("SOFTBOILED{CLEAR_TO 0x4E}16BP"),
+        COMPOUND_STRING("SEISMIC TOSS{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("DREAM EATER{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("MEGA PUNCH{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("MEGA KICK{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("BODY SLAM{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("ROCK SLIDE{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("COUNTER{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("THUNDER WAVE{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("SWORDS DANCE{CLEAR_TO 0x4E}48BP"),
         gText_Exit
     },
     [SCROLL_MULTI_BF_MOVE_TUTOR_2] =
     {
-        gText_DefenseCurl16BP,
-        gText_Snore24BP,
-        gText_MudSlap24BP,
-        gText_Swift24BP,
-        gText_IcyWind24BP,
-        gText_Endure48BP,
-        gText_PsychUp48BP,
-        gText_IcePunch48BP,
-        gText_ThunderPunch48BP,
-        gText_FirePunch48BP,
+        COMPOUND_STRING("DEFENSE CURL{CLEAR_TO 0x4E}16BP"),
+        COMPOUND_STRING("SNORE{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("MUD-SLAP{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("SWIFT{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("ICY WIND{CLEAR_TO 0x4E}24BP"),
+        COMPOUND_STRING("ENDURE{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("PSYCH UP{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("ICE PUNCH{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("THUNDERPUNCH{CLEAR_TO 0x4E}48BP"),
+        COMPOUND_STRING("FIRE PUNCH{CLEAR_TO 0x4E}48BP"),
         gText_Exit
     },
     [SCROLL_MULTI_SS_TIDAL_DESTINATION] =
@@ -2559,7 +2588,7 @@ static void Task_ShowScrollableMultichoice(u8 taskId)
     struct Task *task = &gTasks[taskId];
 
     LockPlayerFieldControls();
-    sScrollableMultichoice_ScrollOffset = 0;
+    gScrollableMultichoice_ScrollOffset = 0;
     sScrollableMultichoice_ItemSpriteId = MAX_SPRITES;
     FillFrontierExchangeCornerWindowAndItemIcon(task->tScrollMultiId, 0);
     ShowBattleFrontierTutorWindow(task->tScrollMultiId, 0);
@@ -2633,7 +2662,7 @@ static void ScrollableMultichoice_MoveCursor(s32 itemIndex, bool8 onInit, struct
         u16 selection;
         struct Task *task = &gTasks[taskId];
         ListMenuGetScrollAndRow(task->tListTaskId, &selection, NULL);
-        sScrollableMultichoice_ScrollOffset = selection;
+        gScrollableMultichoice_ScrollOffset = selection;
         ListMenuGetCurrentItemArrayId(task->tListTaskId, &selection);
         HideFrontierExchangeCornerItemIcon(task->tScrollMultiId, sFrontierExchangeCorner_NeverRead);
         FillFrontierExchangeCornerWindowAndItemIcon(task->tScrollMultiId, selection);
@@ -2748,13 +2777,15 @@ static void ScrollableMultichoice_UpdateScrollArrows(u8 taskId)
     struct ScrollArrowsTemplate template = sScrollableMultichoice_ScrollArrowsTemplate;
     if (task->tMaxItemsOnScreen != task->tNumItems)
     {
+        u32 y0 = (8 * (task->tTop - 1));
+
         template.firstX = (task->tWidth / 2) * 8 + 12 + (task->tLeft - 1) * 8;
-        template.firstY = 8;
+        template.firstY = 8 + y0;
         template.secondX = (task->tWidth / 2) * 8 + 12 + (task->tLeft - 1) * 8;
-        template.secondY = task->tHeight * 8 + 10;
+        template.secondY = task->tHeight * 8 + 10 + y0;
         template.fullyUpThreshold = 0;
         template.fullyDownThreshold = task->tNumItems - task->tMaxItemsOnScreen;
-        task->tScrollArrowId = AddScrollIndicatorArrowPair(&template, &sScrollableMultichoice_ScrollOffset);
+        task->tScrollArrowId = AddScrollIndicatorArrowPair(&template, &gScrollableMultichoice_ScrollOffset);
     }
 }
 
@@ -2785,41 +2816,13 @@ void SetBattleTowerLinkPlayerGfx(void)
 
 void ShowNatureGirlMessage(void)
 {
-    static const u8 *const sNatureGirlMessages[NUM_NATURES] = {
-        [NATURE_HARDY]   = BattleFrontier_Lounge5_Text_NatureGirlHardy,
-        [NATURE_LONELY]  = BattleFrontier_Lounge5_Text_NatureGirlLonely,
-        [NATURE_BRAVE]   = BattleFrontier_Lounge5_Text_NatureGirlBrave,
-        [NATURE_ADAMANT] = BattleFrontier_Lounge5_Text_NatureGirlAdamant,
-        [NATURE_NAUGHTY] = BattleFrontier_Lounge5_Text_NatureGirlNaughty,
-        [NATURE_BOLD]    = BattleFrontier_Lounge5_Text_NatureGirlBold,
-        [NATURE_DOCILE]  = BattleFrontier_Lounge5_Text_NatureGirlDocileNaiveQuietQuirky,
-        [NATURE_RELAXED] = BattleFrontier_Lounge5_Text_NatureGirlRelaxed,
-        [NATURE_IMPISH]  = BattleFrontier_Lounge5_Text_NatureGirlImpish,
-        [NATURE_LAX]     = BattleFrontier_Lounge5_Text_NatureGirlLax,
-        [NATURE_TIMID]   = BattleFrontier_Lounge5_Text_NatureGirlTimid,
-        [NATURE_HASTY]   = BattleFrontier_Lounge5_Text_NatureGirlHasty,
-        [NATURE_SERIOUS] = BattleFrontier_Lounge5_Text_NatureGirlSerious,
-        [NATURE_JOLLY]   = BattleFrontier_Lounge5_Text_NatureGirlJolly,
-        [NATURE_NAIVE]   = BattleFrontier_Lounge5_Text_NatureGirlDocileNaiveQuietQuirky,
-        [NATURE_MODEST]  = BattleFrontier_Lounge5_Text_NatureGirlModest,
-        [NATURE_MILD]    = BattleFrontier_Lounge5_Text_NatureGirlMild,
-        [NATURE_QUIET]   = BattleFrontier_Lounge5_Text_NatureGirlDocileNaiveQuietQuirky,
-        [NATURE_BASHFUL] = BattleFrontier_Lounge5_Text_NatureGirlBashful,
-        [NATURE_RASH]    = BattleFrontier_Lounge5_Text_NatureGirlRash,
-        [NATURE_CALM]    = BattleFrontier_Lounge5_Text_NatureGirlCalm,
-        [NATURE_GENTLE]  = BattleFrontier_Lounge5_Text_NatureGirlGentle,
-        [NATURE_SASSY]   = BattleFrontier_Lounge5_Text_NatureGirlSassy,
-        [NATURE_CAREFUL] = BattleFrontier_Lounge5_Text_NatureGirlCareful,
-        [NATURE_QUIRKY]  = BattleFrontier_Lounge5_Text_NatureGirlDocileNaiveQuietQuirky,
-    };
-
     u8 nature;
 
     if (gSpecialVar_0x8004 >= PARTY_SIZE)
         gSpecialVar_0x8004 = 0;
 
     nature = GetNature(&gPlayerParty[gSpecialVar_0x8004]);
-    ShowFieldMessage(sNatureGirlMessages[nature]);
+    ShowFieldMessage(gNaturesInfo[nature].natureGirlMessage);
 }
 
 void UpdateFrontierGambler(u16 daysSince)
@@ -3057,7 +3060,8 @@ static void HideFrontierExchangeCornerItemIcon(u16 menu, u16 unused)
         case SCROLL_MULTI_BF_EXCHANGE_CORNER_DECOR_VENDOR_2:
         case SCROLL_MULTI_BF_EXCHANGE_CORNER_VITAMIN_VENDOR:
         case SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR:
-            DestroySpriteAndFreeResources(&gSprites[sScrollableMultichoice_ItemSpriteId]);
+            // This makes sure deleting the icon will not clear palettes in use by object events
+            FieldEffectFreeGraphicsResources(&gSprites[sScrollableMultichoice_ItemSpriteId]);
             break;
         }
         sScrollableMultichoice_ItemSpriteId = MAX_SPRITES;
@@ -3066,7 +3070,7 @@ static void HideFrontierExchangeCornerItemIcon(u16 menu, u16 unused)
 
 void BufferBattleFrontierTutorMoveName(void)
 {
-    StringCopy(gStringVar1, gMoveNames[gSpecialVar_0x8005]);
+    StringCopy(gStringVar1, GetMoveName(gSpecialVar_0x8005));
 }
 
 static void ShowBattleFrontierTutorWindow(u8 menu, u16 selection)
@@ -3276,9 +3280,8 @@ static void Task_DeoxysRockInteraction(u8 taskId)
 
 static void ChangeDeoxysRockLevel(u8 rockLevel)
 {
-    u8 objectEventId;
-    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(10), PLTT_SIZEOF(4));
-    TryGetObjectEventIdByLocalIdAndMap(LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
+    u8 paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE);
+    LoadPalette(&sDeoxysRockPalettes[rockLevel], OBJ_PLTT_ID(paletteNum), PLTT_SIZEOF(4));
 
     if (rockLevel == 0)
         PlaySE(SE_M_CONFUSE_RAY); // Failure sound
@@ -3314,21 +3317,23 @@ static void WaitForDeoxysRockMovement(u8 taskId)
 
 void IncrementBirthIslandRockStepCount(void)
 {
-    u16 var = VarGet(VAR_DEOXYS_ROCK_STEP_COUNT);
+    u16 stepCount = VarGet(VAR_DEOXYS_ROCK_STEP_COUNT);
     if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(BIRTH_ISLAND_EXTERIOR) && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BIRTH_ISLAND_EXTERIOR))
     {
-        var++;
-        if (var > 99)
+        if (++stepCount > 99)
             VarSet(VAR_DEOXYS_ROCK_STEP_COUNT, 0);
         else
-            VarSet(VAR_DEOXYS_ROCK_STEP_COUNT, var);
+            VarSet(VAR_DEOXYS_ROCK_STEP_COUNT, stepCount);
     }
 }
 
+// called before fade-in
 void SetDeoxysRockPalette(void)
 {
-    LoadPalette(&sDeoxysRockPalettes[(u8)VarGet(VAR_DEOXYS_ROCK_LEVEL)], OBJ_PLTT_ID(10), PLTT_SIZEOF(4));
-    BlendPalettes(0x04000000, 16, 0);
+    u32 paletteNum = IndexOfSpritePaletteTag(OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE);
+    LoadPalette(&sDeoxysRockPalettes[(u8)VarGet(VAR_DEOXYS_ROCK_LEVEL)], OBJ_PLTT_ID(paletteNum), PLTT_SIZEOF(4));
+    // Set faded to all black, weather blending handled during fade-in
+    CpuFill16(0, &gPlttBufferFaded[OBJ_PLTT_ID(paletteNum)], 32);
 }
 
 void SetPCBoxToSendMon(u8 boxId)
@@ -3559,7 +3564,7 @@ bool32 IsTrainerRegistered(void)
     int index = GetRematchIdxByTrainerIdx(gSpecialVar_0x8004);
     if (index >= 0)
     {
-        if (FlagGet(FLAG_MATCH_CALL_REGISTERED + index) == TRUE)
+        if (FlagGet(TRAINER_REGISTERED_FLAGS_START + index) == TRUE)
             return TRUE;
     }
     return FALSE;
@@ -3895,16 +3900,15 @@ bool8 InPokemonCenter(void)
 
 #define FANCLUB_BITFIELD (gSaveBlock1Ptr->vars[VAR_FANCLUB_FAN_COUNTER - VARS_START])
 #define FANCLUB_COUNTER    0x007F
-#define FANCLUB_FAN_FLAGS  0xFF80
 
-#define GET_TRAINER_FAN_CLUB_FLAG(flag) (FANCLUB_BITFIELD >> (flag) & 1)
-#define SET_TRAINER_FAN_CLUB_FLAG(flag) (FANCLUB_BITFIELD |= 1 << (flag))
-#define FLIP_TRAINER_FAN_CLUB_FLAG(flag)(FANCLUB_BITFIELD ^= 1 << (flag))
+#define GET_TRAINER_FAN_CLUB_FLAG(flag)  (FANCLUB_BITFIELD >> (flag) & 1)
+#define SET_TRAINER_FAN_CLUB_FLAG(flag)  (FANCLUB_BITFIELD |= 1 << (flag))
+#define FLIP_TRAINER_FAN_CLUB_FLAG(flag) (FANCLUB_BITFIELD ^= 1 << (flag))
 
-#define GET_TRAINER_FAN_CLUB_COUNTER        (FANCLUB_BITFIELD & FANCLUB_COUNTER)
-#define SET_TRAINER_FAN_CLUB_COUNTER(count) (FANCLUB_BITFIELD = (FANCLUB_BITFIELD & FANCLUB_FAN_FLAGS) | (count))
-#define INCR_TRAINER_FAN_CLUB_COUNTER(count)(FANCLUB_BITFIELD += (count))
-#define CLEAR_TRAINER_FAN_CLUB_COUNTER      (FANCLUB_BITFIELD &= ~(FANCLUB_COUNTER))
+#define GET_TRAINER_FAN_CLUB_COUNTER         (FANCLUB_BITFIELD & FANCLUB_COUNTER)
+#define SET_TRAINER_FAN_CLUB_COUNTER(count)  (FANCLUB_BITFIELD = (FANCLUB_BITFIELD & ~FANCLUB_COUNTER) | (count))
+#define INCR_TRAINER_FAN_CLUB_COUNTER(count) (FANCLUB_BITFIELD += (count))
+#define CLEAR_TRAINER_FAN_CLUB_COUNTER       (FANCLUB_BITFIELD &= ~FANCLUB_COUNTER)
 
 void ResetFanClub(void)
 {
@@ -4140,9 +4144,14 @@ void BufferFanClubTrainerName(void)
     case FANCLUB_MEMBER8:
         break;
     }
+#if FREE_LINK_BATTLE_RECORDS == FALSE
     BufferFanClubTrainerName_(&gSaveBlock1Ptr->linkBattleRecords, whichLinkTrainer, whichNPCTrainer);
+#else
+    BufferFanClubTrainerName_(whichLinkTrainer, whichNPCTrainer);
+#endif //FREE_LINK_BATTLE_RECORDS
 }
 
+#if FREE_LINK_BATTLE_RECORDS == FALSE
 static void BufferFanClubTrainerName_(struct LinkBattleRecords *linkRecords, u8 whichLinkTrainer, u8 whichNPCTrainer)
 {
     struct LinkBattleRecord *record = &linkRecords->entries[whichLinkTrainer];
@@ -4180,6 +4189,35 @@ static void BufferFanClubTrainerName_(struct LinkBattleRecords *linkRecords, u8 
         ConvertInternationalString(gStringVar1, linkRecords->languages[whichLinkTrainer]);
     }
 }
+#else
+static void BufferFanClubTrainerName_(u8 whichLinkTrainer, u8 whichNPCTrainer)
+{
+    switch (whichNPCTrainer)
+    {
+        case 0:
+            StringCopy(gStringVar1, gText_Wallace);
+            break;
+        case 1:
+            StringCopy(gStringVar1, gText_Steven);
+            break;
+        case 2:
+            StringCopy(gStringVar1, gText_Brawly);
+            break;
+        case 3:
+            StringCopy(gStringVar1, gText_Winona);
+            break;
+        case 4:
+            StringCopy(gStringVar1, gText_Phoebe);
+            break;
+        case 5:
+            StringCopy(gStringVar1, gText_Glacia);
+            break;
+        default:
+            StringCopy(gStringVar1, gText_Wallace);
+            break;
+    }
+}
+#endif //FREE_LINK_BATTLE_RECORDS
 
 void UpdateTrainerFansAfterLinkBattle(void)
 {
@@ -4228,4 +4266,118 @@ bool8 SetCaughtMon(void)
 {
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(VarGet(VAR_TEMP_1)), FLAG_SET_SEEN);
     GetSetPokedexFlag(SpeciesToNationalPokedexNum(VarGet(VAR_TEMP_1)), FLAG_SET_CAUGHT);
+}
+
+void TrySkyBattle(void)
+{
+    int i;
+
+    if (B_VAR_SKY_BATTLE == 0 || B_FLAG_SKY_BATTLE == 0)
+    {
+        LockPlayerFieldControls();
+        ScriptContext_SetupScript(Debug_FlagsAndVarNotSetBattleConfigMessage);
+        return;
+    }
+    for (i = 0; i < CalculatePlayerPartyCount(); i++)
+    {
+        struct Pokemon* pokemon = &gPlayerParty[i];
+        if (CanMonParticipateInSkyBattle(pokemon) && GetMonData(pokemon, MON_DATA_HP, NULL) > 0)
+        {
+            PreparePartyForSkyBattle();
+            gSpecialVar_Result = TRUE;
+            return;
+        }
+    }
+    gSpecialVar_Result = FALSE;
+}
+
+void PreparePartyForSkyBattle(void)
+{
+    int i, participatingPokemonSlot = 0;
+    u8 partyCount = CalculatePlayerPartyCount();
+
+    FlagSet(B_FLAG_SKY_BATTLE);
+    SavePlayerParty();
+
+    for (i = 0; i < partyCount; i++)
+    {
+        struct Pokemon* pokemon = &gPlayerParty[i];
+
+        if (CanMonParticipateInSkyBattle(pokemon))
+            participatingPokemonSlot += 1 << i;
+        else
+            ZeroMonData(pokemon);
+    }
+    VarSet(B_VAR_SKY_BATTLE,participatingPokemonSlot);
+    CompactPartySlots();
+}
+
+void GetObjectPosition(u16* xPointer, u16* yPointer, u32 localId, u32 useTemplate)
+{
+    u32 objectId;
+    struct ObjectEvent* objEvent;
+
+    if (useTemplate)
+    {
+        const struct ObjectEventTemplate *objTemplate = FindObjectEventTemplateByLocalId(localId, gSaveBlock1Ptr->objectEventTemplates, gMapHeader.events->objectEventCount);
+        *xPointer = objTemplate->x;
+        *yPointer = objTemplate->y;
+        return;
+    }
+
+    objectId = GetObjectEventIdByLocalId(localId);
+    objEvent = &gObjectEvents[objectId];
+    *xPointer = objEvent->currentCoords.x - 7;
+    *yPointer = objEvent->currentCoords.y - 7;
+}
+
+bool32 CheckObjectAtXY(u32 x, u32 y)
+{
+    u32 i;
+
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    {
+        if (!gObjectEvents[i].active)
+            continue;
+
+        if (gObjectEvents[i].currentCoords.x != x)
+            continue;
+
+        if (gObjectEvents[i].currentCoords.y != y)
+            continue;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+bool32 CheckPartyHasSpecies(u32 givenSpecies)
+{
+    u32 partyIndex;
+
+    for (partyIndex = 0; partyIndex < CalculatePlayerPartyCount(); partyIndex++)
+        if (GetMonData(&gPlayerParty[partyIndex], MON_DATA_SPECIES) == givenSpecies)
+            return TRUE;
+
+    return FALSE;
+}
+
+void UseBlankMessageToCancelPokemonPic(void)
+{
+    u8 t = EOS;
+    AddTextPrinterParameterized(0, FONT_NORMAL, &t, 0, 1, 0, NULL);
+    ScriptMenu_HidePokemonPic();
+}
+
+void EnterCode(void)
+{
+    DoNamingScreen(NAMING_SCREEN_CODE, gStringVar2, 0, 0, 0, CB2_ReturnToFieldContinueScript);
+}
+
+void GetCodeFeedback(void)
+{
+    static const u8 sText_SampleCode[] = _("SampleCode");
+    if (!StringCompare(gStringVar2, sText_SampleCode))
+        gSpecialVar_Result = 1;
+    else
+        gSpecialVar_Result = 0;
 }

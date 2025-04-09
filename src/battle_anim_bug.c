@@ -11,7 +11,6 @@ static void AnimTranslateWebThread_Step(struct Sprite *);
 static void AnimStringWrap(struct Sprite *);
 static void AnimSpiderWeb_Step(struct Sprite *);
 static void AnimSpiderWeb_End(struct Sprite *);
-static void AnimTranslateStinger(struct Sprite *);
 static void AnimTailGlowOrb(struct Sprite *);
 
 static const union AffineAnimCmd sAffineAnim_MegahornHorn_0[] =
@@ -371,7 +370,7 @@ static void AnimSpiderWeb_End(struct Sprite *sprite)
 // arg 2: target x pixel offset
 // arg 3: target y pixel offset
 // arg 4: duration
-static void AnimTranslateStinger(struct Sprite *sprite)
+void AnimTranslateStinger(struct Sprite *sprite)
 {
     s16 lVarX, lVarY;
     u16 rot;
@@ -390,7 +389,7 @@ static void AnimTranslateStinger(struct Sprite *sprite)
         }
     }
 
-    if (!IsContest() && GetBattlerSide(gBattleAnimAttacker) == GetBattlerSide(gBattleAnimTarget))
+    if (!IsContest() && IsBattlerAlly(gBattleAnimAttacker, gBattleAnimTarget))
     {
         if (GetBattlerPosition(gBattleAnimTarget) == B_POSITION_PLAYER_LEFT
          || GetBattlerPosition(gBattleAnimTarget) == B_POSITION_OPPONENT_LEFT)
@@ -451,7 +450,7 @@ void AnimMissileArc_Step(struct Sprite *sprite)
     else
     {
         s16 tempData[8];
-        u16 *data = sprite->data;
+        s16 *data = sprite->data;
         u16 x1 = sprite->x;
         s16 x2 = sprite->x2;
         u16 y1 = sprite->y;

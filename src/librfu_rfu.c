@@ -76,11 +76,11 @@ static void rfu_STC_NI_receive_Sender(u8, u8, const struct RfuLocalStruct *, UNU
 static void rfu_STC_NI_initSlot_asRecvDataEntity(u8, struct NIComm *);
 static void rfu_STC_NI_initSlot_asRecvControllData(u8, struct NIComm *);
 
-struct RfuSlotStatusUNI *gRfuSlotStatusUNI[RFU_CHILD_MAX];
-struct RfuSlotStatusNI *gRfuSlotStatusNI[RFU_CHILD_MAX];
-struct RfuLinkStatus *gRfuLinkStatus;
-struct RfuStatic *gRfuStatic;
-struct RfuFixed *gRfuFixed;
+COMMON_DATA struct RfuSlotStatusUNI *gRfuSlotStatusUNI[RFU_CHILD_MAX] = {0};
+COMMON_DATA struct RfuSlotStatusNI *gRfuSlotStatusNI[RFU_CHILD_MAX] = {0};
+COMMON_DATA struct RfuLinkStatus *gRfuLinkStatus = NULL;
+COMMON_DATA struct RfuStatic *gRfuStatic = NULL;
+COMMON_DATA struct RfuFixed *gRfuFixed = NULL;
 
 static const struct LLSFStruct llsf_struct[2] = {
     [MODE_CHILD] = {
@@ -134,10 +134,11 @@ static const char str_checkMbootLL[] = "RFU-MBOOT";
 u16 rfu_initializeAPI(u32 *APIBuffer, u16 buffByteSize, IntrFunc *sioIntrTable_p, bool8 copyInterruptToRam)
 {
     u16 i;
-    u16 *dst;
-    const u16 *src;
     u16 buffByteSizeMax;
 
+    // is in EWRAM?
+    if (((uintptr_t)APIBuffer & 0xF000000) == EWRAM_START && copyInterruptToRam)
+        return ERR_RFU_API_BUFF_ADR;
     // is not 4-byte aligned?
     if ((u32)APIBuffer & 3)
         return ERR_RFU_API_BUFF_ADR;
@@ -179,11 +180,13 @@ u16 rfu_initializeAPI(u32 *APIBuffer, u16 buffByteSize, IntrFunc *sioIntrTable_p
     }
     // rfu_REQ_changeMasterSlave is the function next to rfu_STC_fastCopy
 #if LIBRFU_VERSION < 1026
-    src = (const u16 *)((uintptr_t)&rfu_STC_fastCopy & ~1);
-    dst = gRfuFixed->fastCopyBuffer;
+{
+    const u16 *src = (const u16 *)((uintptr_t)&rfu_STC_fastCopy & ~1);
+    u16 *dst = gRfuFixed->fastCopyBuffer;
     buffByteSizeMax = ((void *)rfu_REQ_changeMasterSlave - (void *)rfu_STC_fastCopy) / sizeof(u16);
     while (buffByteSizeMax-- != 0)
         *dst++ = *src++;
+}
 #else
     COPY(
         (uintptr_t)&rfu_STC_fastCopy & ~1,
@@ -335,7 +338,7 @@ u16 rfu_getRFUStatus(u8 *rfuState)
 u16 rfu_MBOOT_CHILD_inheritanceLinkStatus(void)
 {
     const char *s1 = str_checkMbootLL;
-    char *s2 = (char *)0x30000F0;
+    char *s2 = (char *)(IWRAM_START + 0xF0);
     u16 checksum;
     u16 *mb_buff_iwram_p;
     u8 i;
@@ -344,15 +347,15 @@ u16 rfu_MBOOT_CHILD_inheritanceLinkStatus(void)
     while (*s1 != '\0')
         if (*s1++ != *s2++)
             return 1;
-    mb_buff_iwram_p = (u16 *)0x3000000;
+    mb_buff_iwram_p = (u16 *)IWRAM_START;
 
     // The size of struct RfuLinkStatus is 180
     checksum = 0;
     for (i = 0; i < 180/2; ++i)
         checksum += *mb_buff_iwram_p++;
-    if (checksum != *(u16 *)0x30000FA)
+    if (checksum != *(u16 *)(IWRAM_START + 0xFA))
         return 1;
-    CpuCopy16((u16 *)0x3000000, gRfuLinkStatus, sizeof(struct RfuLinkStatus));
+    CpuCopy16((u16 *)IWRAM_START, gRfuLinkStatus, sizeof(struct RfuLinkStatus));
     gRfuStatic->flags |= 0x80; // mboot
     return 0;
 }
@@ -588,19 +591,17 @@ static void rfu_CB_pollAndEndSearchChild(u8 reqCommand, u16 reqResult)
 
 static void rfu_STC_readChildList(void)
 {
-    u32 stwiParam;
     u8 numSlots = gRfuFixed->STWIBuffer->rxPacketAlloc.rfuPacket8.data[1];
     u8 *data_p;
-    u8 i;
     u8 bm_slot_id;
-#if LIBRFU_VERSION < 1026
-    u8 true_slots[RFU_CHILD_MAX];
-#endif
 
 #if LIBRFU_VERSION < 1026
+    u8 true_slots[RFU_CHILD_MAX];
+
     if (numSlots != 0)
     {
-        stwiParam = gRfuFixed->STWIBuffer->rxPacketAlloc.rfuPacket32.data[0];
+        u8 i;
+        u32 stwiParam = gRfuFixed->STWIBuffer->rxPacketAlloc.rfuPacket32.data[0];
         STWI_set_Callback_M(rfu_CB_defaultCallback);
         STWI_send_LinkStatusREQ();
         if (STWI_poll_CommandEnd() == 0)
@@ -761,7 +762,7 @@ static void rfu_CB_pollConnectParent(u8 reqCommand, u16 reqResult)
     u16 id;
     u8 slot;
     u8 bm_slot_flag, i;
-    struct RfuTgtData *target_p;
+    struct RfuTgtData *target_p = NULL;
     struct RfuTgtData target_local;
 
     if (reqResult == 0)
@@ -1397,14 +1398,18 @@ static u16 rfu_STC_setSendData_org(u8 ni_or_uni, u8 bmSendSlot, u8 subFrameSize,
 {
     u8 bm_slot_id, sendSlotFlag;
     u8 frameSize;
+#ifdef UBFIX
+    u8 *llFrameSize_p = NULL;
+#else
     u8 *llFrameSize_p;
+#endif
     u8 sending;
     u8 i;
     u16 imeBak;
     struct RfuSlotStatusUNI *slotStatus_UNI;
     struct RfuSlotStatusNI *slotStatus_NI;
 
-    if (gRfuLinkStatus->parentChild == MODE_NEUTRAL)
+    if (gRfuLinkStatus->parentChild > MODE_PARENT)
         return ERR_MODE_NOT_CONNECTED;
     if (!(bmSendSlot & 0xF))
         return ERR_SLOT_NO;
@@ -1423,7 +1428,11 @@ static u16 rfu_STC_setSendData_org(u8 ni_or_uni, u8 bmSendSlot, u8 subFrameSize,
     else if (gRfuLinkStatus->parentChild == MODE_CHILD)
         llFrameSize_p = &gRfuLinkStatus->remainLLFrameSizeChild[bm_slot_id];
     frameSize = llsf_struct[gRfuLinkStatus->parentChild].frameSize;
+#ifdef UBFIX
+    if ((llFrameSize_p && subFrameSize > *llFrameSize_p) || subFrameSize <= frameSize)
+#else
     if (subFrameSize > *llFrameSize_p || subFrameSize <= frameSize)
+#endif
         return ERR_SUBFRAME_SIZE;
     imeBak = REG_IME;
     REG_IME = 0;
@@ -1461,7 +1470,10 @@ static u16 rfu_STC_setSendData_org(u8 ni_or_uni, u8 bmSendSlot, u8 subFrameSize,
             } while (0);
         }
         gRfuLinkStatus->sendSlotNIFlag |= bmSendSlot;
-        *llFrameSize_p -= subFrameSize;
+#ifdef UBFIX
+        if (llFrameSize_p)
+#endif
+            *llFrameSize_p -= subFrameSize;
         slotStatus_NI->send.state = SLOT_STATE_SEND_START;
     }
     else if (ni_or_uni & 0x10)
@@ -1470,7 +1482,10 @@ static u16 rfu_STC_setSendData_org(u8 ni_or_uni, u8 bmSendSlot, u8 subFrameSize,
         slotStatus_UNI->send.bmSlot = bmSendSlot;
         slotStatus_UNI->send.src = src;
         slotStatus_UNI->send.payloadSize = subFrameSize - frameSize;
-        *llFrameSize_p -= subFrameSize;
+#ifdef UBFIX
+        if (llFrameSize_p)
+#endif
+            *llFrameSize_p -= subFrameSize;
         slotStatus_UNI->send.state = SLOT_STATE_SEND_UNI;
         gRfuLinkStatus->sendSlotUNIFlag |= bmSendSlot;
     }

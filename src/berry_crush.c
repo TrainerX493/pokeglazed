@@ -1062,7 +1062,7 @@ static void BerryCrush_SetVBlankCB(void)
     SetVBlankCallback(VBlankCB);
 }
 
-static void BerryCrush_InitVBlankCB(void)
+static void UNUSED BerryCrush_InitVBlankCB(void)
 {
     SetVBlankCallback(NULL);
 }
@@ -1376,7 +1376,6 @@ static void CreateBerrySprites(struct BerryCrushGame *game, struct BerryCrushGam
     u8 spriteId;
     s16 distance, var1;
     s16 *data;
-    s32 amplitude;
     s16 speed;
     u32 var2;
 
@@ -1398,11 +1397,7 @@ static void CreateBerrySprites(struct BerryCrushGame *game, struct BerryCrushGam
         sYAccel = 32;
         sBitfield = 112; // Setting bits in MASK_TARGET_Y
         distance = gfx->playerCoords[i]->berryXDest - gfx->playerCoords[i]->berryXOffset;
-        amplitude = distance;
-        if (distance < 0)
-            amplitude += 3;
-
-        sAmplitude = amplitude >> 2;
+        sAmplitude = distance / 4;
         distance *= 128;
         var2 = speed + 32;
         var2 = var2 / 2;
@@ -1949,12 +1944,10 @@ static void DrawPlayerNameWindows(struct BerryCrushGame *game)
 // Each player name window border uses a color that corresponds to a slot of the crusher lid
 static void CopyPlayerNameWindowGfxToBg(struct BerryCrushGame *game)
 {
-    u8 i = 0;
-    u8 *windowGfx;
+    s32 i;
+    u8 *windowGfx = malloc_and_decompress(gBerryCrush_TextWindows_Tilemap, NULL);
 
-    LZ77UnCompWram(gBerryCrush_TextWindows_Tilemap, gDecompressionBuffer);
-
-    for (windowGfx = gDecompressionBuffer; i < game->playerCount; i++)
+    for (i = 0; i < game->playerCount; i++)
     {
         CopyToBgTilemapBufferRect(
             3,
@@ -1966,6 +1959,8 @@ static void CopyPlayerNameWindowGfxToBg(struct BerryCrushGame *game)
         );
     }
     CopyBgTilemapBufferToVram(3);
+
+    Free(windowGfx);
 }
 
 static void CreateGameSprites(struct BerryCrushGame *game)
@@ -2901,13 +2896,13 @@ static u32 Cmd_FinishGame(struct BerryCrushGame *game, u8 *args)
     case 0:
         game->gameState = STATE_FINISHED;
         PlaySE(SE_M_STRENGTH);
-        BlendPalettes(PALETTES_ALL, 8, RGB(31, 31, 0));
+        BlendPalettes(PALETTES_ALL, 8, RGB_YELLOW);
         game->gfx.counter = 2;
         break;
     case 1:
         if (--game->gfx.counter != (u8)-1)
             return 0;
-        BlendPalettes(PALETTES_ALL, 0, RGB(31, 31, 0));
+        BlendPalettes(PALETTES_ALL, 0, RGB_YELLOW);
         game->gfx.vibrationIdx = 4;
         game->gfx.counter = 0;
         game->gfx.numVibrations = sIntroOutroVibrationData[game->gfx.vibrationIdx][0];
@@ -2958,13 +2953,13 @@ static u32 Cmd_HandleTimeUp(struct BerryCrushGame *game, u8 *args)
     case 0:
         game->gameState = STATE_TIMES_UP;
         PlaySE(SE_FAILURE);
-        BlendPalettes(PALETTES_ALL, 8, RGB(31, 0, 0));
+        BlendPalettes(PALETTES_ALL, 8, RGB_RED);
         game->gfx.counter = 4;
         break;
     case 1:
         if (--game->gfx.counter != (u8)-1)
             return 0;
-        BlendPalettes(PALETTES_ALL, 0, RGB(31, 0, 0));
+        BlendPalettes(PALETTES_ALL, 0, RGB_RED);
         game->gfx.counter = 0;
         break;
     case 2:
@@ -3406,7 +3401,9 @@ static u32 Cmd_StopGame(struct BerryCrushGame *game, u8 *args)
         break;
     case 2:
         if (game->gfx.counter != 0)
+        {
             game->gfx.counter--;
+        }
         else
         {
             RunOrScheduleCommand(CMD_CLOSE_LINK, SCHEDULE_CMD, NULL);

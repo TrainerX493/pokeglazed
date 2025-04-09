@@ -11,7 +11,7 @@ struct FieldInput
     bool8 heldDirection2:1;
     bool8 tookStep:1;
     bool8 pressedBButton:1;
-    bool8 input_field_1_0:1;
+    bool8 pressedRButton:1;
     bool8 input_field_1_1:1;
     bool8 input_field_1_2:1;
     bool8 input_field_1_3:1;
@@ -32,8 +32,11 @@ bool8 TryDoDiveWarp(struct MapPosition *position, u16 b);
 int SetCableClubWarp(void);
 u8 TrySetDiveWarp(void);
 const u8 *GetInteractedLinkPlayerScript(struct MapPosition *position, u8 metatileBehavior, u8 direction);
-u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position);
+const u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position);
 void ClearPoisonStepCounter(void);
-void FieldInput_HandleCancelSignpost(struct FieldInput *input);
+void CancelSignPostMessageBox(struct FieldInput *input);
+
+#define NOT_SIGNPOST 0
+#define WALK_AWAY_SIGNPOST_FRAMES 6
 
 #endif // GUARD_FIELDCONTROLAVATAR_H

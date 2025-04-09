@@ -20,11 +20,20 @@
 	.endm
 
 	.macro object_event index:req, gfx:req, x:req, y:req, elevation:req, movement_type:req, x_radius:req, y_radius:req, trainer_type:req, sight_radius_tree_etc:req, script:req, event_flag:req
-	.byte \index, OBJ_KIND_NORMAL
+	.byte \index
 	.2byte \gfx
+	.byte OBJ_KIND_NORMAL
 	.2byte \x, \y
-	.byte \elevation, \movement_type, ((\y_radius << 4) | \x_radius), 0
-    .2byte \trainer_type, \sight_radius_tree_etc
+	.byte \elevation
+	.byte \movement_type
+	.if \x_radius > 15
+		@ This warning is relevant for GetItemBallIdAndAmountFromTemplate
+		.error "movementRangeX has a bitfield of 4 bytes, so values over 15 will overflow. Use a custom script for item balls that should give the player more than 15 items."
+	.endif
+	.byte ((\y_radius << 4) | \x_radius)
+	.space 1  @ Padding
+	.2byte \trainer_type
+	.2byte \sight_radius_tree_etc
 	.4byte \script
 	.2byte \event_flag
 	.space 2  @ Padding

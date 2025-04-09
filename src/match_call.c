@@ -3,6 +3,7 @@
 #include "battle.h"
 #include "battle_setup.h"
 #include "bg.h"
+#include "birch_pc.h"
 #include "data.h"
 #include "event_data.h"
 #include "event_object_movement.h"
@@ -131,7 +132,7 @@ static EWRAM_DATA struct MatchCallState sMatchCallState = {0};
 static EWRAM_DATA struct BattleFrontierStreakInfo sBattleFrontierStreakInfo = {0};
 
 static u32 GetCurrentTotalMinutes(struct Time *);
-static u32 GetNumRegisteredNPCs(void);
+static u32 GetNumRegisteredTrainers(void);
 static u32 GetActiveMatchCallTrainerId(u32);
 static int GetTrainerMatchCallId(int);
 static u16 GetRematchTrainerLocation(int);
@@ -1098,7 +1099,7 @@ static bool32 UpdateMatchCallStepCounter(void)
 static bool32 SelectMatchCallTrainer(void)
 {
     u32 matchCallId;
-    u32 numRegistered = GetNumRegisteredNPCs();
+    u32 numRegistered = GetNumRegisteredTrainers();
     if (numRegistered == 0)
         return FALSE;
 
@@ -1114,12 +1115,13 @@ static bool32 SelectMatchCallTrainer(void)
     return TRUE;
 }
 
-static u32 GetNumRegisteredNPCs(void)
+// Ignores registrable non-trainer NPCs, and special trainers like Wally and the gym leaders.
+static u32 GetNumRegisteredTrainers(void)
 {
     u32 i, count;
     for (i = 0, count = 0; i < REMATCH_SPECIAL_TRAINER_START; i++)
     {
-        if (FlagGet(FLAG_MATCH_CALL_REGISTERED + i))
+        if (FlagGet(TRAINER_REGISTERED_FLAGS_START + i))
             count++;
     }
 
@@ -1131,7 +1133,7 @@ static u32 GetActiveMatchCallTrainerId(u32 activeMatchCallId)
     u32 i;
     for (i = 0; i < REMATCH_SPECIAL_TRAINER_START; i++)
     {
-        if (FlagGet(FLAG_MATCH_CALL_REGISTERED + i))
+        if (FlagGet(TRAINER_REGISTERED_FLAGS_START + i))
         {
             if (!activeMatchCallId)
                 return gRematchTable[i].trainerIds[0];
@@ -1154,9 +1156,6 @@ static u32 GetActiveMatchCallTrainerId(u32 activeMatchCallId)
 */
 bool32 TryStartMatchCall(void)
 {
-    if (gSaveBlock2Ptr->optionsDisableMatchCall == 1)   //tx_optionsPlus
-        return FALSE;
-
     if (FlagGet(FLAG_HAS_MATCH_CALL)
         && UpdateMatchCallStepCounter()
         && UpdateMatchCallMinutesCounter()
@@ -1462,7 +1461,11 @@ static void Task_SpinPokenavIcon(u8 taskId)
 
 static bool32 TrainerIsEligibleForRematch(int matchCallId)
 {
+#if FREE_MATCH_CALL == FALSE
     return gSaveBlock1Ptr->trainerRematches[matchCallId] > 0;
+#else
+    return FALSE;
+#endif //FREE_MATCH_CALL
 }
 
 static u16 GetRematchTrainerLocation(int matchCallId)
@@ -1691,7 +1694,7 @@ static void PopulateTrainerName(int matchCallId, u8 *destStr)
         }
     }
 
-    StringCopy(destStr, gTrainers[trainerId].trainerName);
+    StringCopy(destStr, GetTrainerNameFromId(trainerId));
 }
 
 static void PopulateMapName(int matchCallId, u8 *destStr)
@@ -1780,7 +1783,7 @@ static void PopulateSpeciesFromTrainerLocation(int matchCallId, u8 *destStr)
 
             if (numSpecies)
             {
-                StringCopy(destStr, gSpeciesNames[species[Random() % numSpecies]]);
+                StringCopy(destStr, GetSpeciesName(species[Random() % numSpecies]));
                 return;
             }
         }
@@ -1792,15 +1795,17 @@ static void PopulateSpeciesFromTrainerLocation(int matchCallId, u8 *destStr)
 static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
 {
     u16 trainerId;
-    union TrainerMonPtr party;
+    const struct TrainerMon *party;
     u8 monId;
     const u8 *speciesName;
 
     trainerId = GetLastBeatenRematchTrainerId(sMatchCallTrainers[matchCallId].trainerId);
-    party = gTrainers[trainerId].party;
-    monId = Random() % gTrainers[trainerId].partySize;
-
-    speciesName = gSpeciesNames[party.TrainerMon[monId].species];
+    party = GetTrainerPartyFromId(trainerId);
+    monId = Random() % GetTrainerPartySizeFromId(trainerId);
+    if (party != NULL)
+        speciesName = GetSpeciesName(party[monId].species);
+    else
+        speciesName = GetSpeciesName(SPECIES_NONE);
 
     StringCopy(destStr, speciesName);
 }
@@ -1834,25 +1839,13 @@ static void PopulateBattleFrontierStreak(int matchCallId, u8 *destStr)
     ConvertIntToDecimalStringN(destStr, sBattleFrontierStreakInfo.streak, STR_CONV_MODE_LEFT_ALIGN, i);
 }
 
-static const u16 sBadgeFlags[NUM_BADGES] =
-{
-    FLAG_BADGE01_GET,
-    FLAG_BADGE02_GET,
-    FLAG_BADGE03_GET,
-    FLAG_BADGE04_GET,
-    FLAG_BADGE05_GET,
-    FLAG_BADGE06_GET,
-    FLAG_BADGE07_GET,
-    FLAG_BADGE08_GET,
-};
-
 static int GetNumOwnedBadges(void)
 {
     u32 i;
 
     for (i = 0; i < NUM_BADGES; i++)
     {
-        if (!FlagGet(sBadgeFlags[i]))
+        if (!FlagGet(gBadgeFlags[i]))
             break;
     }
 
@@ -1969,90 +1962,10 @@ static u16 GetFrontierStreakInfo(u16 facilityId, u32 *topicTextId)
     return streak;
 }
 
-static u8 GetPokedexRatingLevel(u16 numSeen)
-{
-    if (numSeen < 10)
-        return 0;
-    if (numSeen < 20)
-        return 1;
-    if (numSeen < 30)
-        return 2;
-    if (numSeen < 40)
-        return 3;
-    if (numSeen < 50)
-        return 4;
-    if (numSeen < 60)
-        return 5;
-    if (numSeen < 70)
-        return 6;
-    if (numSeen < 80)
-        return 7;
-    if (numSeen < 90)
-        return 8;
-    if (numSeen < 100)
-        return 9;
-    if (numSeen < 110)
-        return 10;
-    if (numSeen < 120)
-        return 11;
-    if (numSeen < 130)
-        return 12;
-    if (numSeen < 140)
-        return 13;
-    if (numSeen < 150)
-        return 14;
-    if (numSeen < 160)
-        return 15;
-    if (numSeen < 170)
-        return 16;
-    if (numSeen < 180)
-        return 17;
-    if (numSeen < 190)
-        return 18;
-    if (numSeen < 200)
-        return 19;
-
-    if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_DEOXYS), FLAG_GET_CAUGHT))
-        numSeen--;
-    if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_JIRACHI), FLAG_GET_CAUGHT))
-        numSeen--;
-
-    if (numSeen < 200)
-        return 19;
-    else
-        return 20;
-}
-
-static const u8 *const sBirchDexRatingTexts[] =
-{
-    gBirchDexRatingText_LessThan10,
-    gBirchDexRatingText_LessThan20,
-    gBirchDexRatingText_LessThan30,
-    gBirchDexRatingText_LessThan40,
-    gBirchDexRatingText_LessThan50,
-    gBirchDexRatingText_LessThan60,
-    gBirchDexRatingText_LessThan70,
-    gBirchDexRatingText_LessThan80,
-    gBirchDexRatingText_LessThan90,
-    gBirchDexRatingText_LessThan100,
-    gBirchDexRatingText_LessThan110,
-    gBirchDexRatingText_LessThan120,
-    gBirchDexRatingText_LessThan130,
-    gBirchDexRatingText_LessThan140,
-    gBirchDexRatingText_LessThan150,
-    gBirchDexRatingText_LessThan160,
-    gBirchDexRatingText_LessThan170,
-    gBirchDexRatingText_LessThan180,
-    gBirchDexRatingText_LessThan190,
-    gBirchDexRatingText_LessThan200,
-    gBirchDexRatingText_DexCompleted,
-};
-
 void BufferPokedexRatingForMatchCall(u8 *destStr)
 {
     int numSeen, numCaught;
     u8 *str;
-    u8 dexRatingLevel;
 
     u8 *buffer = Alloc(sizeof(gStringVar4));
     if (!buffer)
@@ -2065,12 +1978,11 @@ void BufferPokedexRatingForMatchCall(u8 *destStr)
     numCaught = GetHoennPokedexCount(FLAG_GET_CAUGHT);
     ConvertIntToDecimalStringN(gStringVar1, numSeen, STR_CONV_MODE_LEFT_ALIGN, 3);
     ConvertIntToDecimalStringN(gStringVar2, numCaught, STR_CONV_MODE_LEFT_ALIGN, 3);
-    dexRatingLevel = GetPokedexRatingLevel(numCaught);
     str = StringCopy(buffer, gBirchDexRatingText_AreYouCurious);
     *(str++) = CHAR_PROMPT_CLEAR;
     str = StringCopy(str, gBirchDexRatingText_SoYouveSeenAndCaught);
     *(str++) = CHAR_PROMPT_CLEAR;
-    StringCopy(str, sBirchDexRatingTexts[dexRatingLevel]);
+    StringCopy(str, GetPokedexRatingText(numCaught));
     str = StringExpandPlaceholders(destStr, buffer);
 
     if (IsNationalPokedexEnabled())
@@ -2078,8 +1990,8 @@ void BufferPokedexRatingForMatchCall(u8 *destStr)
         *(str++) = CHAR_PROMPT_CLEAR;
         numSeen = GetNationalPokedexCount(FLAG_GET_SEEN);
         numCaught = GetNationalPokedexCount(FLAG_GET_CAUGHT);
-        ConvertIntToDecimalStringN(gStringVar1, numSeen, STR_CONV_MODE_LEFT_ALIGN, 3);
-        ConvertIntToDecimalStringN(gStringVar2, numCaught, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ConvertIntToDecimalStringN(gStringVar1, numSeen, STR_CONV_MODE_LEFT_ALIGN, 4);
+        ConvertIntToDecimalStringN(gStringVar2, numCaught, STR_CONV_MODE_LEFT_ALIGN, 4);
         StringExpandPlaceholders(str, gBirchDexRatingText_OnANationwideBasis);
     }
 

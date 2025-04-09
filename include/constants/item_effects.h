@@ -7,12 +7,12 @@
 #define ITEM0_INFATUATION       0x80
 
 // new field 1 masks
-#define ITEM1_X_ATTACK          0x1
-#define ITEM1_X_DEFENSE         0x2
-#define ITEM1_X_SPEED           0x4
-#define ITEM1_X_SPATK           0x8
-#define ITEM1_X_SPDEF           0x10
-#define ITEM1_X_ACCURACY        0x20
+#define ITEM1_X_ATTACK          STAT_ATK
+#define ITEM1_X_DEFENSE         STAT_DEF
+#define ITEM1_X_SPEED           STAT_SPEED
+#define ITEM1_X_SPATK           STAT_SPATK
+#define ITEM1_X_SPDEF           STAT_SPDEF
+#define ITEM1_X_ACCURACY        STAT_ACC
 
 // field 3 masks
 #define ITEM3_CONFUSION         0x1
@@ -66,6 +66,7 @@
 #define ITEM6_ADD_EV       10
 #define ITEM6_SUBTRACT_EV -10
 #define ITEM6_ADD_ONE_EV    1
+#define ITEM6_RESET_EV      0
 
 // Used for GetItemEffectType.
 #define ITEM_EFFECT_X_ITEM 0
@@ -74,7 +75,7 @@
 #define ITEM_EFFECT_CURE_POISON 3
 #define ITEM_EFFECT_CURE_SLEEP 4
 #define ITEM_EFFECT_CURE_BURN 5
-#define ITEM_EFFECT_CURE_FREEZE 6
+#define ITEM_EFFECT_CURE_FREEZE_FROSTBITE 6
 #define ITEM_EFFECT_CURE_PARALYSIS 7
 #define ITEM_EFFECT_CURE_CONFUSION 8
 #define ITEM_EFFECT_CURE_INFATUATION 9

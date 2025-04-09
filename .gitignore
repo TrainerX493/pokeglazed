@@ -21,7 +21,6 @@ sound/**/*.bin
 sound/songs/midi/*.s
 tools/agbcc
 *.map
-*.ld
 *.bat
 *.dump
 *.sa*
@@ -41,3 +40,10 @@ prefabs.json
 *.sym
 *.js
 tools/poryscript/
+/pokeemerald-*.png
+src/data/map_group_count.h
+tools/trainerproc/trainerproc
+*.Identifier
+*.smol
+*.fastSmol
+*.smolTM

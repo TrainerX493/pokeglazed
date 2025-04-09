@@ -30,6 +30,8 @@ static const u32 sConditionGraphData_Gfx[] = INCBIN_U32("graphics/pokenav/condit
 static const u32 sConditionGraphData_Tilemap[] = INCBIN_U32("graphics/pokenav/condition/graph_data.bin.lz");
 static const u16 sMonMarkings_Pal[] = INCBIN_U16("graphics/pokenav/condition/mon_markings.gbapal");
 
+static const u8 gText_Number2[] = _("No. ");
+
 static const struct BgTemplate sMenuBgTemplates[3] =
 {
     {
@@ -116,10 +118,12 @@ static const LoopedTask sLoopedTaskFuncs[] =
     [CONDITION_FUNC_CLOSE_MARKINGS] = LoopedTask_CloseMonMarkingsWindow
 };
 
+typedef u8 ALIGNED(4) TilemapBuffer[BG_SCREEN_SIZE];
+
 struct Pokenav_ConditionMenuGfx
 {
     u32 loopedTaskId;
-    u8 tilemapBuffers[3][BG_SCREEN_SIZE];
+    TilemapBuffer tilemapBuffers[3];
     u8 filler[2];
     u8 partyPokeballSpriteIds[PARTY_SIZE + 1];
     u32 (*callback)(void);
@@ -546,7 +550,7 @@ static u32 LoopedTask_CloseMonMarkingsWindow(s32 state)
     return LT_FINISH;
 }
 
-static u8 *UnusedPrintNumberString(u8 *dst, u16 num)
+static u8 UNUSED *UnusedPrintNumberString(u8 *dst, u16 num)
 {
     u8 *txtPtr = ConvertIntToDecimalStringN(dst, num, STR_CONV_MODE_RIGHT_ALIGN, 4);
     txtPtr = StringCopy(txtPtr, gText_Number2);
