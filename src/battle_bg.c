@@ -220,9 +220,9 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
     },
     [B_WIN_PP] = {
         .bg = 0,
-        .tilemapLeft = 23,
+        .tilemapLeft = 21,
         .tilemapTop = 55,
-        .width = 2,
+        .width = 4,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0290,
@@ -230,11 +230,11 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
     [B_WIN_DUMMY] = {
         .bg = 0,
         .tilemapLeft = 21,
-        .tilemapTop = 55,
-        .width = 2,
-        .height = 2,
-        .paletteNum = 10,
-        .baseBlock = 0x0294,
+        .tilemapTop = 57,
+        .width = 0,
+        .height = 0,
+        .paletteNum = 5,
+        .baseBlock = 0x0298,
     },
     [B_WIN_PP_REMAINING] = {
         .bg = 0,
@@ -450,9 +450,9 @@ static const struct WindowTemplate sBattleArenaWindowTemplates[] =
     },
     [B_WIN_PP] = {
         .bg = 0,
-        .tilemapLeft = 23,
+        .tilemapLeft = 21,
         .tilemapTop = 55,
-        .width = 2,
+        .width = 4,
         .height = 2,
         .paletteNum = 5,
         .baseBlock = 0x0290,
@@ -460,11 +460,11 @@ static const struct WindowTemplate sBattleArenaWindowTemplates[] =
     [B_WIN_DUMMY] = {
         .bg = 0,
         .tilemapLeft = 21,
-        .tilemapTop = 55,
-        .width = 2,
-        .height = 2,
-        .paletteNum = 10,
-        .baseBlock = 0x0294,
+        .tilemapTop = 57,
+        .width = 0,
+        .height = 0,
+        .paletteNum = 5,
+        .baseBlock = 0x0298,
     },
     [B_WIN_PP_REMAINING] = {
         .bg = 0,
@@ -1456,4 +1456,3 @@ void DrawTerrainTypeBattleBackground(void)
         break;
     }
 }
-

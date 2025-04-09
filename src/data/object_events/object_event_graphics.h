@@ -571,6 +571,7 @@ const u32 gObjectEventPic_GymFire[] = INCBIN_U32("graphics/object_events/pics/mi
 const u32 gObjectEventPic_HeadbuttTree[] = INCBIN_U32("graphics/object_events/pics/misc/headbutt_tree.4bpp");
 const u32 gObjectEventPic_IllusionRock[] = INCBIN_U32("graphics/object_events/pics/misc/illusion_rock.4bpp");
 const u32 gObjectEventPic_ItemBallHGSS[] = INCBIN_U32("graphics/object_events/pics/misc/item_ball_hgss.4bpp");
+const u32 gObjectEventPic_ItemBall[] = INCBIN_U32("graphics/object_events/pics/misc/item_ball.4bpp");
 const u32 gObjectEventPic_JohtoBerries[] = INCBIN_U32("graphics/object_events/pics/misc/johto_berries.4bpp");
 const u32 gObjectEventPic_MineCart[] = INCBIN_U32("graphics/object_events/pics/misc/mine_cart.4bpp");
 const u32 gObjectEventPic_ShipGlazed[] = INCBIN_U32("graphics/object_events/pics/misc/ship_glazed.4bpp");
@@ -589,7 +590,7 @@ const u16 gObjectEventPaletteEmotes[] = INCBIN_U16("graphics/misc/emotes.gbapal"
 #if OW_FOLLOWERS_POKEBALLS
 const u32 gObjectEventPic_MasterBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_master.4bpp");
 const u32 gObjectEventPic_UltraBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_ultra.4bpp");
-const u32 gObjectEventPic_GreatBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_great.4bpp");
+//const u32 gObjectEventPic_GreatBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_great.4bpp");
 const u32 gObjectEventPic_SafariBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_safari.4bpp");
 const u32 gObjectEventPic_NetBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_net.4bpp");
 const u32 gObjectEventPic_DiveBall[] = INCBIN_U32("graphics/object_events/pics/misc/ball_dive.4bpp");

@@ -3201,6 +3201,10 @@ static const struct SpriteFrameImage sPicTable_IllusionRock[] = {
     overworld_frame(gObjectEventPic_IllusionRock, 2, 4, 2),
 };
 
+static const struct SpriteFrameImage sPicTable_ItemBall[] = {
+    obj_frame_tiles(gObjectEventPic_ItemBall),
+};
+
 static const struct SpriteFrameImage sPicTable_ItemBallHGSS[] = {
     obj_frame_tiles(gObjectEventPic_ItemBallHGSS),
 };

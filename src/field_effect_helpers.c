@@ -8,7 +8,6 @@
 #include "gpu_regs.h"
 #include "metatile_behavior.h"
 #include "palette.h"
-#include "palette.h"
 #include "sound.h"
 #include "sprite.h"
 #include "trig.h"
@@ -16,7 +15,6 @@
 #include "constants/field_effects.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
-#include "constants/rgb.h"
 
 #define OBJ_EVENT_PAL_TAG_NONE 0x11FF // duplicate of define in event_object_movement.c
 #define PAL_TAG_REFLECTION_OFFSET 0x2000 // reflection tag value is paletteTag + 0x2000
@@ -1513,6 +1511,7 @@ u32 ShowSandDisguiseFieldEffect(void)
 static u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx)
 {
     u8 spriteId;
+    struct Sprite *sprite;
 
     if (TryGetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2], &spriteId))
     {
@@ -1524,8 +1523,7 @@ static u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx)
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[templateIdx], 0, 0, 0);
     if (spriteId != MAX_SPRITES)
     {
-        struct Sprite *sprite = &gSprites[spriteId];
-        UpdateSpritePaletteByTemplate(gFieldEffectObjectTemplatePointers[fldEffObj], sprite);
+        sprite = &gSprites[spriteId];
         sprite->coordOffsetEnabled ++;
         sprite->sFldEff = fldEff;
         sprite->sLocalId = gFieldEffectArguments[0];
@@ -1534,6 +1532,7 @@ static u32 ShowDisguiseFieldEffect(u8 fldEff, u8 templateIdx)
     }
     return spriteId;
 }
+
 
 void UpdateDisguiseFieldEffect(struct Sprite *sprite)
 {

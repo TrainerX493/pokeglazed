@@ -567,6 +567,23 @@
 #define OBJ_EVENT_PAL_TAG_RS_BRENDAN              0x1122
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
 #define OBJ_EVENT_PAL_TAG_DYNAMIC                 0x1124
+#define OBJ_EVENT_PAL_TAG_GLAZED_1                0x1125
+#define OBJ_EVENT_PAL_TAG_GLAZED_2                0x1126
+#define OBJ_EVENT_PAL_TAG_GLAZED_3                0x1127
+#define OBJ_EVENT_PAL_TAG_GLAZED_4                0x1128
+#define OBJ_EVENT_PAL_TAG_GLAZED_5                0x1129
+#define OBJ_EVENT_PAL_TAG_GLAZED_6                0x1130
+#define OBJ_EVENT_PAL_TAG_GLAZED_7                0x1131
+#define OBJ_EVENT_PAL_TAG_GLAZED_8                0x1132
+#define OBJ_EVENT_PAL_TAG_GLAZED_9                0x1133
+#define OBJ_EVENT_PAL_TAG_GLAZED_10               0x1134
+#define OBJ_EVENT_PAL_TAG_GLAZED_11               0x1135
+#define OBJ_EVENT_PAL_TAG_GLAZED_12               0x1136
+#define OBJ_EVENT_PAL_TAG_GLAZED_13               0x1137
+#define OBJ_EVENT_PAL_TAG_GLAZED_14               0x1138
+#define OBJ_EVENT_PAL_TAG_GLAZED_15               0x1139
+#define OBJ_EVENT_PAL_TAG_BRANT                   0x1140
+#define OBJ_EVENT_PAL_TAG_ALEXA                   0x1141
 
 #if OW_FOLLOWERS_POKEBALLS
 // Vanilla

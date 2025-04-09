@@ -820,7 +820,9 @@ static void Task_EvolutionScene(u8 taskId)
                 Overworld_PlaySpecialMapMusic();
             }
             if (!gTasks[taskId].tEvoWasStopped)
+            {
                 CreateShedinja(gTasks[taskId].tPreEvoSpecies, mon);
+            }
 
             DestroyTask(taskId);
             FreeMonSpritesGfx();
@@ -998,6 +1000,7 @@ static void Task_EvolutionScene(u8 taskId)
                         RemoveMonPPBonus(mon, var);
                         SetMonMoveSlot(mon, gMoveToLearn, var);
                         gTasks[taskId].tLearnMoveState++;
+                    }
                 }
             }
             break;
@@ -1383,6 +1386,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
                         BattleStringExpandPlaceholdersToDisplayedString(gBattleStringsTable[STRINGID_123POOF]);
                         DrawTextOnTradeWindow(0, gDisplayedStringBattle, 1);
                         gTasks[taskId].tLearnMoveState++;
+                    }
                 }
             }
             break;

@@ -18,7 +18,6 @@ bool8 IsFieldMessageBoxHidden(void);
 u8 GetFieldMessageBoxMode(void);
 void StopFieldMessage(void);
 void InitFieldMessageBox(void);
-extern u8 gWalkAwayFromSignInhibitTimer;
 
 extern u8 gWalkAwayFromSignpostTimer;
 
