@@ -1091,8 +1091,9 @@ void ResetPreservedPalettesInWeather(void)
 
 void UpdatePaletteColorMapType(u8 index, u8 ColorMapType)
 {
-    if (index != 0xFF)
-        sBasePaletteColorMapTypes[index + 16] = ColorMapType;
+    // if (index != 0xFF)
+    //     sBasePaletteColorMapTypes[index + 16] = ColorMapType;
+    ColorMapType = COLOR_MAP_DARK_CONTRAST;
 }
 
 bool32 IsWeatherAlphaBlend(void)

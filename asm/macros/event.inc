@@ -2548,15 +2548,3 @@
 	compare VAR_RESULT, TRUE
 	goto_if TRUE, \script
 	.endm
-
-	@ Sets the Pokédex Seen flag of the specified Pokemon
-	.macro setseenmon species:req
-	setvar VAR_TEMP_1, \species
-	special SetSeenMon
-	.endm
-
-	@ Sets the Pokédex Caught flag of the specified Pokemon
-	.macro setcaughtmon species:req
-	setvar VAR_TEMP_1, \species
-	special SetCaughtMon
-	.endm

@@ -970,8 +970,10 @@ static void GetItemName(u8 *dest, u16 itemId)
             StringExpandPlaceholders(dest, gText_TMCase_Blue);
         }
         else
-            CopyItemName(itemId, dest);
+        {
+            end = CopyItemName(itemId, dest);
             PrependFontIdToFit(dest, end, FONT_NARROW, 88);
+        }
         break;
     }
 }
