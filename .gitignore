@@ -47,3 +47,4 @@ tools/trainerproc/trainerproc
 *.smol
 *.fastSmol
 *.smolTM
+__pycache__
