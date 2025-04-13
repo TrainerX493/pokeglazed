@@ -3,7 +3,6 @@
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
-#include "field_weather.h"
 #include "rotating_gate.h"
 #include "sound.h"
 #include "sprite.h"
@@ -249,6 +248,7 @@ static const struct OamData sOamData_RotatingGateLarge =
     .size = SPRITE_SIZE(64x64),
     .tileNum = 0,
     .priority = 2,
+    .paletteNum = 2,
     .affineParam = 0,
 };
 
@@ -265,6 +265,7 @@ static const struct OamData sOamData_RotatingGateRegular =
     .size = SPRITE_SIZE(32x32),
     .tileNum = 0,
     .priority = 2,
+    .paletteNum = 2,
     .affineParam = 0,
 };
 
@@ -747,17 +748,10 @@ static u8 RotatingGate_CreateGate(u8 gateId, s16 deltaX, s16 deltaY)
     x = gate->x + MAP_OFFSET;
     y = gate->y + MAP_OFFSET;
 
-    if (template.paletteTag != 0xFFFF)
-    {
-        LoadObjectEventPalette(template.paletteTag);
-        UpdatePaletteColorMapType(IndexOfSpritePaletteTag(template.paletteTag), COLOR_MAP_CONTRAST);
-    }
-
     sprite = &gSprites[spriteId];
     UpdateSpritePaletteByTemplate(&template, sprite);
     sprite->data[0] = gateId;
     sprite->coordOffsetEnabled = 1;
-    sprite->oam.paletteNum = IndexOfSpritePaletteTag(template.paletteTag);
 
     GetMapCoordsFromSpritePos(x + deltaX, y + deltaY, &sprite->x, &sprite->y);
     RotatingGate_HideGatesOutsideViewport(sprite);
