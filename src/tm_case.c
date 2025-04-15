@@ -95,7 +95,6 @@ static void Task_TMCaseMain(u8 taskId);
 static void Task_SelectTMAction_FromFieldBag(u8 taskId);
 static void Task_TMContextMenu_HandleInput(u8 taskId);
 static void TMHMContextMenuAction_Use(u8 taskId);
-static void TMHMContextMenuAction_Give(u8 taskId);
 static void PrintError_ThereIsNoPokemon(u8 taskId);
 static void PrintError_ItemCantBeHeld(u8 taskId);
 static void Task_WaitButtonAfterErrorPrint(u8 taskId);
@@ -113,17 +112,8 @@ static void PrintStringTMCaseOnWindow3(void);
 static void DrawMoveInfoUIMarkers(void);
 static void TMCase_MoveCursor_UpdatePrintedTMInfo(u16 itemId);
 static void PlaceHMTileInWindow(u8 windowId, u8 x, u8 y);
-static void HandlePrintMoneyOnHand(void);
-static void HandleCreateYesNoMenu(u8 taskId, const struct YesNoFuncTable * ptrs);
 static u8 AddTMContextMenu(u8 * a0, u8 a1);
 static void RemoveTMContextMenu(u8 * a0);
-static u8 CreateTMSprite(u16 itemId);
-static void SetTMSpriteAnim(struct Sprite * sprite, u8 var);
-static void TintTMSpriteByType(u8 type);
-static void UpdateTMSpritePosition(struct Sprite * sprite, u8 var);
-static void InitSelectedTMSpriteData(u8 a0, u16 itemId);
-static void SpriteCB_MoveTMSpriteInCase(struct Sprite * sprite);
-static void LoadTMTypePalettes(void);
 static void DrawPartyMonIcons(void);
 static void TintPartyMonIcons(u16 tm);
 static void DestroyPartyMonIcons(void);
@@ -628,7 +618,7 @@ static void CreateTMCaseScrollIndicatorArrowPair_Main(void)
     sTMCaseDynamicResources->scrollIndicatorArrowPairId = AddScrollIndicatorArrowPairParameterized(2, 0xA0, 0x08, 0x58, sTMCaseDynamicResources->numTMs - sTMCaseDynamicResources->maxTMsShown, 0x6E, 0x6E, &sTMCaseStaticResources.scrollOffset);
 }
 
-static void CreateTMCaseScrollIndicatorArrowPair_SellQuantitySelect(void)
+static void UNUSED CreateTMCaseScrollIndicatorArrowPair_SellQuantitySelect(void)
 {
     sTMCaseDynamicResources->currItem = 1;
     sTMCaseDynamicResources->scrollIndicatorArrowPairId = AddScrollIndicatorArrowPairParameterized(2, 0x98, 0x48, 0x68, 2, 0x6E, 0x6E, &sTMCaseDynamicResources->currItem);
@@ -926,8 +916,6 @@ static void TMHMContextMenuAction_Exit(u8 taskId)
 
 static void Task_SelectTMAction_Type1(u8 taskId)
 {
-    s16 * data = gTasks[taskId].data;
-
     PrintError_ItemCantBeHeld(taskId);
 }
 
@@ -974,7 +962,7 @@ static void AddTextPrinterParameterized_ColorByIndex(u8 windowId, u8 fontId, con
     AddTextPrinterParameterized4(windowId, fontId, x, y, letterSpacing, lineSpacing, sTMCaseTextColors[colorIdx], speed, str);
 }
 
-static void TMCase_SetWindowBorder1(u8 windowId)
+static void UNUSED TMCase_SetWindowBorder1(u8 windowId)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x5B, 0x0E);
 }
@@ -1063,12 +1051,12 @@ static void PlaceHMTileInWindow(u8 windowId, u8 x, u8 y)
     BlitBitmapToWindow(windowId, gUnknown_8E99118, x, y, 16, 12);
 }
 
-static void HandlePrintMoneyOnHand(void)
+static void UNUSED HandlePrintMoneyOnHand(void)
 {
     PrintMoneyAmountInMoneyBoxWithBorder(8, 0x78, 0xD, GetMoney(&gSaveBlock1Ptr->money));
 }
 
-static void HandleCreateYesNoMenu(u8 taskId, const struct YesNoFuncTable *ptrs)
+static void UNUSED HandleCreateYesNoMenu(u8 taskId, const struct YesNoFuncTable *ptrs)
 {
     CreateYesNoMenuWithCallbacks(taskId, &sYesNoWindowTemplate, 2, 0, 2, 0x5B, 0x0E, ptrs);
 }
@@ -1191,7 +1179,7 @@ static void TintPartyMonIcons(u16 tm)
     
 }
 
-static void DestroyPartyMonIcons(void)
+static void UNUSED DestroyPartyMonIcons(void)
 {
     u8 i;
     for (i = 0; i < gPlayerPartyCount; i++)
